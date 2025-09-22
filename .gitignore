@@ -1,0 +1,52 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+.DS_Store
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output
+
+# Node
+node_modules/
+jspm_packages/
+
+# TypeScript
+*.tsbuildinfo
+
+# npm / yarn cache
+.npm
+.yarn-integrity
+
+# Lint / REPL
+.eslintcache
+.node_repl_history
+
+# Build output
+dist/
+build/
+out/
+
+# Vite
+.vite/
+
+# Electron Forge artifacts
+out/
+
+# dotenv
+.env
+.env.test
