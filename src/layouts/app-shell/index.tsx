@@ -1,16 +1,16 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
+import Header from "./header/Header";
 import Sidebar from "./Sidebar";
 
 function AppShell() {
   return (
-    <main>
-      <Sidebar />
+    <>
       <Header />
-      <section>
+      <Sidebar />
+      <main className="h-screen overflow-auto pt-16 pl-20">
         <Outlet />
-      </section>
-    </main>
+      </main>
+    </>
   );
 }
 

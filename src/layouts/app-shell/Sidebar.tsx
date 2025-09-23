@@ -18,7 +18,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
 
 function Sidebar() {
   return (
-    <aside className="flex w-20 flex-col items-center border-r border-gray-200 bg-white py-5">
+    <aside className="fixed top-16 left-0 z-30 h-[calc(100vh-4rem)] w-20 border-r border-gray-200 bg-white py-5">
       <nav className="flex flex-col items-center gap-3" aria-label="Primary">
         {SIDEBAR_ITEMS.map((item) => (
           <NavLink
