@@ -7,18 +7,21 @@ import {
   NotFoundPage,
 } from "@/pages";
 import ROUTES from "@/constants/routes";
+import AppShell from "@/layouts/app-shell";
 
 export default function AppRouter() {
   return (
     <Routes>
-      <Route
-        path={ROUTES.ROOT}
-        element={<Navigate to={ROUTES.HISTORY} replace />}
-      />
-      <Route path={ROUTES.HISTORY} element={<HistoryPage />} />
-      <Route path={ROUTES.MODES} element={<ModesPage />} />
-      <Route path={ROUTES.SHORTCUTS} element={<ShortcutsPage />} />
-      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route element={<AppShell />}>
+        <Route
+          path={ROUTES.ROOT}
+          element={<Navigate to={ROUTES.HISTORY} replace />}
+        />
+        <Route path={ROUTES.HISTORY} element={<HistoryPage />} />
+        <Route path={ROUTES.MODES} element={<ModesPage />} />
+        <Route path={ROUTES.SHORTCUTS} element={<ShortcutsPage />} />
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      </Route>
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
