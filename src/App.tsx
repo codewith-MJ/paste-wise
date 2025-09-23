@@ -10,6 +10,13 @@ function App() {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
+    const hasSeenSplash = sessionStorage.getItem("pw_splash_seen");
+
+    if (hasSeenSplash) {
+      setVisible(false);
+      return;
+    }
+
     const fadeTimer = setTimeout(
       () => {
         setFadeOut(true);
@@ -18,6 +25,7 @@ function App() {
     );
     const navTimer = setTimeout(() => {
       setVisible(false);
+      sessionStorage.setItem("pw_splash_seen", "true");
     }, SHOW_MS);
 
     return () => {
