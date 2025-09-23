@@ -1,21 +1,18 @@
-// src/renderer.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css"; // @import "tailwindcss"; 가 들어있는 파일
+import "./index.css";
+import { MemoryRouter } from "react-router-dom";
+import App from "./App";
 
-function App() {
-  return (
-    <div className="min-h-screen grid place-items-center">
-      <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">💖 Hello World!</h1>
-        <p>Welcome to your Electron application.</p>
-      </div>
-    </div>
-  );
+const container = document.getElementById("root");
+if (!container) {
+  throw new Error("Root element #root not found");
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(container).render(
   <React.StrictMode>
-    <App />
+    <MemoryRouter initialEntries={["/history"]}>
+      <App />
+    </MemoryRouter>
   </React.StrictMode>,
 );
