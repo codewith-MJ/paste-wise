@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AppRouter from "./navigators/AppRouter";
 import SplashPage from "./pages/splash";
 
@@ -8,6 +8,11 @@ const FADE_MS = 300;
 function App() {
   const [visible, setVisible] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
+  const skippedRef = useRef(false);
+  const fadeOutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const removeSplashTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   useEffect(() => {
     const hasSeenSplash = sessionStorage.getItem("pw_splash_seen");
@@ -17,28 +22,47 @@ function App() {
       return;
     }
 
-    const fadeTimer = setTimeout(
-      () => {
-        setFadeOut(true);
-      },
+    fadeOutTimeoutRef.current = setTimeout(
+      () => setFadeOut(true),
       Math.max(0, SHOW_MS - FADE_MS),
     );
-    const navTimer = setTimeout(() => {
+    removeSplashTimeoutRef.current = setTimeout(() => {
       setVisible(false);
       sessionStorage.setItem("pw_splash_seen", "true");
     }, SHOW_MS);
 
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(navTimer);
+      if (fadeOutTimeoutRef.current) clearTimeout(fadeOutTimeoutRef.current);
+      if (removeSplashTimeoutRef.current)
+        clearTimeout(removeSplashTimeoutRef.current);
     };
+  }, []);
+
+  const handleSkipSplash = useCallback(() => {
+    if (skippedRef.current) {
+      return;
+    }
+    skippedRef.current = true;
+
+    if (fadeOutTimeoutRef.current) clearTimeout(fadeOutTimeoutRef.current);
+    if (removeSplashTimeoutRef.current)
+      clearTimeout(removeSplashTimeoutRef.current);
+
+    setFadeOut(true);
+    setTimeout(() => setVisible(false), FADE_MS);
+    sessionStorage.setItem("pw_splash_seen", "true");
   }, []);
 
   return (
     <>
       <AppRouter />
       {visible && (
-        <SplashPage fadeOut={fadeOut} version="1.0.0" fadeMs={FADE_MS} />
+        <SplashPage
+          fadeOut={fadeOut}
+          version="1.0.0"
+          fadeMs={FADE_MS}
+          onSkip={handleSkipSplash}
+        />
       )}
     </>
   );
