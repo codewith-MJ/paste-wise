@@ -20,9 +20,9 @@ export default function AppRouter() {
         <Route path={ROUTES.HISTORY} element={<HistoryPage />} />
         <Route path={ROUTES.MODES} element={<ModesPage />} />
         <Route path={ROUTES.SHORTCUTS} element={<ShortcutsPage />} />
-        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
       </Route>
 
+      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

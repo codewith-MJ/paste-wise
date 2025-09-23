@@ -1,5 +1,5 @@
 import AppTitle from "./AppTitle";
-import LogoutButton from "./LogoutButton";
+import AuthButton from "./AuthButton";
 import UserBadge from "./UserBadge";
 
 function Header() {
@@ -8,7 +8,7 @@ function Header() {
       <AppTitle />
       <div className="ml-auto flex items-center space-x-4">
         <UserBadge />
-        <LogoutButton />
+        <AuthButton />
       </div>
     </header>
   );
