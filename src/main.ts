@@ -28,6 +28,7 @@ const createWindow = () => {
     );
   }
 
+  mainWindow.webContents.openDevTools();
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
 
