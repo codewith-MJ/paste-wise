@@ -4,6 +4,7 @@ export type HistoryItem = {
   mode: string;
   strength: string;
   emoji: boolean;
+  isTranslated: boolean;
   original: string;
   transformed: string;
 };

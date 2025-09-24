@@ -15,6 +15,7 @@ function HistoryDetail({ item }: HistoryDetailsProps) {
         mode={item.mode}
         strength={item.strength}
         emoji={item.emoji}
+        isTranslated={item.isTranslated}
       />
 
       <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
