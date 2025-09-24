@@ -10,7 +10,7 @@ type Props = {
   isTranslation: boolean;
   onToggleTranslation: (v: boolean) => void;
   tone: Tone;
-  onToneChange: (t: Tone) => void;
+  onToneChange: (tone: Tone) => void;
   onResetAll: () => void;
 };
 

@@ -7,6 +7,7 @@ type HistoryListItemProps = {
   hasTranslated: boolean;
   mode: string;
   time: string;
+  isActive: boolean;
 };
 
 function HistoryListItem({
@@ -15,11 +16,17 @@ function HistoryListItem({
   hasTranslated,
   mode,
   time,
+  isActive,
 }: HistoryListItemProps) {
   return (
     <article
       key={id}
-      className="rounded-xl border border-transparent bg-slate-50 p-3 hover:border-blue-300 hover:bg-blue-50"
+      aria-selected={isActive}
+      className={`rounded-xl border p-3 ${
+        isActive
+          ? "border-blue-300 bg-blue-50"
+          : "border-transparent bg-slate-50 hover:border-blue-300 hover:bg-blue-50"
+      }`}
     >
       <div className="flex items-start gap-3">
         <p className="line-clamp-2 min-w-0 flex-1 text-sm break-words text-slate-800">
