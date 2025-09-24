@@ -16,6 +16,7 @@ function HistoryPage() {
   const [selectedId, setSelectedId] = useState<string | null>(
     mockHistory.length > 0 ? mockHistory[0].id : null,
   );
+  const isEmpty = mockHistory.length === 0;
 
   const toggleSort = () => {
     setSortOrder((prevState) => (prevState === "desc" ? "asc" : "desc"));
@@ -42,7 +43,7 @@ function HistoryPage() {
         description="View and manage your text transformations"
       />
 
-      {!mockHistory ? (
+      {isEmpty ? (
         <EmptyState />
       ) : (
         <div className="flex min-h-0 flex-1 overflow-hidden">
