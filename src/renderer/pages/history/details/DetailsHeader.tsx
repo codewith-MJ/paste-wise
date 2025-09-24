@@ -1,5 +1,5 @@
 import { Languages } from "lucide-react";
-import ModeBadges from "@/components/ModeBadges";
+import ModeBadges from "@/renderer/components/ModeBadges";
 import MetaItem from "./MetaItem";
 
 type DetailsHeaderProps = {
