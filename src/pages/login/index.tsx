@@ -20,7 +20,6 @@ function LoginPage() {
   return (
     <div className="grid min-h-screen place-items-center bg-gray-50">
       <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-8 px-6 md:grid-cols-2 md:gap-10">
-        {/* 왼쪽 */}
         <section className="mx-auto ml-30 max-w-md">
           <TitleBlock />
 
@@ -37,7 +36,6 @@ function LoginPage() {
           </div>
         </section>
 
-        {/* 오른쪽 */}
         <aside className="mx-auto mr-20 w-full max-w-sm">
           <img
             src={loginImage}
