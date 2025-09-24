@@ -1,4 +1,3 @@
-import { ArrowDown } from "lucide-react";
 import DetailsHeader from "./DetailsHeader";
 import MessageCard from "./MessageCard";
 import { HistoryItem } from "@/types/history-item";
@@ -8,7 +7,7 @@ type HistoryDetailsProps = {
   item: HistoryItem;
 };
 
-function HistoryDetails({ item }: HistoryDetailsProps) {
+function HistoryDetail({ item }: HistoryDetailsProps) {
   return (
     <section className="flex min-w-0 flex-1 flex-col overflow-hidden">
       <DetailsHeader
@@ -27,4 +26,4 @@ function HistoryDetails({ item }: HistoryDetailsProps) {
   );
 }
 
-export default HistoryDetails;
+export default HistoryDetail;
