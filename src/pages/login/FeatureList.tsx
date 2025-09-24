@@ -1,5 +1,4 @@
-import { AiOutlineCheck } from "react-icons/ai";
-
+import { Check } from "lucide-react";
 function FeatureList() {
   return (
     <ul className="space-y-2.5">
@@ -10,7 +9,7 @@ function FeatureList() {
       ].map((feature) => (
         <li key={feature} className="flex items-center gap-2.5">
           <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-100">
-            <AiOutlineCheck className="h-2.5 w-2.5 text-blue-600" />
+            <Check className="h-2.5 w-2.5 text-blue-600" />
           </span>
           <span className="text-sm font-normal text-gray-700">{feature}</span>
         </li>
