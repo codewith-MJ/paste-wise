@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
-import PageHeader from "@/layouts/PageHeader";
+import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
-import { HistoryItem } from "@/types/history-item";
+import { HistoryItem } from "@/shared/types/history-item";
 import EmptyState from "./EmptyState";
-import { mockHistory } from "@/mocks/history";
+import { mockHistory } from "@/renderer/mocks/history";
 
 function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");

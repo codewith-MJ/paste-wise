@@ -1,5 +1,5 @@
 import { Languages, Trash2 } from "lucide-react";
-import ModeBadges from "@/components/ModeBadges";
+import ModeBadges from "@/renderer/components/ModeBadges";
 
 type HistoryListItemProps = {
   id: string;

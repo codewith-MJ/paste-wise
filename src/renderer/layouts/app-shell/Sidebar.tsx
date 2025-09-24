@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
-import ROUTES from "@/constants/routes";
+import ROUTES from "@/shared/constants/routes";
 
 type SidebarItem = {
   id: "history" | "modes" | "shortcuts";

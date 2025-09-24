@@ -16,7 +16,7 @@ const createWindow = () => {
     show: false,
     useContentSize: true,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "../preload/preload.ts"),
     },
   });
 
@@ -28,7 +28,7 @@ const createWindow = () => {
     );
   }
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
 

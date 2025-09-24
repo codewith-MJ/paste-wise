@@ -1,5 +1,5 @@
 import HistoryListItem from "./HistoryListItem";
-import { HistoryItem } from "@/types/history-item";
+import { HistoryItem } from "@/shared/types/history-item";
 
 type HistoryListProps = {
   items: HistoryItem[];

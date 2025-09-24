@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ROUTES from "@/constants/routes";
+import ROUTES from "@/shared/constants/routes";
 
 function NotFoundPage() {
   const navigate = useNavigate();

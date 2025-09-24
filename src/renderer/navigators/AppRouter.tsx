@@ -5,9 +5,9 @@ import {
   ShortcutsPage,
   LoginPage,
   NotFoundPage,
-} from "@/pages";
-import ROUTES from "@/constants/routes";
-import AppShell from "@/layouts/app-shell";
+} from "@/renderer/pages";
+import ROUTES from "@/shared/constants/routes";
+import AppShell from "@/renderer/layouts/app-shell";
 
 export default function AppRouter() {
   return (

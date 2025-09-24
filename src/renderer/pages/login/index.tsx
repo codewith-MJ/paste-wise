@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import ROUTES from "@/constants/routes";
+import ROUTES from "@/shared/constants/routes";
 import GoogleLoginButton from "./GoogleLoginButton";
 import TitleBlock from "./TitleBlock";
 import SkipLinkButton from "./SkipLinkButton";
 import FeatureList from "./FeatureList";
-import loginImage from "@/assets/login-img.png";
+import loginImage from "@/renderer/assets/login-img.png";
 
 function LoginPage() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import DetailsHeader from "./DetailsHeader";
 import MessageCard from "./MessageCard";
-import { HistoryItem } from "@/types/history-item";
+import { HistoryItem } from "@/shared/types/history-item";
 import Arrow from "./Arrow";
 
 type HistoryDetailsProps = {
