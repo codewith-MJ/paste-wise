@@ -5,6 +5,7 @@ import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
 import { HistoryItem } from "@/types/history-item";
 import EmptyState from "./EmptyState";
+import { mockHistory } from "@/mocks/history";
 
 function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
@@ -12,23 +13,27 @@ function HistoryPage() {
   const [tone, setTone] = useState<
     "All Tones" | "Polite" | "Casual" | "Formal" | "Friendly"
   >("All Tones");
+  const [selectedId, setSelectedId] = useState<string | null>(
+    mockHistory.length > 0 ? mockHistory[0].id : null,
+  );
 
   const toggleSort = () => {
     setSortOrder((prevState) => (prevState === "desc" ? "asc" : "desc"));
   };
-  const handleToneChange = (newTone: typeof tone) => {
-    setTone(newTone);
-  };
+
   const handleToggleTranslation = () => {
     setIsTranslation((prev) => !prev);
   };
 
-  const onResetAll = useCallback(() => {
+  const onResetAll = () => {
     setIsTranslation(false);
     setTone("All Tones");
-  }, []);
+  };
 
-  const mock: HistoryItem | null = null;
+  const selectedItem: HistoryItem | null =
+    mockHistory.find((item) => item.id === selectedId) ??
+    mockHistory[0] ??
+    null;
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
@@ -37,24 +42,32 @@ function HistoryPage() {
         description="View and manage your text transformations"
       />
 
-      {!mock ? (
+      {!mockHistory ? (
         <EmptyState />
       ) : (
         <div className="flex min-h-0 flex-1 overflow-hidden">
-          <aside className="w-90 flex-shrink-0 overflow-y-auto border-r border-gray-200 bg-white">
+          <aside className="flex min-h-0 w-90 flex-shrink-0 flex-col border-r border-gray-200 bg-white">
             <HistoryListToolBox
               sortOrder={sortOrder}
               onToggleSort={toggleSort}
               isTranslation={isTranslation}
               onToggleTranslation={handleToggleTranslation}
               tone={tone}
-              onToneChange={handleToneChange}
+              onToneChange={(newTone: typeof tone) => {
+                setTone(newTone);
+              }}
               onResetAll={onResetAll}
             />
-            <HistoryList />
+            <div className="flex-1 overflow-y-auto">
+              <HistoryList
+                items={mockHistory}
+                selectedId={selectedId}
+                onSelect={(id: string) => setSelectedId(id)}
+              />
+            </div>
           </aside>
 
-          <HistoryDetail item={mock} />
+          <HistoryDetail item={selectedItem} />
         </div>
       )}
     </main>

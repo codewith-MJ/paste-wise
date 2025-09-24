@@ -1,17 +1,31 @@
 import HistoryListItem from "./HistoryListItem";
+import { HistoryItem } from "@/types/history-item";
 
-function HistoryList() {
+type HistoryListProps = {
+  items: HistoryItem[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+};
+
+function HistoryList({ items, selectedId, onSelect }: HistoryListProps) {
   return (
     <nav aria-label="History list" className="space-y-3 p-3">
-      <HistoryListItem
-        id={"1"}
-        content={
-          "This is a short summary of the copied content. 긴단어도 자연스럽게 줄바꿈되어야 하고, 두 줄을 넘어가면 말줄임 처리됩니다."
-        }
-        hasTranslated={true}
-        mode={"Polite"}
-        time={"5 min ago"}
-      />
+      {items.map((item) => (
+        <button
+          key={item.id}
+          onClick={() => onSelect(item.id)}
+          className="w-full text-left"
+        >
+          <HistoryListItem
+            id={item.id}
+            content={item.original}
+            hasTranslated={item.isTranslated}
+            mode={item.mode}
+            time={item.createdAt}
+            isActive={selectedId === item.id}
+          />
+        </button>
+      ))}
     </nav>
   );
 }
