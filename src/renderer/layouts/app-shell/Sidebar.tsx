@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import ROUTES from "@/shared/constants/routes";
 
 type SidebarItem = {
-  id: "history" | "modes" | "shortcuts";
+  id: "history" | "tones" | "shortcuts";
   icon: string;
   label: string;
   path: string;
@@ -12,7 +12,7 @@ type SidebarItem = {
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { id: "history", icon: "🕑", label: "History", path: ROUTES.HISTORY },
-  { id: "modes", icon: "🙂", label: "Modes", path: ROUTES.MODES },
+  { id: "tones", icon: "🙂", label: "Tones", path: ROUTES.TONES },
   { id: "shortcuts", icon: "⌨️", label: "Shortcuts", path: ROUTES.SHORTCUTS },
 ];
 
