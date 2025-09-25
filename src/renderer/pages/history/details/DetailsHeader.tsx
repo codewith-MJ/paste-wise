@@ -1,22 +1,22 @@
 import { Languages } from "lucide-react";
-import ModeBadges from "@/renderer/components/ModeBadges";
+import ToneBadge from "@/renderer/components/ToneBadge";
 import MetaItem from "./MetaItem";
 
 type DetailsHeaderProps = {
   title?: string;
   createdAt: string;
-  mode: string;
-  strength: string;
-  emoji: boolean;
+  toneTitle: string;
+  toneStrength: string;
+  emojiAllowed: boolean;
   isTranslated: boolean;
 };
 
 function DetailsHeader({
   title = "History Details",
   createdAt,
-  mode,
-  strength,
-  emoji,
+  toneTitle,
+  toneStrength,
+  emojiAllowed,
   isTranslated,
 }: DetailsHeaderProps) {
   return (
@@ -29,8 +29,8 @@ function DetailsHeader({
       </div>
 
       <div className="flex items-center divide-x divide-gray-200 text-sm text-gray-700">
-        <MetaItem label="Mode" className="gap-2 pr-3">
-          <ModeBadges modeTitle={mode} />
+        <MetaItem label="Tone" className="gap-2 pr-3">
+          <ToneBadge toneTitle={toneTitle} />
         </MetaItem>
 
         {isTranslated ? (
@@ -40,11 +40,11 @@ function DetailsHeader({
         ) : null}
 
         <MetaItem label="Strength" className="px-3">
-          <span className="text-gray-600">{strength}</span>
+          <span className="text-gray-600">{toneStrength}</span>
         </MetaItem>
 
         <MetaItem label="Emoji" className="pl-3">
-          {emoji ? "✔️" : "X"}
+          {emojiAllowed ? "✔️" : "X"}
         </MetaItem>
       </div>
     </header>

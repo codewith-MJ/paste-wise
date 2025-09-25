@@ -1,7 +1,7 @@
 const ROUTES = {
   ROOT: "/",
   HISTORY: "/history",
-  MODES: "/modes",
+  TONES: "/tones",
   SHORTCUTS: "/shortcuts",
   LOGIN: "/login",
 } as const;

@@ -3,7 +3,7 @@ function FeatureList() {
   return (
     <ul className="space-y-2.5">
       {[
-        "Save custom modes for reuse",
+        "Save custom tones for reuse",
         "Set and manage custom shortcuts",
         "Sync history with your mobile app",
       ].map((feature) => (

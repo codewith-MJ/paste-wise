@@ -8,7 +8,7 @@ function TitleBlock() {
       <p className="text-base leading-relaxed text-gray-600">
         Login to view history across devices
         <br />
-        and customize modes!
+        and customize tones!
       </p>
     </div>
   );

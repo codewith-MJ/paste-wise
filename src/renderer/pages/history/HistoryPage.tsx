@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
-import { HistoryItem } from "@/shared/types/history-item";
+import { HistoryItemUI } from "@/shared/types/history";
 import EmptyState from "./EmptyState";
-import { mockHistory } from "@/renderer/mocks/history";
+import { mockHistoryList } from "@/renderer/mocks/history";
 
 function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
@@ -14,9 +14,9 @@ function HistoryPage() {
     "All Tones" | "Polite" | "Casual" | "Formal" | "Friendly"
   >("All Tones");
   const [selectedId, setSelectedId] = useState<string | null>(
-    mockHistory.length > 0 ? mockHistory[0].id : null,
+    mockHistoryList.length > 0 ? mockHistoryList[0].historyId : null,
   );
-  const isEmpty = mockHistory.length === 0;
+  const isEmpty = mockHistoryList.length === 0;
 
   const toggleSort = () => {
     setSortOrder((prevState) => (prevState === "desc" ? "asc" : "desc"));
@@ -31,9 +31,9 @@ function HistoryPage() {
     setTone("All Tones");
   };
 
-  const selectedItem: HistoryItem | null =
-    mockHistory.find((item) => item.id === selectedId) ??
-    mockHistory[0] ??
+  const selectedItem: HistoryItemUI | null =
+    mockHistoryList.find((item) => item.historyId === selectedId) ??
+    mockHistoryList[0] ??
     null;
 
   return (
@@ -61,7 +61,7 @@ function HistoryPage() {
             />
             <div className="flex-1 overflow-y-auto">
               <HistoryList
-                items={mockHistory}
+                items={mockHistoryList}
                 selectedId={selectedId}
                 onSelect={(id: string) => setSelectedId(id)}
               />
