@@ -1,8 +1,12 @@
 import { app, BrowserWindow } from "electron";
 import path from "node:path";
-import started from "electron-squirrel-startup";
+import { getDb } from "./infra/db/connection";
+import { applyMigrations } from "./infra/db/migration";
 
-if (started) {
+const squirrelStartup =
+  process.platform === "win32" ? require("electron-squirrel-startup") : false;
+
+if (squirrelStartup) {
   app.quit();
 }
 
@@ -12,6 +16,7 @@ const createWindow = () => {
     height: 660,
     minWidth: 800,
     minHeight: 576,
+    title: "PasteWise",
     center: true,
     show: false,
     useContentSize: true,
@@ -33,6 +38,9 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  const db = getDb();
+  applyMigrations(db);
+
   createWindow();
 
   app.on("activate", () => {
