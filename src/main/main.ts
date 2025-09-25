@@ -1,6 +1,6 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "node:path";
-import { getDb } from "./infra/db/connection";
+import { getDb, closeDb } from "./infra/db/connection";
 import { applyMigrations } from "./infra/db/migration";
 
 const squirrelStartup =
@@ -36,9 +36,9 @@ const createWindow = () => {
   // mainWindow.webContents.openDevTools();
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
+const db = getDb();
 
 app.whenReady().then(() => {
-  const db = getDb();
   applyMigrations(db);
 
   createWindow();
@@ -54,4 +54,9 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+app.on("will-quit", () => {
+  globalShortcut.unregisterAll();
+  closeDb();
 });
