@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS histories (
   created_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
   updated_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
   expires_at        INTEGER,
-  FOREIGN KEY (mode_id) REFERENCES modes(key) ON DELETE SET NULL
+  FOREIGN KEY (mode_id) REFERENCES modes(mode_id) ON DELETE SET NULL
 );
 
 CREATE TRIGGER IF NOT EXISTS trg_histories_updated_at
