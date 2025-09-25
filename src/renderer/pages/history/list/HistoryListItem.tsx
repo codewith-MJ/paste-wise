@@ -1,26 +1,18 @@
 import { Languages, Trash2 } from "lucide-react";
-import ModeBadges from "@/renderer/components/ModeBadges";
-
-type HistoryListItemProps = {
-  id: string;
-  content: string;
-  hasTranslated: boolean;
-  mode: string;
-  time: string;
-  isActive: boolean;
-};
+import ToneBadge from "@/renderer/components/ToneBadge";
+import { HistoryItemUI } from "@/shared/types/history";
 
 function HistoryListItem({
-  id,
-  content,
-  hasTranslated,
-  mode,
-  time,
+  historyId,
+  originalText,
+  isTranslated,
+  toneTitle,
+  createdAt,
   isActive,
-}: HistoryListItemProps) {
+}: HistoryItemUI) {
   return (
     <article
-      key={id}
+      key={historyId}
       aria-selected={isActive}
       className={`rounded-xl border p-3 ${
         isActive
@@ -30,7 +22,7 @@ function HistoryListItem({
     >
       <div className="flex items-start gap-3">
         <p className="line-clamp-2 min-w-0 flex-1 text-sm break-words text-slate-800">
-          {content}
+          {originalText}
         </p>
         <button
           aria-label="삭제"
@@ -40,13 +32,13 @@ function HistoryListItem({
         </button>
       </div>
       <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
-        {hasTranslated && (
+        {isTranslated && (
           <span className="inline-flex items-center rounded-md bg-blue-100 px-2 py-0.5 text-blue-700">
             <Languages size={14} />
           </span>
         )}
-        <ModeBadges modeTitle={mode} />
-        <span className="ml-auto tabular-nums">{time}</span>
+        <ToneBadge toneTitle={toneTitle} />
+        <span className="ml-auto tabular-nums">{createdAt}</span>
       </div>
     </article>
   );

@@ -1,10 +1,10 @@
 import DetailsHeader from "./DetailsHeader";
 import MessageCard from "./MessageCard";
-import { HistoryItem } from "@/shared/types/history-item";
+import { HistoryItemUI } from "@/shared/types/history";
 import Arrow from "./Arrow";
 
 type HistoryDetailsProps = {
-  item: HistoryItem;
+  item: HistoryItemUI;
 };
 
 function HistoryDetail({ item }: HistoryDetailsProps) {
@@ -12,16 +12,16 @@ function HistoryDetail({ item }: HistoryDetailsProps) {
     <section className="flex min-w-0 flex-1 flex-col overflow-hidden">
       <DetailsHeader
         createdAt={item.createdAt}
-        mode={item.mode}
-        strength={item.strength}
-        emoji={item.emoji}
+        toneTitle={item.toneTitle}
+        toneStrength={item.toneStrength}
+        emojiAllowed={item.emojiAllowed}
         isTranslated={item.isTranslated}
       />
 
       <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
-        <MessageCard label="Original" text={item.original} />
+        <MessageCard label="Original" text={item.originalText} />
         <Arrow />
-        <MessageCard label="Transformed" text={item.transformed} />
+        <MessageCard label="Transformed" text={item.transformedText} />
       </div>
     </section>
   );

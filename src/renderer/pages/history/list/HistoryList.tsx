@@ -1,8 +1,8 @@
 import HistoryListItem from "./HistoryListItem";
-import { HistoryItem } from "@/shared/types/history-item";
+import { HistoryItemUI } from "@/shared/types/history";
 
 type HistoryListProps = {
-  items: HistoryItem[];
+  items: HistoryItemUI[];
   selectedId: string | null;
   onSelect: (id: string) => void;
 };
@@ -12,17 +12,17 @@ function HistoryList({ items, selectedId, onSelect }: HistoryListProps) {
     <nav aria-label="History list" className="space-y-3 p-3">
       {items.map((item) => (
         <button
-          key={item.id}
-          onClick={() => onSelect(item.id)}
+          key={item.historyId}
+          onClick={() => onSelect(item.historyId)}
           className="w-full text-left"
         >
           <HistoryListItem
-            id={item.id}
-            content={item.original}
-            hasTranslated={item.isTranslated}
-            mode={item.mode}
-            time={item.createdAt}
-            isActive={selectedId === item.id}
+            historyId={item.historyId}
+            originalText={item.originalText}
+            isTranslated={item.isTranslated}
+            toneTitle={item.toneTitle}
+            createdAt={item.createdAt}
+            isActive={selectedId === item.historyId}
           />
         </button>
       ))}
