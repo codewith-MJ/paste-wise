@@ -35,3 +35,6 @@ CREATE INDEX IF NOT EXISTS idx_histories_tone
 
 CREATE INDEX IF NOT EXISTS idx_histories_translated
   ON histories (is_translated);
+
+CREATE INDEX IF NOT EXISTS idx_histories_expires_at
+  ON histories (expires_at);

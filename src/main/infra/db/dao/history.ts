@@ -92,4 +92,23 @@ function deleteHistory(historyId: number): boolean {
   return result.changes > 0;
 }
 
-export { getHistoryList, getHistoryById, createHistory, deleteHistory };
+function deleteExpiredHistories(nowMs: number = Date.now()): number {
+  const db = getDb();
+
+  const stmt = db.prepare(`
+    DELETE FROM histories
+    WHERE expires_at IS NOT NULL
+      AND expires_at < ?
+  `);
+
+  const result = stmt.run(nowMs);
+  return result.changes;
+}
+
+export {
+  getHistoryList,
+  getHistoryById,
+  createHistory,
+  deleteHistory,
+  deleteExpiredHistories,
+};

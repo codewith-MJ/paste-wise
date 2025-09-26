@@ -7,6 +7,7 @@ import {
   getHistoryList as repoGetHistoryList,
   getHistoryById as repoGetHistoryById,
   deleteHistory as repoDeleteHistory,
+  deleteExpiredHistories as repoDeleteExpiredHistories,
 } from "../infra/db/dao/history";
 
 async function getHistoryList(): Promise<HistoryItemUI[]> {
@@ -35,6 +36,12 @@ async function deleteHistory(historyId: number): Promise<boolean> {
   return isDeleted;
 }
 
+async function deleteExpiredHistory(): Promise<number> {
+  return repoDeleteExpiredHistories();
+}
+
+export { getHistoryList, getHistoryById, deleteHistory, deleteExpiredHistory };
+
 function formatHistoryItem(item: HistoryListItem): HistoryItemUI {
   return {
     historyId: String(item.historyId),
@@ -60,5 +67,3 @@ function formatHistory(item: History): HistoryItemUI {
     createdAt: new Date(item.createdAt).toISOString(),
   };
 }
-
-export { getHistoryList, getHistoryById, deleteHistory };

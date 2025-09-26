@@ -3,6 +3,7 @@ import path from "node:path";
 import { closeDb } from "./infra/db/connection";
 import { applyMigrations } from "./infra/db/migration";
 import { seedPresetData } from "./infra/db/presets";
+import startTtlCleaner from "./schedulers/ttl-cleaner";
 
 const squirrelStartup =
   process.platform === "win32" ? require("electron-squirrel-startup") : false;
@@ -41,12 +42,16 @@ const createWindow = () => {
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
 
+let stopTtlCleaner: (() => void) | null = null;
+
 app.whenReady().then(() => {
   try {
     applyMigrations();
 
     const platform = process.platform;
     seedPresetData(platform);
+
+    stopTtlCleaner = startTtlCleaner();
 
     createWindow();
 
@@ -67,6 +72,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("will-quit", () => {
+  stopTtlCleaner?.();
   globalShortcut.unregisterAll();
   closeDb();
 });
