@@ -5,8 +5,8 @@ import {
   getHistoryList,
 } from "../services/history";
 import { IdSchema, validateWith } from "@/shared/validation/common";
+import { RecordNotFoundError } from "@/shared/errors";
 import formatErrorResponse from "@/shared/errors/format-error-response";
-import RecordNotFoundError from "@/shared/errors/RecordNotFoundError";
 
 function registerHistoryIpc() {
   ipcMain.handle("history:getList", async () => {
