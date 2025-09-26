@@ -44,7 +44,9 @@ const createWindow = () => {
 app.whenReady().then(() => {
   try {
     applyMigrations();
-    seedPresetData();
+
+    const platform = process.platform;
+    seedPresetData(platform);
 
     createWindow();
 

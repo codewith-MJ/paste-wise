@@ -2,7 +2,7 @@ import logger from "@/main/utils/logger";
 import { getDb } from "./connection";
 import { SeedError } from "@/shared/errors";
 
-export function seedPresetData() {
+export function seedPresetData(platform: string) {
   const db = getDb();
 
   const seeded = db
@@ -22,6 +22,15 @@ export function seedPresetData() {
     a.localeCompare(b),
   );
 
+  const tonePresetData = entries.filter(([file]) => file.includes("/001_"));
+  const shortcutPresetData = entries.find(([file]) =>
+    file.endsWith(`_${platform}.sql`),
+  );
+
+  const selected: [string, string][] = shortcutPresetData
+    ? [...tonePresetData, shortcutPresetData]
+    : [...tonePresetData];
+
   if (entries.length === 0) {
     logger.info("[SEED] No seed files matched. Skip.");
     return { ok: true, skipped: true };
@@ -30,7 +39,7 @@ export function seedPresetData() {
   let failedAt: string | null = null;
 
   const applyAll = db.transaction(() => {
-    for (const [file, sql] of entries) {
+    for (const [file, sql] of selected) {
       logger.info(`[SEED] Applying ${file} ...`);
       failedAt = file;
       db.exec(sql);
