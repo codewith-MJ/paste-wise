@@ -44,7 +44,7 @@ type HistoryItemUI = {
   isTranslated: boolean;
   languageIn?: string;
   languageOut?: string;
-  toneStrength?: string;
+  toneStrength?: number;
   emojiAllowed?: boolean;
   createdAt: string;
   isActive?: boolean;

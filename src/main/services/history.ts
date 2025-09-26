@@ -55,8 +55,7 @@ function formatHistory(item: History): HistoryItemUI {
     isTranslated: item.isTranslated === 1,
     languageIn: item.languageIn ?? undefined,
     languageOut: item.languageOut ?? undefined,
-    toneStrength:
-      item.toneStrength != null ? String(item.toneStrength) : undefined,
+    toneStrength: item.toneStrength ?? undefined,
     emojiAllowed: item.emojiAllowed === 1,
     createdAt: new Date(item.createdAt).toISOString(),
   };
