@@ -16,18 +16,18 @@
     "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "src/**/*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,md,css,scss}": [
+    "src/**/*.{json,md,css,scss}": [
       "prettier --write"
     ]
   },
   "keywords": [],
   "author": {
     "name": "codewith-MJ",
-    "email": "minji.regina.kim@gmail.com"
+    "email": "c0d3with.mj@gmail.com"
   },
   "license": "MIT",
   "devDependencies": {
@@ -76,6 +76,7 @@
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.1",
-    "react-spinners": "^0.17.0"
+    "react-spinners": "^0.17.0",
+    "zod": "^4.1.11"
   }
 }

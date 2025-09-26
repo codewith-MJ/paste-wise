@@ -14,6 +14,8 @@
     "paths": { "@/*": ["src/*"] },
     "outDir": "dist",
     "resolveJsonModule": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   }
 }
