@@ -1,7 +1,7 @@
 import { getDb } from "../connection";
 import type { ToneListItem, Tone } from "@/shared/types/tone";
 
-export function getToneList(): ToneListItem[] {
+function getToneList(): ToneListItem[] {
   const db = getDb();
   return db
     .prepare<[], ToneListItem>(
@@ -17,7 +17,7 @@ export function getToneList(): ToneListItem[] {
     .all();
 }
 
-export function getToneById(toneId: number): Tone | null {
+function getToneById(toneId: number): Tone | null {
   const db = getDb();
   return (
     db
@@ -36,3 +36,5 @@ export function getToneById(toneId: number): Tone | null {
       .get(toneId) ?? null
   );
 }
+
+export { getToneList, getToneById };
