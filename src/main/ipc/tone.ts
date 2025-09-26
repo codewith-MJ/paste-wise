@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import { getToneById, getToneList } from "../services/tone";
 
-async function registerToneIpc() {
+function registerToneIpc() {
   ipcMain.handle("tone:getList", async () => {
     try {
       const toneList = await getToneList();
