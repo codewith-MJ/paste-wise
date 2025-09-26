@@ -12,3 +12,12 @@ export type Tone = {
   emojiAllowed: 0 | 1;
   isDefault: 0 | 1;
 };
+
+export type ToneItemUI = {
+  toneId: string;
+  toneTitle: string;
+  isDefault: boolean;
+  tonePrompt?: string;
+  toneStrength?: number;
+  emojiAllowed?: boolean;
+};
