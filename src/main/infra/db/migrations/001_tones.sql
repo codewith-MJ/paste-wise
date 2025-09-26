@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS tones (
   is_default        INTEGER NOT NULL DEFAULT 0 CHECK(is_default IN (0,1)),
   is_active         INTEGER NOT NULL DEFAULT 1 CHECK(is_active IN (0,1)),
   created_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
-  updated_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000)
+  updated_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+
+  UNIQUE(tone_title)
 );
 
 CREATE TRIGGER IF NOT EXISTS trg_tones_updated_at

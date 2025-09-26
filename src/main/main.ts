@@ -1,7 +1,8 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "node:path";
-import { getDb, closeDb } from "./infra/db/connection";
+import { closeDb } from "./infra/db/connection";
 import { applyMigrations } from "./infra/db/migration";
+import { seedPresetData } from "./infra/db/presets";
 
 const squirrelStartup =
   process.platform === "win32" ? require("electron-squirrel-startup") : false;
@@ -39,18 +40,22 @@ const createWindow = () => {
   // mainWindow.webContents.openDevTools();
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
-const db = getDb();
 
 app.whenReady().then(() => {
-  applyMigrations(db);
+  try {
+    applyMigrations();
+    seedPresetData();
 
-  createWindow();
+    createWindow();
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
+    app.on("activate", () => {
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  } catch {
+    app.quit();
+  }
 });
 
 app.on("window-all-closed", () => {
