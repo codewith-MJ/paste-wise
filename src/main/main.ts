@@ -1,8 +1,14 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "node:path";
-import started from "electron-squirrel-startup";
+import { closeDb } from "./infra/db/connection";
+import { applyMigrations } from "./infra/db/migration";
+import { seedPresetData } from "./infra/db/presets";
+import startTtlCleaner from "./schedulers/ttl-cleaner";
 
-if (started) {
+const squirrelStartup =
+  process.platform === "win32" ? require("electron-squirrel-startup") : false;
+
+if (squirrelStartup) {
   app.quit();
 }
 
@@ -12,11 +18,15 @@ const createWindow = () => {
     height: 660,
     minWidth: 800,
     minHeight: 576,
+    title: "PasteWise",
     center: true,
     show: false,
     useContentSize: true,
     webPreferences: {
       preload: path.join(__dirname, "../preload/preload.ts"),
+      contextIsolation: true,
+      sandbox: true,
+      nodeIntegration: false,
     },
   });
 
@@ -32,18 +42,37 @@ const createWindow = () => {
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
 
-app.whenReady().then(() => {
-  createWindow();
+let stopTtlCleaner: (() => void) | null = null;
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
+app.whenReady().then(() => {
+  try {
+    applyMigrations();
+
+    const platform = process.platform;
+    seedPresetData(platform);
+
+    stopTtlCleaner = startTtlCleaner();
+
+    createWindow();
+
+    app.on("activate", () => {
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  } catch {
+    app.quit();
+  }
 });
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+app.on("will-quit", () => {
+  stopTtlCleaner?.();
+  globalShortcut.unregisterAll();
+  closeDb();
 });
