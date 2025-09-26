@@ -6,13 +6,15 @@ export function getShortcutList(): ShortcutListItem[] {
   return db
     .prepare<[], ShortcutListItem>(
       `SELECT
-         shortcut_id AS shortcutId,
-         command,
-         tone_id    AS toneId,
-         accelerator,
-         is_active  AS isActive
-       FROM shortcuts
-       WHERE is_active = 1`,
+        s.shortcut_id   AS shortcutId,
+        s.command,
+        t.tone_title    AS toneTitle,
+        s.accelerator,
+        s.is_active     AS isActive
+      FROM shortcuts s
+      LEFT JOIN tones t ON s.tone_id = t.tone_id
+      WHERE s.is_active = 1
+      ORDER BY s.created_at DESC;`,
     )
     .all();
 }
