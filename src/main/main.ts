@@ -22,6 +22,9 @@ const createWindow = () => {
     useContentSize: true,
     webPreferences: {
       preload: path.join(__dirname, "../preload/preload.ts"),
+      contextIsolation: true,
+      sandbox: true,
+      nodeIntegration: false,
     },
   });
 

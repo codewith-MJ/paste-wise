@@ -1,4 +1,4 @@
-export type HistoryListItem = {
+type HistoryListItem = {
   historyId: number;
   originalText: string;
   emojiAllowed: number;
@@ -8,7 +8,7 @@ export type HistoryListItem = {
   isActive?: number;
 };
 
-export type History = {
+type History = {
   historyId: number;
   originalText: string;
   transformedText: string;
@@ -23,7 +23,7 @@ export type History = {
   createdAt: number;
 };
 
-export type NewHistoryInput = {
+type NewHistoryInput = {
   originalText: string;
   transformedText: string;
   toneId?: number | null;
@@ -36,7 +36,7 @@ export type NewHistoryInput = {
   emojiAllowed?: 0 | 1;
 };
 
-export type HistoryItemUI = {
+type HistoryItemUI = {
   historyId: string;
   createdAt: string;
   toneTitle: string;
@@ -47,3 +47,5 @@ export type HistoryItemUI = {
   transformedText?: string;
   isActive?: boolean;
 };
+
+export { HistoryListItem, History, NewHistoryInput, HistoryItemUI };
