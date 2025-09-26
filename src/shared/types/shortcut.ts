@@ -1,12 +1,21 @@
-export type ShortcutListItem = {
+type ShortcutListItem = {
   shortcutId: number;
   command: string;
-  toneId: number | null;
+  toneTitle: string | null;
   accelerator: string;
 };
 
-export type Shortcut = {
+type Shortcut = {
   command: string;
-  toneId: number | null;
+  toneTitle: string | null;
   accelerator: string;
 };
+
+type ShortcutUI = {
+  shortcutId: string;
+  command: string;
+  toneTitle: string | null;
+  accelerator: string;
+};
+
+export { ShortcutListItem, Shortcut, ShortcutUI };
