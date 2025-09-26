@@ -32,7 +32,6 @@ function getHistoryById(historyId: number): History | null {
           history_id     AS historyId,
           original_text  AS originalText,
           transformed_text AS transformedText,
-          tone_id        AS toneId,
           tone_title     AS toneTitle,
           tone_prompt    AS tonePrompt,
           is_translated  AS isTranslated,

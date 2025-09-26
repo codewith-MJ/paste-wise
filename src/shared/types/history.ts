@@ -12,7 +12,6 @@ type History = {
   historyId: number;
   originalText: string;
   transformedText: string;
-  toneId: number | null;
   toneTitle: string | null;
   tonePrompt: string | null;
   isTranslated: 0 | 1;
@@ -38,13 +37,16 @@ type NewHistoryInput = {
 
 type HistoryItemUI = {
   historyId: string;
-  createdAt: string;
-  toneTitle: string;
-  toneStrength?: string;
-  emojiAllowed?: boolean;
-  isTranslated: boolean;
   originalText: string;
   transformedText?: string;
+  toneTitle?: string;
+  tonePrompt?: string;
+  isTranslated: boolean;
+  languageIn?: string;
+  languageOut?: string;
+  toneStrength?: string;
+  emojiAllowed?: boolean;
+  createdAt: string;
   isActive?: boolean;
 };
 
