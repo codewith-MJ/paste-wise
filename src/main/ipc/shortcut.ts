@@ -1,5 +1,6 @@
 import { ipcMain } from "electron";
 import { getShortcutList } from "../services/shortcut";
+import formatErrorResponse from "@/shared/errors/format-error-response";
 
 function registerShortcutIpc() {
   ipcMain.handle("shortcut:getList", async () => {
@@ -9,8 +10,8 @@ function registerShortcutIpc() {
         ok: true,
         data: shortcutList,
       };
-    } catch (error: any) {
-      return { ok: false, error: String(error.message ?? error) };
+    } catch (error) {
+      return formatErrorResponse(error);
     }
   });
 }

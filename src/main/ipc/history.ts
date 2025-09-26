@@ -4,6 +4,9 @@ import {
   getHistoryById,
   getHistoryList,
 } from "../services/history";
+import { IdSchema, validateWith } from "@/shared/validation/common";
+import formatErrorResponse from "@/shared/errors/format-error-response";
+import RecordNotFoundError from "@/shared/errors/RecordNotFoundError";
 
 function registerHistoryIpc() {
   ipcMain.handle("history:getList", async () => {
@@ -13,32 +16,44 @@ function registerHistoryIpc() {
         ok: true,
         data: historyList,
       };
-    } catch (error: any) {
-      return { ok: false, error: String(error.message ?? error) };
+    } catch (error) {
+      return formatErrorResponse(error);
     }
   });
 
-  ipcMain.handle("history:getById", async (_event, historyId: string) => {
+  ipcMain.handle("history:getById", async (_event, id: string) => {
     try {
+      const historyId = validateWith(IdSchema, id);
       const history = await getHistoryById(Number(historyId));
+
+      if (!history) {
+        throw new RecordNotFoundError({ id: historyId });
+      }
+
       return {
         ok: true,
         data: history,
       };
-    } catch (error: any) {
-      return { ok: false, error: String(error.message ?? error) };
+    } catch (error) {
+      return formatErrorResponse(error);
     }
   });
 
-  ipcMain.handle("history:delete", async (_event, historyId: string) => {
+  ipcMain.handle("history:delete", async (_event, id: string) => {
     try {
+      const historyId = validateWith(IdSchema, id);
       const isDeleted = await deleteHistory(Number(historyId));
+
+      if (!isDeleted) {
+        throw new RecordNotFoundError({ id: historyId });
+      }
+
       return {
         ok: true,
         isDeleted,
       };
-    } catch (error: any) {
-      return { ok: false, error: String(error.message ?? error) };
+    } catch (error) {
+      return formatErrorResponse(error);
     }
   });
 }
