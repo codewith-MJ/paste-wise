@@ -1,3 +1,5 @@
+import { SHORTCUT_COMMAND } from "../constants/shortcuts";
+
 type ShortcutListItem = {
   shortcutId: number;
   command: string;
@@ -18,4 +20,18 @@ type ShortcutUI = {
   accelerator: string;
 };
 
-export { ShortcutListItem, Shortcut, ShortcutUI };
+type ShortcutToRegister = {
+  accelerator: string;
+  shortcutAction: () => void;
+};
+
+type ShortcutCommandValue =
+  (typeof SHORTCUT_COMMAND)[keyof typeof SHORTCUT_COMMAND];
+
+export {
+  ShortcutListItem,
+  Shortcut,
+  ShortcutUI,
+  ShortcutToRegister,
+  ShortcutCommandValue,
+};
