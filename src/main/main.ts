@@ -4,6 +4,7 @@ import { closeDb } from "./infra/db/connection";
 import { applyMigrations } from "./infra/db/migration";
 import { seedPresetData } from "./infra/db/presets";
 import startTtlCleaner from "./schedulers/ttl-cleaner";
+import registerInitialShortcuts from "./shortcuts/register-initial-shortcuts";
 
 const squirrelStartup =
   process.platform === "win32" ? require("electron-squirrel-startup") : false;
@@ -50,6 +51,7 @@ app.whenReady().then(() => {
 
     const platform = process.platform;
     seedPresetData(platform);
+    registerInitialShortcuts();
 
     stopTtlCleaner = startTtlCleaner();
 
