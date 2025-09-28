@@ -9,7 +9,7 @@ function SearchBar() {
       />
       <input
         type="text"
-        placeholder="Search history..."
+        placeholder="원문이나 결과로 검색…"
         className="w-full rounded-lg border border-gray-200 py-2 pr-4 pl-9 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
     </div>

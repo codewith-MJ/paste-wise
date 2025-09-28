@@ -19,9 +19,9 @@ function HistoryDetail({ item }: HistoryDetailsProps) {
       />
 
       <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
-        <MessageCard label="Original" text={item.originalText} />
+        <MessageCard label="내가 쓴 글" text={item.originalText} />
         <Arrow />
-        <MessageCard label="Transformed" text={item.transformedText!} />
+        <MessageCard label="바뀐 글" text={item.transformedText!} />
       </div>
     </section>
   );
