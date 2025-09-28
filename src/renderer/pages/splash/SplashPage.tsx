@@ -19,7 +19,7 @@ function SplashPage({
 }: SplashPageProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === " " || event.key === "Space") {
+      if (event.key === "Enter" || event.key === " ") {
         onSkip();
       }
     };
