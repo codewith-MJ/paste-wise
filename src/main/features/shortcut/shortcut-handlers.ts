@@ -1,15 +1,18 @@
 import { clipboard } from "electron";
-import sendSystemPasteCommand from "../system/system-paste";
-import { pushResult, peekLatestResult } from "@/main/clipboard/result-buffer";
+import sendSystemPasteCommand from "../../infra/os/system-paste";
+import {
+  pushResult,
+  peekLatestResult,
+} from "@/main/features/clipboard/result-buffer";
 import {
   sendSystemCopyCommand,
   getUpdatedClipboardText,
-} from "./clipboard-capture";
-import { transform } from "../services/transform";
-import sleep from "../utils/sleep";
-import logger from "../utils/logger";
-import revertClipboard from "./\brevert-clipboard";
-import writeEscapedTransfromedResult from "./write-escaped-result";
+} from "../clipboard/clipboard-capture";
+import { transform } from "../transform/transform-service";
+import sleep from "../../utils/sleep";
+import logger from "../../utils/logger";
+import revertClipboard from "../clipboard/revert-clipboard";
+import writeEscapedTransfromedResult from "../clipboard/write-escaped-result";
 
 const handleCopyShortcut = async () => {
   try {

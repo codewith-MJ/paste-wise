@@ -1,11 +1,11 @@
 import logger from "@/main/utils/logger";
-import { deleteExpiredHistory } from "@/main/services/history";
+import { deleteExpiredHistory } from "@/main/features/history/history-service";
 
 let ttlCelanerTimer: NodeJS.Timeout | null = null;
 
 type Options = { intervalMs?: number };
 
-function startTtlCleaner({ intervalMs = 30 * 60000 }: Options = {}) {
+const startTtlCleaner = ({ intervalMs = 30 * 60000 }: Options = {}) => {
   const cleanExpiredHistories = async () => {
     try {
       const deleted = await deleteExpiredHistory();
@@ -30,6 +30,6 @@ function startTtlCleaner({ intervalMs = 30 * 60000 }: Options = {}) {
       ttlCelanerTimer = null;
     }
   };
-}
+};
 
 export default startTtlCleaner;

@@ -7,7 +7,7 @@ import {
   NotFoundPage,
 } from "@/renderer/pages";
 import ROUTES from "@/shared/constants/routes";
-import AppShell from "@/renderer/layouts/app-shell";
+import AppShell from "@/renderer/layouts/app-shell/AppShell";
 
 export default function AppRouter() {
   return (

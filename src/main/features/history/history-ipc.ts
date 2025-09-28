@@ -3,12 +3,12 @@ import {
   deleteHistory,
   getHistoryById,
   getHistoryList,
-} from "../services/history";
+} from "./history-service";
 import { IdSchema, validateWith } from "@/shared/validation/common";
 import { RecordNotFoundError } from "@/shared/errors";
 import formatErrorResponse from "@/shared/errors/format-error-response";
 
-function registerHistoryIpc() {
+const registerHistoryIpc = () => {
   ipcMain.handle("history:getList", async () => {
     try {
       const historyList = await getHistoryList();
@@ -56,6 +56,6 @@ function registerHistoryIpc() {
       return formatErrorResponse(error);
     }
   });
-}
+};
 
 export default registerHistoryIpc;

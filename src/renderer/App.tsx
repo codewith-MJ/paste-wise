@@ -1,5 +1,5 @@
 import AppRouter from "./navigators/AppRouter";
-import SplashPage from "./pages/splash";
+import SplashPage from "./pages/splash/SplashPage";
 import useSplashController from "./hooks/useSplashController";
 
 function App() {

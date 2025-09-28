@@ -1,7 +1,7 @@
 import { clipboard } from "electron";
-import logger from "../utils/logger";
-import sendSystemCopyKeystroke from "../system/system-copy";
-import sleep from "../utils/sleep";
+import logger from "../../utils/logger";
+import sendSystemCopyKeystroke from "../../infra/os/system-copy";
+import sleep from "../../utils/sleep";
 
 export const CLIPBOARD_UPDATE_ATTEMPTS = 12;
 export const CLIPBOARD_UPDATE_INTERVAL_MS = 40;

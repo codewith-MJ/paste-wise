@@ -14,14 +14,14 @@ function HistoryDetail({ item }: HistoryDetailsProps) {
         createdAt={item.createdAt}
         toneTitle={item.toneTitle}
         toneStrength={item.toneStrength}
-        emojiAllowed={item.emojiAllowed}
+        emojiAllowed={item.emojiAllowed!}
         isTranslated={item.isTranslated}
       />
 
       <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
         <MessageCard label="Original" text={item.originalText} />
         <Arrow />
-        <MessageCard label="Transformed" text={item.transformedText} />
+        <MessageCard label="Transformed" text={item.transformedText!} />
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ import {
 } from "@/shared/types/history";
 import { getDb } from "../connection";
 
-function getHistoryList(): HistoryListItem[] {
+const getHistoryList = (): HistoryListItem[] => {
   const db = getDb();
   return db
     .prepare<[], HistoryListItem>(
@@ -20,9 +20,9 @@ function getHistoryList(): HistoryListItem[] {
       ORDER BY created_at DESC`,
     )
     .all();
-}
+};
 
-function getHistoryById(historyId: number): History | null {
+const getHistoryById = (historyId: number): History | null => {
   const db = getDb();
 
   return (
@@ -45,9 +45,9 @@ function getHistoryById(historyId: number): History | null {
       )
       .get(historyId) ?? null
   );
-}
+};
 
-function createHistory(history: NewHistoryInput): number {
+const createHistory = (history: NewHistoryInput): number => {
   const db = getDb();
 
   const stmt = db.prepare(`
@@ -56,8 +56,8 @@ function createHistory(history: NewHistoryInput): number {
       is_translated, language_in, language_out, tone_strength, emoji_allowed
     )
     VALUES (
-      @original_text, @transformed_text, @tone_id, @tone_title, @tone_prompt,
-      @is_translated, @language_in, @language_out, @tone_strength, @emoji_allowed
+      @/original_text, @/transformed_text, @/tone_id, @/tone_title, @/tone_prompt,
+      @/is_translated, @/language_in, @/language_out, @/tone_strength, @/emoji_allowed
     )
   `);
 
@@ -75,9 +75,9 @@ function createHistory(history: NewHistoryInput): number {
   });
 
   return Number(result.lastInsertRowid);
-}
+};
 
-function deleteHistory(historyId: number): boolean {
+const deleteHistory = (historyId: number): boolean => {
   const db = getDb();
   const result = db
     .prepare<[number]>(
@@ -90,9 +90,9 @@ function deleteHistory(historyId: number): boolean {
     )
     .run(historyId);
   return result.changes > 0;
-}
+};
 
-function deleteExpiredHistories(nowMs: number = Date.now()): number {
+const deleteExpiredHistories = (nowMs: number = Date.now()): number => {
   const db = getDb();
 
   const stmt = db.prepare(`
@@ -103,7 +103,7 @@ function deleteExpiredHistories(nowMs: number = Date.now()): number {
 
   const result = stmt.run(nowMs);
   return result.changes;
-}
+};
 
 export {
   getHistoryList,

@@ -1,9 +1,9 @@
 import { ipcMain } from "electron";
-import { getToneById, getToneList } from "../services/tone";
+import { getToneList, getToneById } from "./tone-service";
 import formatErrorResponse from "@/shared/errors/format-error-response";
 import { RecordNotFoundError } from "@/shared/errors";
 
-function registerToneIpc() {
+const registerToneIpc = () => {
   ipcMain.handle("tone:getList", async () => {
     try {
       const toneList = await getToneList();
@@ -32,6 +32,6 @@ function registerToneIpc() {
       return formatErrorResponse(error);
     }
   });
-}
+};
 
 export default registerToneIpc;

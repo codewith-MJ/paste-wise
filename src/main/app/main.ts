@@ -1,10 +1,6 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow } from "electron";
 import path from "node:path";
-import { closeDb } from "./infra/db/connection";
-import { applyMigrations } from "./infra/db/migration";
-import { seedPresetData } from "./infra/db/presets";
-import startTtlCleaner from "./schedulers/ttl-cleaner";
-import registerInitialShortcuts from "./shortcuts/register-initial-shortcuts";
+import bootstrap from "./bootstrap";
 
 const squirrelStartup =
   process.platform === "win32" ? require("electron-squirrel-startup") : false;
@@ -43,17 +39,12 @@ const createWindow = () => {
   mainWindow.once("ready-to-show", () => mainWindow.show());
 };
 
-let stopTtlCleaner: (() => void) | null = null;
+let cleanupAppResources: (() => void) | null = null;
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   try {
-    applyMigrations();
-
-    const platform = process.platform;
-    seedPresetData(platform);
-    registerInitialShortcuts();
-
-    stopTtlCleaner = startTtlCleaner();
+    const appContext = await bootstrap();
+    cleanupAppResources = appContext.cleanupAppResources;
 
     createWindow();
 
@@ -63,6 +54,7 @@ app.whenReady().then(() => {
       }
     });
   } catch {
+    cleanupAppResources?.();
     app.quit();
   }
 });
@@ -74,7 +66,5 @@ app.on("window-all-closed", () => {
 });
 
 app.on("will-quit", () => {
-  stopTtlCleaner?.();
-  globalShortcut.unregisterAll();
-  closeDb();
+  cleanupAppResources?.();
 });

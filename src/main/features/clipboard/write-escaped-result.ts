@@ -1,5 +1,5 @@
 import { clipboard } from "electron";
-import sleep from "../utils/sleep";
+import sleep from "@/main/utils/sleep";
 
 const WRITE_TO_PASTE_DELAY = 260;
 

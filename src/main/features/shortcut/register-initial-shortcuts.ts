@@ -1,12 +1,12 @@
 import { globalShortcut } from "electron";
-import logger from "../utils/logger";
+import logger from "../../utils/logger";
 import {
   handleCopyShortcut,
   createPasteApplyHandler,
-} from "./shortcut-actions";
+} from "./shortcut-handlers";
 import { SHORTCUT_COMMAND } from "@/shared/constants/shortcuts";
 import { ShortcutCommandValue } from "@/shared/types/shortcut";
-import { getShortcutListToRegister } from "../services/shortcut";
+import { getShortcutListToRegister } from "./shortcut-service";
 
 const commandToShortcutAction: Record<ShortcutCommandValue, () => void> = {
   [SHORTCUT_COMMAND.COPY_CAPTURE]: handleCopyShortcut,

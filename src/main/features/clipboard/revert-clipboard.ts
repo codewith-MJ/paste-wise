@@ -1,5 +1,5 @@
 import { clipboard } from "electron";
-import logger from "../utils/logger";
+import logger from "../../utils/logger";
 
 const RESTORE_DELAY = 400;
 
