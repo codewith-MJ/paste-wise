@@ -21,7 +21,10 @@ const handleCopyShortcut = async () => {
 
     const updatedClipboardText =
       await getUpdatedClipboardText(prevClipboardText);
-    if (!updatedClipboardText) return;
+    if (!updatedClipboardText) {
+      logger.warn("[copy] clipboard empty or unchanged");
+      return;
+    }
 
     try {
       const transformed = await transform(updatedClipboardText, 1);
