@@ -1,6 +1,6 @@
-import { getShortcutList as repoGetShortcutList } from "../infra/db/dao/shortcut";
-import logger from "../utils/logger";
-import convertShortcut from "../shortcuts/convert-shortcuts";
+import { getShortcutList as repoGetShortcutList } from "@/main/infra/db/dao/shortcut";
+import logger from "@/main/utils/logger";
+import convertShortcut from "./convert-shortcuts";
 import {
   ShortcutCommandValue,
   ShortcutToRegister,

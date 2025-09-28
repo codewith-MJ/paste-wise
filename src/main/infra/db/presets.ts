@@ -2,7 +2,7 @@ import logger from "@/main/utils/logger";
 import { getDb } from "./connection";
 import { SeedError } from "@/shared/errors";
 
-export function seedPresetData(platform: string) {
+const seedPresetData = (platform: string) => {
   const db = getDb();
 
   const seeded = db
@@ -59,4 +59,6 @@ export function seedPresetData(platform: string) {
     logger.error(`[SEED] Failed: ${msg}`);
     throw new SeedError({ file: failedAt ?? "(unknown)", cause: msg });
   }
-}
+};
+
+export default seedPresetData;

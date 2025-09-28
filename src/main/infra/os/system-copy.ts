@@ -48,7 +48,7 @@ const sendSystemCopyKeystroke = async (): Promise<{
   if (platform === "win32") {
     const psCommand = [
       "Add-Type -AssemblyName System.Windows.Forms;",
-      "$sig=@'[DllImport(\"user32.dll\")] public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);'@; Add-Type -MemberDefinition $sig -Name K -Namespace U;",
+      "$sig=@/'[DllImport(\"user32.dll\")] public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);'@/; Add-Type -MemberDefinition $sig -Name K -Namespace U;",
       "[U.K]::keybd_event(0x12,0,0x0002,0); [U.K]::keybd_event(0x10,0,0x0002,0); [U.K]::keybd_event(0x11,0,0x0002,0);",
       "[System.Windows.Forms.SendKeys]::SendWait('^c');",
     ].join(" ");

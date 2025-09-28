@@ -1,7 +1,7 @@
 import { getDb } from "../connection";
 import type { ShortcutListItem } from "@/shared/types/shortcut";
 
-export function getShortcutList(): ShortcutListItem[] {
+const getShortcutList = (): ShortcutListItem[] => {
   const db = getDb();
   return db
     .prepare<[], ShortcutListItem>(
@@ -17,4 +17,6 @@ export function getShortcutList(): ShortcutListItem[] {
       ORDER BY s.created_at DESC;`,
     )
     .all();
-}
+};
+
+export { getShortcutList };

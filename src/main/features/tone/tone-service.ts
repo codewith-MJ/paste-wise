@@ -2,9 +2,8 @@ import { ToneItemUI } from "@/shared/types/tone";
 import {
   getToneList as repoGetToneList,
   getToneById as repoGetToneById,
-} from "../infra/db/dao/tone";
-
-async function getToneList(): Promise<ToneItemUI[]> {
+} from "@/main/infra/db/dao/tone";
+const getToneList = async (): Promise<ToneItemUI[]> => {
   const toneList = await Promise.resolve(repoGetToneList());
   const formattedToneList = toneList.map((item) => ({
     ...item,
@@ -13,9 +12,9 @@ async function getToneList(): Promise<ToneItemUI[]> {
   }));
 
   return formattedToneList;
-}
+};
 
-async function getToneById(toneId: number): Promise<ToneItemUI | null> {
+const getToneById = async (toneId: number): Promise<ToneItemUI | null> => {
   const tone = await Promise.resolve(repoGetToneById(toneId));
 
   if (tone) {
@@ -30,6 +29,6 @@ async function getToneById(toneId: number): Promise<ToneItemUI | null> {
   }
 
   return tone;
-}
+};
 
 export { getToneList, getToneById };

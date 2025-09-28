@@ -5,7 +5,7 @@ import type { Database as DatabaseType } from "better-sqlite3";
 
 let instance: DatabaseType | null = null;
 
-function openDb() {
+const openDb = () => {
   if (instance) {
     return instance;
   }
@@ -17,17 +17,17 @@ function openDb() {
 
   instance = db;
   return instance;
-}
+};
 
-function getDb() {
+const getDb = () => {
   return openDb();
-}
+};
 
-function closeDb() {
+const closeDb = () => {
   if (instance) {
     instance.close();
     instance = null;
   }
-}
+};
 
 export { openDb, getDb, closeDb };

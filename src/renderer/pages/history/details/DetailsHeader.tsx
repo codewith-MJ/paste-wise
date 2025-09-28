@@ -5,8 +5,8 @@ import MetaItem from "./MetaItem";
 type DetailsHeaderProps = {
   title?: string;
   createdAt: string;
-  toneTitle: string;
-  toneStrength: string;
+  toneTitle?: string;
+  toneStrength?: number;
   emojiAllowed: boolean;
   isTranslated: boolean;
 };
@@ -30,7 +30,7 @@ function DetailsHeader({
 
       <div className="flex items-center divide-x divide-gray-200 text-sm text-gray-700">
         <MetaItem label="Tone" className="gap-2 pr-3">
-          <ToneBadge toneTitle={toneTitle} />
+          {toneTitle && <ToneBadge toneTitle={toneTitle} />}
         </MetaItem>
 
         {isTranslated ? (

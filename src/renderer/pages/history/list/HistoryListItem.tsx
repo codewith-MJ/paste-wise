@@ -37,7 +37,7 @@ function HistoryListItem({
             <Languages size={14} />
           </span>
         )}
-        <ToneBadge toneTitle={toneTitle} />
+        {toneTitle && <ToneBadge toneTitle={toneTitle} />}
         <span className="ml-auto tabular-nums">{createdAt}</span>
       </div>
     </article>

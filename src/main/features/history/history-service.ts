@@ -8,17 +8,17 @@ import {
   getHistoryById as repoGetHistoryById,
   deleteHistory as repoDeleteHistory,
   deleteExpiredHistories as repoDeleteExpiredHistories,
-} from "../infra/db/dao/history";
+} from "../../infra/db/dao/history";
 
-async function getHistoryList(): Promise<HistoryItemUI[]> {
+const getHistoryList = async (): Promise<HistoryItemUI[]> => {
   const historyList = await Promise.resolve(repoGetHistoryList());
 
   return historyList.map(formatHistoryItem);
-}
+};
 
-async function getHistoryById(
+const getHistoryById = async (
   historyId: number,
-): Promise<HistoryItemUI | null> {
+): Promise<HistoryItemUI | null> => {
   const history = await Promise.resolve(repoGetHistoryById(historyId));
 
   if (history) {
@@ -28,17 +28,17 @@ async function getHistoryById(
   }
 
   return history;
-}
+};
 
-async function deleteHistory(historyId: number): Promise<boolean> {
+const deleteHistory = async (historyId: number): Promise<boolean> => {
   const isDeleted = await Promise.resolve(repoDeleteHistory(historyId));
 
   return isDeleted;
-}
+};
 
-async function deleteExpiredHistory(): Promise<number> {
+const deleteExpiredHistory = async (): Promise<number> => {
   return repoDeleteExpiredHistories();
-}
+};
 
 export { getHistoryList, getHistoryById, deleteHistory, deleteExpiredHistory };
 

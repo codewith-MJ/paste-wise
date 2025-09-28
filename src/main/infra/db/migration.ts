@@ -2,7 +2,7 @@ import logger from "@/main/utils/logger";
 import { getDb } from "./connection";
 import MigrationError from "@/shared/errors/MigrationError";
 
-export function applyMigrations() {
+const applyMigrations = () => {
   const db = getDb();
   const modules = import.meta.glob("./migrations/*.sql", {
     as: "raw",
@@ -26,4 +26,6 @@ export function applyMigrations() {
       });
     }
   }
-}
+};
+
+export default applyMigrations;
