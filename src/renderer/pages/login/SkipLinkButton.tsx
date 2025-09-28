@@ -8,7 +8,7 @@ function SkipLinkButton({ onClick }: SkipLinkButtonProps) {
       onClick={onClick}
       className="cursor-pointer text-sm font-medium text-gray-500 transition-colors hover:text-gray-700"
     >
-      Skip for now
+      로그인 없이 이용하기
     </button>
   );
 }

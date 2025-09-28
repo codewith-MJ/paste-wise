@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import LogoBox from "./LogoBox";
-import ServiceTitle from "./ServiceTitle";
+import MainTitle from "./MainTitle";
 import LoadingIndicator from "./LoadingIndicator";
-import VersionFooter from "./VersionFooter";
+import Footer from "./Footer";
 
 type SplashPageProps = {
   fadeOut: boolean;
@@ -42,10 +42,10 @@ function SplashPage({
     >
       <section className="flex flex-col items-center">
         <LogoBox />
-        <ServiceTitle />
+        <MainTitle />
         <LoadingIndicator />
       </section>
-      <VersionFooter version={version} />
+      <Footer version={version} />
     </main>
   );
 }

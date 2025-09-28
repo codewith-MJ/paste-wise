@@ -13,11 +13,16 @@ function SortButton({ order, onToggle }: Props) {
       title={order === "desc" ? "Newest first (↑/↓)" : "Oldest first (↑/↓)"}
     >
       {order === "desc" ? (
-        <ArrowDown className="h-4 w-4" />
+        <>
+          <ArrowDown className="h-4 w-4" />
+          <span>최신순</span>
+        </>
       ) : (
-        <ArrowUp className="h-4 w-4" />
+        <>
+          <ArrowUp className="h-4 w-4" />
+          <span>오래된순</span>
+        </>
       )}
-      Time
     </button>
   );
 }

@@ -20,7 +20,7 @@ function EmptyState() {
             </kbd>
             <span className="text-gray-400">+</span>
             <kbd className="rounded-lg border border-gray-300 bg-gray-100 px-3 py-2 text-sm font-medium">
-              Shift
+              ⌥
             </kbd>
             <span className="text-gray-400">+</span>
             <kbd className="rounded-lg border border-blue-400 bg-blue-500 px-3 py-2 text-sm font-medium text-white">

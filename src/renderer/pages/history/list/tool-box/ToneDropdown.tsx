@@ -1,13 +1,12 @@
-// ToneDropdown.tsx
 import { ArrowDown } from "lucide-react";
 
-export type Tone = "All Tones" | "Polite" | "Casual" | "Formal" | "Friendly";
+export type Tone = "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한";
 export const TONES: Tone[] = [
-  "All Tones",
-  "Polite",
-  "Casual",
-  "Formal",
-  "Friendly",
+  "모든 말투",
+  "정중한",
+  "캐주얼",
+  "격식 있는",
+  "다정한",
 ];
 
 type ToneDropdownProps = {
@@ -16,7 +15,7 @@ type ToneDropdownProps = {
 };
 
 export default function ToneDropdown({ value, onChange }: ToneDropdownProps) {
-  const isAll = value === "All Tones";
+  const isAll = value === "모든 말투";
 
   return (
     <div className="relative inline-block">

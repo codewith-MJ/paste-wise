@@ -23,7 +23,7 @@ function HistoryListToolBox({
   onToneChange,
   onResetAll,
 }: Props) {
-  const isAllActive = !isTranslation && tone === "All Tones";
+  const isAllActive = !isTranslation && tone === "모든 말투";
 
   return (
     <div className="sticky top-0 z-10 mt-2 space-y-2 border-b border-gray-200 bg-white p-3">
@@ -38,7 +38,7 @@ function HistoryListToolBox({
           title="All (reset filters)"
         >
           <Filter size={12} />
-          All
+          전체
         </FilterChip>
 
         <FilterChip

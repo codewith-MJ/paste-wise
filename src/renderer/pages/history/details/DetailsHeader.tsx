@@ -12,7 +12,7 @@ type DetailsHeaderProps = {
 };
 
 function DetailsHeader({
-  title = "History Details",
+  title = "변환 내용 보기",
   createdAt,
   toneTitle,
   toneStrength,
@@ -29,7 +29,7 @@ function DetailsHeader({
       </div>
 
       <div className="flex items-center divide-x divide-gray-200 text-sm text-gray-700">
-        <MetaItem label="Tone" className="gap-2 pr-3">
+        <MetaItem label="선택된 말투" className="gap-2 pr-3">
           {toneTitle && <ToneBadge toneTitle={toneTitle} />}
         </MetaItem>
 
@@ -39,11 +39,11 @@ function DetailsHeader({
           </span>
         ) : null}
 
-        <MetaItem label="Strength" className="px-3">
+        <MetaItem label="말투 세기" className="px-3">
           <span className="text-gray-600">{toneStrength}</span>
         </MetaItem>
 
-        <MetaItem label="Emoji" className="pl-3">
+        <MetaItem label="이모지 사용" className="pl-3">
           {emojiAllowed ? "✔️" : "X"}
         </MetaItem>
       </div>

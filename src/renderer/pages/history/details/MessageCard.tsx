@@ -1,13 +1,13 @@
 import { Copy } from "lucide-react";
 
 type Props = {
-  label: "Original" | "Transformed";
+  label: "내가 쓴 글" | "바뀐 글";
   text: string;
 };
 
 function MessageCard({ label, text }: Props) {
   const styles =
-    label === "Original"
+    label === "내가 쓴 글"
       ? {
           dotColor: "bg-gray-400",
           borderColor: "border-gray-200",

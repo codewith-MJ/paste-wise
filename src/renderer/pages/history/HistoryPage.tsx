@@ -11,8 +11,8 @@ function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   const [isTranslation, setIsTranslation] = useState(false);
   const [tone, setTone] = useState<
-    "All Tones" | "Polite" | "Casual" | "Formal" | "Friendly"
-  >("All Tones");
+    "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한"
+  >("모든 말투");
   const [selectedId, setSelectedId] = useState<string | null>(
     mockHistoryList.length > 0 ? mockHistoryList[0].historyId : null,
   );
@@ -28,7 +28,7 @@ function HistoryPage() {
 
   const onResetAll = () => {
     setIsTranslation(false);
-    setTone("All Tones");
+    setTone("모든 말투");
   };
 
   const selectedItem: HistoryItemUI | null =
@@ -39,8 +39,8 @@ function HistoryPage() {
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
       <PageHeader
-        title="History"
-        description="View and manage your text transformations"
+        title="변환 기록"
+        description="변환된 텍스트 기록을 확인하고 관리해보세요!"
       />
 
       {isEmpty ? (

@@ -11,9 +11,9 @@ type SidebarItem = {
 };
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
-  { id: "history", icon: "🕑", label: "History", path: ROUTES.HISTORY },
-  { id: "tones", icon: "🙂", label: "Tones", path: ROUTES.TONES },
-  { id: "shortcuts", icon: "⌨️", label: "Shortcuts", path: ROUTES.SHORTCUTS },
+  { id: "history", icon: "🕑", label: "변환 기록", path: ROUTES.HISTORY },
+  { id: "tones", icon: "🙂", label: "말투 설정", path: ROUTES.TONES },
+  { id: "shortcuts", icon: "⌨️", label: "단축키 설정", path: ROUTES.SHORTCUTS },
 ];
 
 function Sidebar() {
@@ -26,7 +26,7 @@ function Sidebar() {
             to={item.path}
             className={({ isActive }) =>
               clsx(
-                "group flex w-16 cursor-pointer flex-col items-center gap-1 rounded-xl px-2 py-2 transition-colors",
+                "group flex w-18 cursor-pointer flex-col items-center gap-1 rounded-xl px-2 py-2 transition-colors",
                 "focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:outline-none",
                 isActive ? "bg-[#DFF3FF]" : "hover:bg-gray-200",
               )

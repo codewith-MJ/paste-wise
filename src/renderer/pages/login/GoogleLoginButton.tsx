@@ -13,7 +13,7 @@ function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
       <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
         <FcGoogle className="h-4 w-4" />
       </span>
-      <span>Continue with Google</span>
+      <span>Google 계정으로 로그인</span>
     </button>
   );
 }

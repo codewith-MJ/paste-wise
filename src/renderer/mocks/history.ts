@@ -4,7 +4,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "1",
     createdAt: "2025-09-20 09:15",
-    toneTitle: "Polite",
+    toneTitle: "정중한",
     toneStrength: 80,
     emojiAllowed: true,
     isTranslated: true,
@@ -14,7 +14,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "2",
     createdAt: "2025-09-20 11:42",
-    toneTitle: "Casual",
+    toneTitle: "캐주얼",
     toneStrength: 30,
     emojiAllowed: false,
     isTranslated: true,
@@ -24,7 +24,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "3",
     createdAt: "2025-09-21 08:05",
-    toneTitle: "Formal",
+    toneTitle: "격식 있는",
     toneStrength: 50,
     emojiAllowed: false,
     isTranslated: false,
@@ -34,7 +34,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "4",
     createdAt: "2025-09-21 13:27",
-    toneTitle: "Friendly",
+    toneTitle: "다정한",
     toneStrength: 60,
     emojiAllowed: true,
     isTranslated: false,
@@ -44,7 +44,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "5",
     createdAt: "2025-09-21 17:45",
-    toneTitle: "Polite",
+    toneTitle: "정중한",
     toneStrength: 25,
     emojiAllowed: false,
     isTranslated: true,
@@ -54,7 +54,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "6",
     createdAt: "2025-09-22 10:10",
-    toneTitle: "Casual",
+    toneTitle: "캐주얼",
     toneStrength: 85,
     emojiAllowed: true,
     isTranslated: false,
@@ -64,7 +64,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "7",
     createdAt: "2025-09-22 14:00",
-    toneTitle: "Formal",
+    toneTitle: "격식 있는",
     toneStrength: 90,
     emojiAllowed: false,
     isTranslated: true,
@@ -75,7 +75,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "8",
     createdAt: "2025-09-22 19:35",
-    toneTitle: "Friendly",
+    toneTitle: "다정한",
     toneStrength: 20,
     emojiAllowed: true,
     isTranslated: false,
@@ -85,7 +85,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "9",
     createdAt: "2025-09-23 12:20",
-    toneTitle: "Formal",
+    toneTitle: "격식 있는",
     toneStrength: 65,
     emojiAllowed: false,
     isTranslated: false,
@@ -95,7 +95,7 @@ export const mockHistoryList: HistoryItemUI[] = [
   {
     historyId: "10",
     createdAt: "2025-09-23 18:45",
-    toneTitle: "Friendly",
+    toneTitle: "다정한",
     toneStrength: 35,
     emojiAllowed: true,
     isTranslated: false,
