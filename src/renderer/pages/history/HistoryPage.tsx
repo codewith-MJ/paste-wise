@@ -7,11 +7,16 @@ import { HistoryItemUI } from "@/shared/types/history";
 import EmptyState from "./EmptyState";
 
 function HistoryPage() {
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-  const [isTranslation, setIsTranslation] = useState(false);
-  const [tone, setTone] = useState<
-    "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한"
-  >("모든 말투");
+  const [filters, setFilters] = useState({
+    sortOrder: "desc" as "desc" | "asc",
+    isTranslation: false,
+    tone: "모든 말투" as
+      | "모든 말투"
+      | "정중한"
+      | "캐주얼"
+      | "격식 있는"
+      | "다정한",
+  });
   const [items, setItems] = useState<HistoryItemUI[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -29,19 +34,23 @@ function HistoryPage() {
       });
   }, []);
 
-  const isEmpty = items.length === 0;
-
   const toggleSort = () => {
-    setSortOrder((prevState) => (prevState === "desc" ? "asc" : "desc"));
+    setFilters((prev) => ({
+      ...prev,
+      sortOrder: prev.sortOrder === "desc" ? "asc" : "desc",
+    }));
   };
 
-  const handleToggleTranslation = () => {
-    setIsTranslation((prev) => !prev);
+  const toggleTranslation = () => {
+    setFilters((prev) => ({ ...prev, isTranslation: !prev.isTranslation }));
   };
 
-  const onResetAll = () => {
-    setIsTranslation(false);
-    setTone("모든 말투");
+  const changeTone = (newTone: typeof filters.tone) => {
+    setFilters((prev) => ({ ...prev, tone: newTone }));
+  };
+
+  const resetAll = () => {
+    setFilters({ sortOrder: "desc", isTranslation: false, tone: "모든 말투" });
   };
 
   return (
@@ -51,21 +60,19 @@ function HistoryPage() {
         description="변환된 텍스트 기록을 확인하고 관리해보세요!"
       />
 
-      {isEmpty ? (
+      {items.length === 0 ? (
         <EmptyState />
       ) : (
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <aside className="flex min-h-0 w-90 flex-shrink-0 flex-col border-r border-gray-200 bg-white">
             <HistoryListToolBox
-              sortOrder={sortOrder}
+              sortOrder={filters.sortOrder}
+              isTranslation={filters.isTranslation}
+              tone={filters.tone}
               onToggleSort={toggleSort}
-              isTranslation={isTranslation}
-              onToggleTranslation={handleToggleTranslation}
-              tone={tone}
-              onToneChange={(newTone: typeof tone) => {
-                setTone(newTone);
-              }}
-              onResetAll={onResetAll}
+              onToggleTranslation={toggleTranslation}
+              onToneChange={changeTone}
+              onResetAll={resetAll}
             />
             <div className="flex-1 overflow-y-auto">
               <HistoryList
