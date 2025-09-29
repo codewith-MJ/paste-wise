@@ -9,7 +9,7 @@ type HistoryListItemProps = { historyId: string };
 
 function HistoryListItem({ historyId }: HistoryListItemProps) {
   const historyListItem = useHistoryStore((state) =>
-    state.historyList.find((it) => it.historyId === historyId),
+    state.historyList.find((item) => item.historyId === historyId),
   );
   const isActive = useHistoryStore((state) => state.selectedId === historyId);
   const handleSelectedId = useHistoryStore((state) => state.handleSelectedId);

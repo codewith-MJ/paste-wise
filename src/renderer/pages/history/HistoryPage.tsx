@@ -18,6 +18,8 @@ function HistoryPage() {
       | "다정한",
   });
 
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   const fetchList = useHistoryStore((state) => state.fetchList);
   const historyList = useHistoryStore((state) => state.historyList);
   const selectedId = useHistoryStore((state) => state.selectedId);
@@ -25,6 +27,9 @@ function HistoryPage() {
   useEffect(() => {
     fetchList();
   }, [fetchList]);
+
+  const handleSearchKeyword = (searchKeyword: string) =>
+    setSearchKeyword(searchKeyword);
 
   const toggleSort = () =>
     setFilters((prev) => ({
@@ -61,9 +66,10 @@ function HistoryPage() {
               onToggleTranslation={toggleTranslation}
               onToneChange={changeTone}
               onResetAll={resetAll}
+              onSearchKeywordChange={handleSearchKeyword}
             />
             <div className="flex-1 overflow-y-auto">
-              <HistoryList />
+              <HistoryList searchKeyword={searchKeyword} />
             </div>
           </aside>
 

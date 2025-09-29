@@ -2,12 +2,19 @@ import { useMemo } from "react";
 import HistoryListItem from "./HistoryListItem";
 import { useHistoryStore } from "@/renderer/stores/history";
 
-function HistoryList() {
+type HistoryListProps = {
+  searchKeyword: string;
+};
+
+function HistoryList({ searchKeyword }: HistoryListProps) {
   const historyList = useHistoryStore((state) => state.historyList);
+  const searchedHistoryList = historyList.filter((history) =>
+    history.originalText.toLowerCase().includes(searchKeyword.trim()),
+  );
 
   const historyIds = useMemo(
-    () => historyList.map((it) => it.historyId),
-    [historyList],
+    () => searchedHistoryList.map((item) => item.historyId),
+    [searchedHistoryList],
   );
 
   return (

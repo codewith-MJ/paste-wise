@@ -10,7 +10,7 @@ type HistoryState = {
   error: string | null;
 };
 
-export const useHistoryStore = create<HistoryState>((set) => ({
+const useHistoryStore = create<HistoryState>((set) => ({
   historyList: [],
   selectedId: null,
   error: null,
@@ -43,3 +43,5 @@ export const useHistoryStore = create<HistoryState>((set) => ({
     });
   },
 }));
+
+export { useHistoryStore };
