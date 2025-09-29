@@ -4,6 +4,12 @@ const ERROR_CODES = {
   MIGRATION_FAILED: "MIGRATION_FAILED",
   SEED_FAILED: "SEED_FAILED",
   INTERNAL: "INTERNAL",
+
+  IPC_TIMEOUT: "IPC_TIMEOUT",
+  IPC_CHANNEL_NOT_FOUND: "IPC_CHANNEL_NOT_FOUND",
+  IPC_INVOCATION_FAILED: "IPC_INVOCATION_FAILED",
+  IPC_RESPONSE_FORMAT_INVALID: "IPC_RESPONSE_FORMAT_INVALID",
+  IPC_PERMISSION_DENIED: "IPC_PERMISSION_DENIED",
 } as const;
 
 type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
@@ -14,6 +20,13 @@ const ERROR_MESSAGES: Record<ErrorCode, string> = {
   [ERROR_CODES.MIGRATION_FAILED]: "Database migration failed.",
   [ERROR_CODES.SEED_FAILED]: "Database seeding failed.",
   [ERROR_CODES.INTERNAL]: "Internal error",
+
+  [ERROR_CODES.IPC_TIMEOUT]: "IPC request timed out.",
+  [ERROR_CODES.IPC_CHANNEL_NOT_FOUND]: "IPC channel not found.",
+  [ERROR_CODES.IPC_INVOCATION_FAILED]: "IPC invocation failed.",
+  [ERROR_CODES.IPC_RESPONSE_FORMAT_INVALID]: "Invalid IPC response format.",
+  [ERROR_CODES.IPC_PERMISSION_DENIED]:
+    "Permission denied for this IPC request.",
 };
 
 const VALIDATION_MESSAGES = {

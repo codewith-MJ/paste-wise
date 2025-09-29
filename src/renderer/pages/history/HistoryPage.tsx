@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
 import { HistoryItemUI } from "@/shared/types/history";
 import EmptyState from "./EmptyState";
-import { mockHistoryList } from "@/renderer/mocks/history";
 
 function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
@@ -13,10 +12,24 @@ function HistoryPage() {
   const [tone, setTone] = useState<
     "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한"
   >("모든 말투");
-  const [selectedId, setSelectedId] = useState<string | null>(
-    mockHistoryList.length > 0 ? mockHistoryList[0].historyId : null,
-  );
-  const isEmpty = mockHistoryList.length === 0;
+  const [items, setItems] = useState<HistoryItemUI[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    window.api.history
+      .list()
+      .then((response) => {
+        setItems(response);
+        if (response.length > 0) {
+          setSelectedId(response[0].historyId);
+        }
+      })
+      .catch((error) => {
+        console.error("history list error", error);
+      });
+  }, []);
+
+  const isEmpty = items.length === 0;
 
   const toggleSort = () => {
     setSortOrder((prevState) => (prevState === "desc" ? "asc" : "desc"));
@@ -30,11 +43,6 @@ function HistoryPage() {
     setIsTranslation(false);
     setTone("모든 말투");
   };
-
-  const selectedItem: HistoryItemUI | null =
-    mockHistoryList.find((item) => item.historyId === selectedId) ??
-    mockHistoryList[0] ??
-    null;
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
@@ -61,14 +69,14 @@ function HistoryPage() {
             />
             <div className="flex-1 overflow-y-auto">
               <HistoryList
-                items={mockHistoryList}
+                items={items}
                 selectedId={selectedId}
                 onSelect={(id: string) => setSelectedId(id)}
               />
             </div>
           </aside>
 
-          <HistoryDetail item={selectedItem} />
+          <HistoryDetail item={selectedId} />
         </div>
       )}
     </main>
