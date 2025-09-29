@@ -10,6 +10,8 @@ function HistoryListItem({
   historyId,
   originalText,
   isTranslated,
+  languageIn,
+  languageOut,
   toneTitle,
   createdAt,
   isActive,
@@ -44,6 +46,7 @@ function HistoryListItem({
         {isTranslated && (
           <span className="inline-flex items-center rounded-md bg-blue-100 px-2 py-0.5 text-blue-700">
             <Languages size={14} />
+            {languageIn} → {languageOut}
           </span>
         )}
         {toneTitle && <ToneBadge toneTitle={toneTitle} />}

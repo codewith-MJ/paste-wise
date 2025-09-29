@@ -9,6 +9,8 @@ type DetailsHeaderProps = {
   toneStrength?: number;
   emojiAllowed: boolean;
   isTranslated: boolean;
+  languageIn?: string;
+  languageOut?: string;
 };
 
 function DetailsHeader({
@@ -18,6 +20,8 @@ function DetailsHeader({
   toneStrength,
   emojiAllowed,
   isTranslated,
+  languageIn,
+  languageOut,
 }: DetailsHeaderProps) {
   return (
     <header className="sticky top-0 z-10 bg-white px-6 py-4">
@@ -29,19 +33,24 @@ function DetailsHeader({
       </div>
 
       <div className="flex items-center divide-x divide-gray-200 text-sm text-gray-700">
-        <MetaItem label="선택된 말투" className="gap-2 pr-3">
-          {toneTitle && <ToneBadge toneTitle={toneTitle} />}
-        </MetaItem>
+        {toneTitle && (
+          <MetaItem label="선택된 말투" className="gap-2 pr-3">
+            {toneTitle && <ToneBadge toneTitle={toneTitle} />}
+          </MetaItem>
+        )}
 
-        {isTranslated ? (
+        {isTranslated && (
           <span className="flex items-center px-3">
             <Languages className="h-5 w-5" />
+            {languageIn} → {languageOut}
           </span>
-        ) : null}
+        )}
 
-        <MetaItem label="말투 세기" className="px-3">
-          <span className="text-gray-600">{toneStrength}</span>
-        </MetaItem>
+        {toneStrength && (
+          <MetaItem label="말투 세기" className="px-3">
+            <span className="text-gray-600">{toneStrength}%</span>
+          </MetaItem>
+        )}
 
         <MetaItem label="이모지 사용" className="pl-3">
           {emojiAllowed ? "✔️" : "X"}

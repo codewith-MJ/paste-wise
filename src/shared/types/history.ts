@@ -3,6 +3,8 @@ type HistoryListItem = {
   originalText: string;
   emojiAllowed: number;
   isTranslated: 0 | 1;
+  languageIn?: string;
+  languageOut?: string;
   toneTitle: string | null;
   createdAt: number;
   isActive?: number;

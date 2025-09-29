@@ -13,6 +13,8 @@ const getHistoryList = (): HistoryListItem[] => {
         history_id    AS historyId,
         original_text AS originalText,
         is_translated AS isTranslated,
+        language_in   AS languageIn,
+        language_out   AS languageOut,
         tone_title    AS toneTitle,
         created_at    AS createdAt
       FROM histories

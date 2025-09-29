@@ -20,6 +20,8 @@ function HistoryDetail({ selectedId }: HistoryDetailsProps) {
             toneStrength={item.toneStrength}
             emojiAllowed={item.emojiAllowed!}
             isTranslated={item.isTranslated}
+            languageIn={item.languageIn}
+            languageOut={item.languageOut}
           />
           <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
             <MessageCard label="내가 쓴 글" text={item.originalText} />

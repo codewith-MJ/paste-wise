@@ -47,6 +47,8 @@ function formatHistoryItem(item: HistoryListItem): HistoryItemUI {
     historyId: String(item.historyId),
     originalText: item.originalText,
     isTranslated: item.isTranslated === 1,
+    languageIn: item.languageIn ?? "",
+    languageOut: item.languageOut ?? "",
     toneTitle: item.toneTitle ?? "",
     createdAt: new Date(item.createdAt).toISOString(),
   };
