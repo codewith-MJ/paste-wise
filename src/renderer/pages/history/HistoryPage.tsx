@@ -69,7 +69,7 @@ function HistoryPage() {
               onSearchKeywordChange={handleSearchKeyword}
             />
             <div className="flex-1 overflow-y-auto">
-              <HistoryList searchKeyword={searchKeyword} />
+              <HistoryList searchKeyword={searchKeyword} filters={filters} />
             </div>
           </aside>
 

@@ -9,9 +9,11 @@ function NoSearchResults({ searchKeyword }: { searchKeyword: string }) {
       <h3 className="mb-2 text-base font-medium text-gray-800">
         검색 결과가 없습니다.
       </h3>
-      <p className="text-sm text-gray-600">
-        &quot;{searchKeyword}&quot;에 대한 기록을 찾을 수 없습니다
-      </p>
+      {searchKeyword && (
+        <p className="text-sm text-gray-600">
+          &quot;{searchKeyword}&quot;에 대한 기록을 찾을 수 없습니다
+        </p>
+      )}
     </div>
   );
 }
