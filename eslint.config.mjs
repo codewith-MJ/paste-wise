@@ -59,7 +59,7 @@ export default [
   },
 
   {
-    files: ["src/main.ts", "src/preload.ts"],
+    files: ["src/main/app/main.ts", "src/preload/preload.ts"],
     languageOptions: {
       globals: {
         process: "readonly",

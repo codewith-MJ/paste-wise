@@ -8,7 +8,7 @@ type Props = {
   sortOrder: "desc" | "asc";
   onToggleSort: () => void;
   isTranslation: boolean;
-  onToggleTranslation: (v: boolean) => void;
+  onToggleTranslation: () => void;
   tone: Tone;
   onToneChange: (tone: Tone) => void;
   onResetAll: () => void;
@@ -43,7 +43,7 @@ function HistoryListToolBox({
 
         <FilterChip
           active={isTranslation}
-          onClick={() => onToggleTranslation(!isTranslation)}
+          onClick={onToggleTranslation}
           title="Translation"
         >
           <Languages size={14} />

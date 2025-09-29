@@ -1,28 +1,36 @@
 import DetailsHeader from "./DetailsHeader";
 import MessageCard from "./MessageCard";
-import { HistoryItemUI } from "@/shared/types/history";
 import Arrow from "./Arrow";
+import useHistoryDetail from "@/renderer/hooks/useHistoryDeatil";
 
 type HistoryDetailsProps = {
-  item: HistoryItemUI;
+  selectedId: string;
 };
 
-function HistoryDetail({ item }: HistoryDetailsProps) {
+function HistoryDetail({ selectedId }: HistoryDetailsProps) {
+  const history = useHistoryDetail(selectedId);
+
   return (
     <section className="flex min-w-0 flex-1 flex-col overflow-hidden">
-      <DetailsHeader
-        createdAt={item.createdAt}
-        toneTitle={item.toneTitle}
-        toneStrength={item.toneStrength}
-        emojiAllowed={item.emojiAllowed!}
-        isTranslated={item.isTranslated}
-      />
-
-      <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
-        <MessageCard label="내가 쓴 글" text={item.originalText} />
-        <Arrow />
-        <MessageCard label="바뀐 글" text={item.transformedText!} />
-      </div>
+      {history && (
+        <>
+          <DetailsHeader
+            createdAt={history.createdAt}
+            toneTitle={history.toneTitle}
+            tonePrompt={history.tonePrompt}
+            toneStrength={history.toneStrength}
+            emojiAllowed={!!history.emojiAllowed}
+            isTranslated={history.isTranslated}
+            languageIn={history.languageIn}
+            languageOut={history.languageOut}
+          />
+          <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
+            <MessageCard label="내가 쓴 글" text={history.originalText} />
+            <Arrow />
+            <MessageCard label="바뀐 글" text={history.transformedText ?? ""} />
+          </div>
+        </>
+      )}
     </section>
   );
 }

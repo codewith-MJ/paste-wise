@@ -11,17 +11,16 @@ if (squirrelStartup) {
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 920,
-    height: 660,
-    minWidth: 800,
+    width: 976,
+    height: 664,
+    minWidth: 960,
     minHeight: 576,
     title: "PasteWise",
     center: true,
     show: false,
     useContentSize: true,
     webPreferences: {
-      preload: path.join(__dirname, "../preload/preload.ts"),
-      contextIsolation: true,
+      preload: path.join(__dirname, "../build/preload.js"),
       sandbox: true,
       nodeIntegration: false,
     },
@@ -41,9 +40,9 @@ const createWindow = () => {
 
 let cleanupAppResources: (() => void) | null = null;
 
-app.whenReady().then(async () => {
+app.whenReady().then(() => {
   try {
-    const appContext = await bootstrap();
+    const appContext = bootstrap();
     cleanupAppResources = appContext.cleanupAppResources;
 
     createWindow();

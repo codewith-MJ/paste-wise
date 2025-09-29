@@ -3,6 +3,7 @@ import InvalidPayloadError from "./InvalidPayloadError";
 import MigrationError from "./MigrationError";
 import RecordNotFoundError from "./RecordNotFoundError";
 import SeedError from "./SeedError";
+import IpcError from "./IpcError";
 
 export {
   AppError,
@@ -10,4 +11,5 @@ export {
   MigrationError,
   RecordNotFoundError,
   SeedError,
+  IpcError,
 };

@@ -1,4 +1,13 @@
 import { defineConfig } from "vite";
+import path from "node:path";
 
-// https://vitejs.dev/config
-export default defineConfig({});
+export default defineConfig({
+  build: {
+    target: "node22",
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
+});

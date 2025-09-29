@@ -13,6 +13,8 @@ const getHistoryList = (): HistoryListItem[] => {
         history_id    AS historyId,
         original_text AS originalText,
         is_translated AS isTranslated,
+        language_in   AS languageIn,
+        language_out   AS languageOut,
         tone_title    AS toneTitle,
         created_at    AS createdAt
       FROM histories
@@ -35,8 +37,8 @@ const getHistoryById = (historyId: number): History | null => {
           tone_title     AS toneTitle,
           tone_prompt    AS tonePrompt,
           is_translated  AS isTranslated,
-          lang_in        AS langIn,
-          lang_out       AS langOut,
+          language_in    AS languageIn,
+          language_out   AS languageOut,
           tone_strength  AS toneStrength,
           emoji_allowed  AS emojiAllowed,
           created_at     AS createdAt

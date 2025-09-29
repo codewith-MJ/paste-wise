@@ -1,40 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
-import { HistoryItemUI } from "@/shared/types/history";
 import EmptyState from "./EmptyState";
-import { mockHistoryList } from "@/renderer/mocks/history";
+import { useHistoryStore } from "@/renderer/stores/history";
 
 function HistoryPage() {
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-  const [isTranslation, setIsTranslation] = useState(false);
-  const [tone, setTone] = useState<
-    "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한"
-  >("모든 말투");
-  const [selectedId, setSelectedId] = useState<string | null>(
-    mockHistoryList.length > 0 ? mockHistoryList[0].historyId : null,
-  );
-  const isEmpty = mockHistoryList.length === 0;
+  const [filters, setFilters] = useState({
+    sortOrder: "desc" as "desc" | "asc",
+    isTranslation: false,
+    tone: "모든 말투" as
+      | "모든 말투"
+      | "정중한"
+      | "캐주얼"
+      | "격식 있는"
+      | "다정한",
+  });
 
-  const toggleSort = () => {
-    setSortOrder((prevState) => (prevState === "desc" ? "asc" : "desc"));
-  };
+  const fetchList = useHistoryStore((state) => state.fetchList);
+  const historyList = useHistoryStore((state) => state.historyList);
+  const selectedId = useHistoryStore((state) => state.selectedId);
 
-  const handleToggleTranslation = () => {
-    setIsTranslation((prev) => !prev);
-  };
+  useEffect(() => {
+    fetchList();
+  }, [fetchList]);
 
-  const onResetAll = () => {
-    setIsTranslation(false);
-    setTone("모든 말투");
-  };
+  const toggleSort = () =>
+    setFilters((prev) => ({
+      ...prev,
+      sortOrder: prev.sortOrder === "desc" ? "asc" : "desc",
+    }));
 
-  const selectedItem: HistoryItemUI | null =
-    mockHistoryList.find((item) => item.historyId === selectedId) ??
-    mockHistoryList[0] ??
-    null;
+  const toggleTranslation = () =>
+    setFilters((prev) => ({ ...prev, isTranslation: !prev.isTranslation }));
+
+  const changeTone = (tone: typeof filters.tone) =>
+    setFilters((prev) => ({ ...prev, tone }));
+
+  const resetAll = () =>
+    setFilters({ sortOrder: "desc", isTranslation: false, tone: "모든 말투" });
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
@@ -43,32 +48,26 @@ function HistoryPage() {
         description="변환된 텍스트 기록을 확인하고 관리해보세요!"
       />
 
-      {isEmpty ? (
+      {historyList.length === 0 ? (
         <EmptyState />
       ) : (
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <aside className="flex min-h-0 w-90 flex-shrink-0 flex-col border-r border-gray-200 bg-white">
             <HistoryListToolBox
-              sortOrder={sortOrder}
+              sortOrder={filters.sortOrder}
+              isTranslation={filters.isTranslation}
+              tone={filters.tone}
               onToggleSort={toggleSort}
-              isTranslation={isTranslation}
-              onToggleTranslation={handleToggleTranslation}
-              tone={tone}
-              onToneChange={(newTone: typeof tone) => {
-                setTone(newTone);
-              }}
-              onResetAll={onResetAll}
+              onToggleTranslation={toggleTranslation}
+              onToneChange={changeTone}
+              onResetAll={resetAll}
             />
             <div className="flex-1 overflow-y-auto">
-              <HistoryList
-                items={mockHistoryList}
-                selectedId={selectedId}
-                onSelect={(id: string) => setSelectedId(id)}
-              />
+              <HistoryList />
             </div>
           </aside>
 
-          <HistoryDetail item={selectedItem} />
+          {selectedId && <HistoryDetail selectedId={selectedId} />}
         </div>
       )}
     </main>
