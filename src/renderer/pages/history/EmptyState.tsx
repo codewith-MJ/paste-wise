@@ -7,7 +7,7 @@ function EmptyState() {
         </div>
 
         <h3 className="mb-3 text-xl font-semibold text-gray-900">
-          아직 변환 기록이 없어요
+          아직 변환 기록이 없어요!
         </h3>
 
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
