@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import HistoryListItem from "./HistoryListItem";
 import { useHistoryStore } from "@/renderer/stores/history";
+import NoSearchResults from "../NoSearchResults";
 
 type HistoryListProps = {
   searchKeyword: string;
@@ -16,6 +17,10 @@ function HistoryList({ searchKeyword }: HistoryListProps) {
     () => searchedHistoryList.map((item) => item.historyId),
     [searchedHistoryList],
   );
+
+  if (searchKeyword && searchedHistoryList.length === 0) {
+    return <NoSearchResults searchKeyword={searchKeyword} />;
+  }
 
   return (
     <nav aria-label="History list" className="space-y-3 p-3">
