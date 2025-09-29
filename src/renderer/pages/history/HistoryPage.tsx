@@ -3,8 +3,8 @@ import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
-import { HistoryItemUI } from "@/shared/types/history";
 import EmptyState from "./EmptyState";
+import { useHistoryStore } from "@/renderer/stores/history";
 
 function HistoryPage() {
   const [filters, setFilters] = useState({
@@ -17,55 +17,29 @@ function HistoryPage() {
       | "격식 있는"
       | "다정한",
   });
-  const [items, setItems] = useState<HistoryItemUI[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const fetchList = useHistoryStore((state) => state.fetchList);
+  const historyList = useHistoryStore((state) => state.historyList);
+  const selectedId = useHistoryStore((state) => state.selectedId);
 
   useEffect(() => {
-    window.api.history
-      .list()
-      .then((response) => {
-        setItems(response);
-        if (response.length > 0) {
-          setSelectedId(response[0].historyId);
-        }
-      })
-      .catch((error) => {
-        console.error("history list error", error);
-      });
-  }, []);
+    fetchList();
+  }, [fetchList]);
 
-  const toggleSort = () => {
+  const toggleSort = () =>
     setFilters((prev) => ({
       ...prev,
       sortOrder: prev.sortOrder === "desc" ? "asc" : "desc",
     }));
-  };
 
-  const toggleTranslation = () => {
+  const toggleTranslation = () =>
     setFilters((prev) => ({ ...prev, isTranslation: !prev.isTranslation }));
-  };
 
-  const changeTone = (newTone: typeof filters.tone) => {
-    setFilters((prev) => ({ ...prev, tone: newTone }));
-  };
+  const changeTone = (tone: typeof filters.tone) =>
+    setFilters((prev) => ({ ...prev, tone }));
 
-  const resetAll = () => {
+  const resetAll = () =>
     setFilters({ sortOrder: "desc", isTranslation: false, tone: "모든 말투" });
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!id) {
-      return;
-    }
-
-    await window.api.history.delete(id);
-    setItems((prev) => prev.filter((it) => it.historyId !== id));
-    setSelectedId((prev) => {
-      if (prev !== id) return prev;
-      const next = items.find((it) => it.historyId !== id);
-      return next ? next.historyId : null;
-    });
-  };
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
@@ -74,7 +48,7 @@ function HistoryPage() {
         description="변환된 텍스트 기록을 확인하고 관리해보세요!"
       />
 
-      {items.length === 0 ? (
+      {historyList.length === 0 ? (
         <EmptyState />
       ) : (
         <div className="flex min-h-0 flex-1 overflow-hidden">
@@ -89,14 +63,10 @@ function HistoryPage() {
               onResetAll={resetAll}
             />
             <div className="flex-1 overflow-y-auto">
-              <HistoryList
-                items={items}
-                selectedId={selectedId}
-                onSelect={(id: string) => setSelectedId(id)}
-                onDelete={handleDelete}
-              />
+              <HistoryList />
             </div>
           </aside>
+
           {selectedId && <HistoryDetail selectedId={selectedId} />}
         </div>
       )}

@@ -1,44 +1,25 @@
+import { useMemo } from "react";
 import HistoryListItem from "./HistoryListItem";
-import { HistoryItemUI } from "@/shared/types/history";
+import { useHistoryStore } from "@/renderer/stores/history";
 
-type HistoryListProps = {
-  items: HistoryItemUI[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
-  onDelete: (id: string) => void;
-};
+function HistoryList() {
+  const historyList = useHistoryStore((state) => state.historyList);
 
-function HistoryList({
-  items,
-  selectedId,
-  onSelect,
-  onDelete,
-}: HistoryListProps) {
+  const historyIds = useMemo(
+    () => historyList.map((it) => it.historyId),
+    [historyList],
+  );
+
   return (
     <nav aria-label="History list" className="space-y-3 p-3">
       <ul className="space-y-3">
-        {items.map((item) => (
-          <li
-            key={item.historyId}
-            onClick={() => onSelect(item.historyId)}
-            className="w-full text-left"
-          >
-            <HistoryListItem
-              historyId={item.historyId}
-              originalText={item.originalText}
-              isTranslated={item.isTranslated}
-              languageIn={item.languageIn}
-              languageOut={item.languageOut}
-              toneTitle={item.toneTitle}
-              createdAt={item.createdAt}
-              isActive={selectedId === item.historyId}
-              onDelete={() => onDelete(item.historyId)}
-            />
+        {historyIds.map((historyId) => (
+          <li key={historyId}>
+            <HistoryListItem historyId={historyId} />
           </li>
         ))}
       </ul>
     </nav>
   );
 }
-
 export default HistoryList;

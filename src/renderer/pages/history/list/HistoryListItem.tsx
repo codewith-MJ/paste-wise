@@ -1,25 +1,25 @@
+import { memo } from "react";
 import { Languages, Trash2 } from "lucide-react";
 import ToneBadge from "@/renderer/components/ToneBadge";
-import { HistoryItemUI } from "@/shared/types/history";
+import { useHistoryStore } from "@/renderer/stores/history";
 
-type HistoryListItemProps = HistoryItemUI & {
-  onDelete: () => void;
-};
+type HistoryListItemProps = { historyId: string };
 
-function HistoryListItem({
-  historyId,
-  originalText,
-  isTranslated,
-  languageIn,
-  languageOut,
-  toneTitle,
-  createdAt,
-  isActive,
-  onDelete,
-}: HistoryListItemProps) {
+function HistoryListItem({ historyId }: HistoryListItemProps) {
+  const historyListItem = useHistoryStore((state) =>
+    state.historyList.find((it) => it.historyId === historyId),
+  );
+  const isActive = useHistoryStore((state) => state.selectedId === historyId);
+  const handleSelectedId = useHistoryStore((state) => state.handleSelectedId);
+  const deleteHistory = useHistoryStore((state) => state.deleteHistory);
+
+  if (!historyListItem) return null;
+
   return (
     <article
-      key={historyId}
+      role="button"
+      tabIndex={0}
+      onClick={() => handleSelectedId(historyId)}
       aria-selected={isActive}
       className={`rounded-xl border p-3 ${
         isActive
@@ -29,31 +29,36 @@ function HistoryListItem({
     >
       <div className="flex items-start gap-3">
         <p className="line-clamp-2 min-w-0 flex-1 text-sm break-words text-slate-800">
-          {originalText}
+          {historyListItem.originalText}
         </p>
         <button
+          type="button"
           aria-label="삭제"
           className="cursor-pointer rounded-md p-1 text-slate-400 hover:bg-red-50 hover:text-red-600"
-          onClick={(event) => {
-            event.stopPropagation();
-            onDelete();
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteHistory(historyId);
           }}
         >
           <Trash2 size={16} />
         </button>
       </div>
+
       <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
-        {isTranslated && (
-          <span className="inline-flex items-center rounded-md bg-blue-100 px-2 py-0.5 text-blue-700">
+        {historyListItem.isTranslated && (
+          <span className="inline-flex items-center gap-1 rounded-md bg-blue-100 px-2 py-0.5 text-blue-700">
             <Languages size={14} />
-            {languageIn} → {languageOut}
+            {historyListItem.languageIn} → {historyListItem.languageOut}
           </span>
         )}
-        {toneTitle && <ToneBadge toneTitle={toneTitle} />}
-        <span className="ml-auto tabular-nums">{createdAt}</span>
+        {historyListItem.toneTitle && (
+          <ToneBadge toneTitle={historyListItem.toneTitle} />
+        )}
+        <span className="ml-auto tabular-nums">
+          {historyListItem.createdAt}
+        </span>
       </div>
     </article>
   );
 }
-
-export default HistoryListItem;
+export default memo(HistoryListItem);
