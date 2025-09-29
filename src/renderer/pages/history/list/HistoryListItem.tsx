@@ -1,7 +1,8 @@
 import { memo } from "react";
-import { Languages, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import ToneBadge from "@/renderer/components/ToneBadge";
 import { useHistoryStore } from "@/renderer/stores/history";
+import TranslationBadge from "@/renderer/components/TranslationBadge";
 
 type HistoryListItemProps = { historyId: string };
 
@@ -45,12 +46,14 @@ function HistoryListItem({ historyId }: HistoryListItemProps) {
       </div>
 
       <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
-        {historyListItem.isTranslated && (
-          <span className="inline-flex items-center gap-1 rounded-md bg-blue-100 px-2 py-0.5 text-blue-700">
-            <Languages size={14} />
-            {historyListItem.languageIn} → {historyListItem.languageOut}
-          </span>
-        )}
+        {historyListItem.isTranslated &&
+          historyListItem.languageIn &&
+          historyListItem.languageOut && (
+            <TranslationBadge
+              languageIn={historyListItem.languageIn}
+              languageOut={historyListItem.languageOut}
+            />
+          )}
         {historyListItem.toneTitle && (
           <ToneBadge toneTitle={historyListItem.toneTitle} />
         )}

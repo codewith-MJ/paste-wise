@@ -17,6 +17,7 @@ function HistoryDetail({ selectedId }: HistoryDetailsProps) {
           <DetailsHeader
             createdAt={history.createdAt}
             toneTitle={history.toneTitle}
+            tonePrompt={history.tonePrompt}
             toneStrength={history.toneStrength}
             emojiAllowed={!!history.emojiAllowed}
             isTranslated={history.isTranslated}

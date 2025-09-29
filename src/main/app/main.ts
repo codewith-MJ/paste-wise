@@ -11,9 +11,9 @@ if (squirrelStartup) {
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 920,
-    height: 660,
-    minWidth: 800,
+    width: 976,
+    height: 664,
+    minWidth: 960,
     minHeight: 576,
     title: "PasteWise",
     center: true,
