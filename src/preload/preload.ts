@@ -8,6 +8,9 @@ const api = {
     async list(): Promise<HistoryItemUI[]> {
       return safeInvoke<HistoryItemUI[]>(IPC.HISTORY_LIST);
     },
+    async get(id: string): Promise<HistoryItemUI> {
+      return safeInvoke<HistoryItemUI>(IPC.HISTORY_DETAIL, id);
+    },
   },
 } as const;
 

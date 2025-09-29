@@ -75,8 +75,7 @@ function HistoryPage() {
               />
             </div>
           </aside>
-
-          <HistoryDetail item={selectedId} />
+          {selectedId && <HistoryDetail selectedId={selectedId} />}
         </div>
       )}
     </main>

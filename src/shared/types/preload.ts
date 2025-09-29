@@ -5,6 +5,7 @@ declare global {
     api: {
       history: {
         list: () => Promise<HistoryItemUI[]>;
+        get: (id: string) => Promise<HistoryItemUI>;
       };
     };
   }
