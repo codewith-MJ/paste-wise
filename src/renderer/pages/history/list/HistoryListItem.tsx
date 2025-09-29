@@ -2,6 +2,10 @@ import { Languages, Trash2 } from "lucide-react";
 import ToneBadge from "@/renderer/components/ToneBadge";
 import { HistoryItemUI } from "@/shared/types/history";
 
+type HistoryListItemProps = HistoryItemUI & {
+  onDelete: () => void;
+};
+
 function HistoryListItem({
   historyId,
   originalText,
@@ -9,7 +13,8 @@ function HistoryListItem({
   toneTitle,
   createdAt,
   isActive,
-}: HistoryItemUI) {
+  onDelete,
+}: HistoryListItemProps) {
   return (
     <article
       key={historyId}
@@ -26,7 +31,11 @@ function HistoryListItem({
         </p>
         <button
           aria-label="삭제"
-          className="rounded-md p-1 text-slate-400 hover:bg-red-50 hover:text-red-600"
+          className="cursor-pointer rounded-md p-1 text-slate-400 hover:bg-red-50 hover:text-red-600"
+          onClick={(event) => {
+            event.stopPropagation();
+            onDelete();
+          }}
         >
           <Trash2 size={16} />
         </button>

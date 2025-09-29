@@ -6,6 +6,7 @@ declare global {
       history: {
         list: () => Promise<HistoryItemUI[]>;
         get: (id: string) => Promise<HistoryItemUI>;
+        delete: (id: string) => Promise<boolean>;
       };
     };
   }

@@ -11,6 +11,9 @@ const api = {
     async get(id: string): Promise<HistoryItemUI> {
       return safeInvoke<HistoryItemUI>(IPC.HISTORY_DETAIL, id);
     },
+    async delete(id: string): Promise<boolean> {
+      return safeInvoke<boolean>(IPC.HISTORY_DELETE, id);
+    },
   },
 } as const;
 

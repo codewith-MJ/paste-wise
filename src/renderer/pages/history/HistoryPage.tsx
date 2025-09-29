@@ -53,6 +53,20 @@ function HistoryPage() {
     setFilters({ sortOrder: "desc", isTranslation: false, tone: "모든 말투" });
   };
 
+  const handleDelete = async (id: string) => {
+    if (!id) {
+      return;
+    }
+
+    await window.api.history.delete(id);
+    setItems((prev) => prev.filter((it) => it.historyId !== id));
+    setSelectedId((prev) => {
+      if (prev !== id) return prev;
+      const next = items.find((it) => it.historyId !== id);
+      return next ? next.historyId : null;
+    });
+  };
+
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
       <PageHeader
@@ -79,6 +93,7 @@ function HistoryPage() {
                 items={items}
                 selectedId={selectedId}
                 onSelect={(id: string) => setSelectedId(id)}
+                onDelete={handleDelete}
               />
             </div>
           </aside>

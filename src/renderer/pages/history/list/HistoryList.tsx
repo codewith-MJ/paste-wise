@@ -5,9 +5,15 @@ type HistoryListProps = {
   items: HistoryItemUI[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onDelete: (id: string) => void;
 };
 
-function HistoryList({ items, selectedId, onSelect }: HistoryListProps) {
+function HistoryList({
+  items,
+  selectedId,
+  onSelect,
+  onDelete,
+}: HistoryListProps) {
   return (
     <nav aria-label="History list" className="space-y-3 p-3">
       {items.map((item) => (
@@ -23,6 +29,7 @@ function HistoryList({ items, selectedId, onSelect }: HistoryListProps) {
             toneTitle={item.toneTitle}
             createdAt={item.createdAt}
             isActive={selectedId === item.historyId}
+            onDelete={() => onDelete(item.historyId)}
           />
         </button>
       ))}
