@@ -1,6 +1,7 @@
 import ToneBadge from "@/renderer/components/ToneBadge";
 import MetaItem from "./MetaItem";
 import TranslationBadge from "@/renderer/components/TranslationBadge";
+import formatDateTimeKST from "@/shared/utils/format-date-time-kst";
 
 type DetailsHeaderProps = {
   createdAt: string;
@@ -28,7 +29,7 @@ function DetailsHeader({
       <div className="mb-3 flex items-center justify-between">
         <h1 className="text-xl font-bold text-gray-900">{"변환 내용 보기"}</h1>
         <time className="rounded-lg bg-gray-50 px-3 py-1 text-sm text-gray-500">
-          🕑 {createdAt}
+          🕑 {formatDateTimeKST(createdAt)}
         </time>
       </div>
 
@@ -73,7 +74,6 @@ function DetailsHeader({
           )}
         </div>
 
-        {/* 2행 */}
         {tonePrompt && (
           <div className="mt-2">
             <MetaItem label="말투 설명">

@@ -3,6 +3,7 @@ import { Trash2 } from "lucide-react";
 import ToneBadge from "@/renderer/components/ToneBadge";
 import { useHistoryStore } from "@/renderer/stores/history";
 import TranslationBadge from "@/renderer/components/TranslationBadge";
+import TimeAgo from "./TimeAgo";
 
 type HistoryListItemProps = { historyId: string };
 
@@ -57,9 +58,7 @@ function HistoryListItem({ historyId }: HistoryListItemProps) {
         {historyListItem.toneTitle && (
           <ToneBadge toneTitle={historyListItem.toneTitle} />
         )}
-        <span className="ml-auto tabular-nums">
-          {historyListItem.createdAt}
-        </span>
+        <TimeAgo createdAt={historyListItem.createdAt} />
       </div>
     </article>
   );
