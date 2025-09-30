@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HistoryItemUI } from "@/shared/types/history";
 
-function useHistoryDetail(selectedId: string) {
+function useHistoryDetail(selectedId: string | null) {
   const [item, setItem] = useState<HistoryItemUI | null>(null);
 
   useEffect(() => {

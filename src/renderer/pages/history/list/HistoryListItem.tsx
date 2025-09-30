@@ -1,20 +1,20 @@
-import { memo } from "react";
 import { Trash2 } from "lucide-react";
 import ToneBadge from "@/renderer/components/ToneBadge";
 import { useHistoryStore } from "@/renderer/stores/history";
 import TranslationBadge from "@/renderer/components/TranslationBadge";
 import TimeAgo from "./TimeAgo";
 
-type HistoryListItemProps = { historyId: string };
+type HistoryListItemProps = { historyId: string; selectedId: string | null };
 
-function HistoryListItem({ historyId }: HistoryListItemProps) {
+function HistoryListItem({ historyId, selectedId }: HistoryListItemProps) {
   const historyListItem = useHistoryStore((state) =>
     state.historyList.find((item) => item.historyId === historyId),
   );
-  const isActive = useHistoryStore((state) => state.selectedId === historyId);
   const handleSelectedId = useHistoryStore((state) => state.handleSelectedId);
   const deleteHistory = useHistoryStore((state) => state.deleteHistory);
   const loadToneOptions = useHistoryStore((state) => state.loadToneOptions);
+
+  const isActive = selectedId === historyId;
 
   if (!historyListItem) return null;
 
@@ -65,4 +65,4 @@ function HistoryListItem({ historyId }: HistoryListItemProps) {
     </article>
   );
 }
-export default memo(HistoryListItem);
+export default HistoryListItem;

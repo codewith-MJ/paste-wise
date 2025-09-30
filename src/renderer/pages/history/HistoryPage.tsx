@@ -1,39 +1,47 @@
 import { useEffect, useMemo, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
 import EmptyState from "./EmptyState";
 import { useHistoryStore } from "@/renderer/stores/history";
+import { ALL_TONE } from "@/shared/constants/tone";
+import useFilteredHistoryIds from "@/renderer/hooks/useFilteredHistoryIds";
 
 function HistoryPage() {
   const [filters, setFilters] = useState({
     sortOrder: "desc" as "desc" | "asc",
     isTranslation: false,
-    tone: "모든 말투" as string,
+    tone: ALL_TONE as string,
   });
-
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const fetchList = useHistoryStore((state) => state.fetchList);
-  const historyList = useHistoryStore((state) => state.historyList);
-  const selectedId = useHistoryStore((state) => state.selectedId);
-
-  const toneOptions = useHistoryStore((state) => state.toneOptions);
-  const loadToneOptions = useHistoryStore((state) => state.loadToneOptions);
+  const { initAll, historyList, selectedId, toneOptions } = useHistoryStore(
+    useShallow((s) => ({
+      initAll: s.initAll,
+      historyList: s.historyList,
+      selectedId: s.selectedId,
+      toneOptions: s.toneOptions,
+      handleSelectedId: s.handleSelectedId,
+    })),
+  );
 
   useEffect(() => {
-    fetchList();
-    loadToneOptions();
-  }, [fetchList, loadToneOptions]);
+    initAll();
+  }, [initAll]);
 
   const dropdownTones = useMemo(
-    () => ["모든 말투", ...toneOptions],
+    () => [ALL_TONE, ...toneOptions],
     [toneOptions],
   );
 
-  const handleSearchKeyword = (searchKeyword: string) =>
-    setSearchKeyword(searchKeyword);
+  const effectiveTone = useMemo(
+    () => (dropdownTones.includes(filters.tone) ? filters.tone : ALL_TONE),
+    [dropdownTones, filters.tone],
+  );
+
+  const handleSearchKeyword = (v: string) => setSearchKeyword(v);
 
   const toggleSort = () =>
     setFilters((prev) => ({
@@ -48,7 +56,24 @@ function HistoryPage() {
     setFilters((prev) => ({ ...prev, tone }));
 
   const resetAll = () =>
-    setFilters({ sortOrder: "desc", isTranslation: false, tone: "모든 말투" });
+    setFilters({ sortOrder: "desc", isTranslation: false, tone: ALL_TONE });
+
+  const filteredHistoryIds = useFilteredHistoryIds(searchKeyword, {
+    ...filters,
+    tone: effectiveTone,
+  });
+
+  const effectiveSelectedId = useMemo(() => {
+    if (filteredHistoryIds.length === 0) {
+      return null;
+    }
+
+    if (selectedId && filteredHistoryIds.includes(selectedId)) {
+      return selectedId;
+    }
+
+    return filteredHistoryIds[0] ?? null;
+  }, [filteredHistoryIds, selectedId]);
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
@@ -65,7 +90,7 @@ function HistoryPage() {
             <HistoryListToolBox
               sortOrder={filters.sortOrder}
               isTranslation={filters.isTranslation}
-              tone={filters.tone}
+              tone={effectiveTone}
               toneOptions={dropdownTones}
               onToggleSort={toggleSort}
               onToggleTranslation={toggleTranslation}
@@ -74,11 +99,17 @@ function HistoryPage() {
               onSearchKeywordChange={handleSearchKeyword}
             />
             <div className="flex-1 overflow-y-auto">
-              <HistoryList searchKeyword={searchKeyword} filters={filters} />
+              <HistoryList
+                searchKeyword={searchKeyword}
+                ids={filteredHistoryIds}
+                selectedId={effectiveSelectedId}
+              />
             </div>
           </aside>
 
-          {selectedId && <HistoryDetail selectedId={selectedId} />}
+          {effectiveSelectedId && (
+            <HistoryDetail selectedId={effectiveSelectedId} />
+          )}
         </div>
       )}
     </main>
