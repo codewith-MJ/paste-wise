@@ -10,7 +10,7 @@ type HistoryState = {
   error: string | null;
 
   toneOptions: string[];
-  loadToneOptions: () => Promise<void>;
+  loadToneOptions: (reload?: boolean) => Promise<void>;
 };
 
 const useHistoryStore = create<HistoryState>((set, get) => ({

@@ -14,6 +14,7 @@ function HistoryListItem({ historyId }: HistoryListItemProps) {
   const isActive = useHistoryStore((state) => state.selectedId === historyId);
   const handleSelectedId = useHistoryStore((state) => state.handleSelectedId);
   const deleteHistory = useHistoryStore((state) => state.deleteHistory);
+  const loadToneOptions = useHistoryStore((state) => state.loadToneOptions);
 
   if (!historyListItem) return null;
 
@@ -37,9 +38,10 @@ function HistoryListItem({ historyId }: HistoryListItemProps) {
           type="button"
           aria-label="삭제"
           className="cursor-pointer rounded-md p-1 text-slate-400 hover:bg-red-50 hover:text-red-600"
-          onClick={(e) => {
-            e.stopPropagation();
-            deleteHistory(historyId);
+          onClick={async (event) => {
+            event.stopPropagation();
+            await deleteHistory(historyId);
+            await loadToneOptions(true);
           }}
         >
           <Trash2 size={16} />
