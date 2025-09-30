@@ -14,6 +14,9 @@ const api = {
     async delete(id: string): Promise<boolean> {
       return safeInvoke<boolean>(IPC.HISTORY_DELETE, id);
     },
+    async dropdownList(): Promise<string[]> {
+      return safeInvoke<string[]>(IPC.HISTORY_DROPDOWN_LIST);
+    },
   },
 } as const;
 

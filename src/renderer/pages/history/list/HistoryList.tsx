@@ -1,21 +1,22 @@
-import { useMemo } from "react";
 import HistoryListItem from "./HistoryListItem";
-import { useHistoryStore } from "@/renderer/stores/history";
+import NoSearchResults from "../NoSearchResults";
 
-function HistoryList() {
-  const historyList = useHistoryStore((state) => state.historyList);
+type HistoryListProps = {
+  ids: string[];
+  searchKeyword: string;
+  selectedId: string | null;
+};
 
-  const historyIds = useMemo(
-    () => historyList.map((it) => it.historyId),
-    [historyList],
-  );
-
+function HistoryList({ ids, searchKeyword, selectedId }: HistoryListProps) {
+  if (ids.length === 0) {
+    return <NoSearchResults searchKeyword={searchKeyword} />;
+  }
   return (
     <nav aria-label="History list" className="space-y-3 p-3">
       <ul className="space-y-3">
-        {historyIds.map((historyId) => (
+        {ids.map((historyId) => (
           <li key={historyId}>
-            <HistoryListItem historyId={historyId} />
+            <HistoryListItem historyId={historyId} selectedId={selectedId} />
           </li>
         ))}
       </ul>

@@ -1,6 +1,10 @@
 import { Search } from "lucide-react";
 
-function SearchBar() {
+type SearchBarProps = {
+  onSearchKeywordChange: (searchKeyword: string) => void;
+};
+
+function SearchBar({ onSearchKeywordChange }: SearchBarProps) {
   return (
     <div className="relative mb-3">
       <Search
@@ -9,7 +13,8 @@ function SearchBar() {
       />
       <input
         type="text"
-        placeholder="원문이나 결과로 검색…"
+        placeholder="원문이나 내용으로 검색…"
+        onChange={(event) => onSearchKeywordChange(event.target.value)}
         className="w-full rounded-lg border border-gray-200 py-2 pr-4 pl-9 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
     </div>

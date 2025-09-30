@@ -8,6 +8,7 @@ import {
   getHistoryById as repoGetHistoryById,
   deleteHistory as repoDeleteHistory,
   deleteExpiredHistories as repoDeleteExpiredHistories,
+  getToneDropdownList as repoGetToneDropdownList,
 } from "../../infra/db/dao/history";
 
 const getHistoryList = async (): Promise<HistoryItemUI[]> => {
@@ -37,10 +38,22 @@ const deleteHistory = async (historyId: number): Promise<boolean> => {
 };
 
 const deleteExpiredHistory = async (): Promise<number> => {
-  return repoDeleteExpiredHistories();
+  const result = await Promise.resolve(repoDeleteExpiredHistories());
+  return result;
 };
 
-export { getHistoryList, getHistoryById, deleteHistory, deleteExpiredHistory };
+const getToneDropdownList = async (): Promise<string[]> => {
+  const result = await Promise.resolve(repoGetToneDropdownList());
+  return result.map((item) => item.toneTitle);
+};
+
+export {
+  getHistoryList,
+  getHistoryById,
+  deleteHistory,
+  deleteExpiredHistory,
+  getToneDropdownList,
+};
 
 function formatHistoryItem(item: HistoryListItem): HistoryItemUI {
   return {
