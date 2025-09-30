@@ -1,29 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
+
 import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
 import HistoryDetail from "./details/HistoryDetail";
 import EmptyState from "./EmptyState";
+
 import { useHistoryStore } from "@/renderer/stores/history";
-import { ALL_TONE } from "@/shared/constants/tone";
 import useFilteredHistoryIds from "@/renderer/hooks/useFilteredHistoryIds";
+import useHistoryControls from "@/renderer/hooks/useHistoryControls";
+import useEffectiveTone from "@/renderer/hooks/useEffectiveTone";
 
 function HistoryPage() {
-  const [filters, setFilters] = useState({
-    sortOrder: "desc" as "desc" | "asc",
-    isTranslation: false,
-    tone: ALL_TONE as string,
-  });
-  const [searchKeyword, setSearchKeyword] = useState("");
-
   const { initAll, historyList, selectedId, toneOptions } = useHistoryStore(
     useShallow((s) => ({
       initAll: s.initAll,
       historyList: s.historyList,
       selectedId: s.selectedId,
       toneOptions: s.toneOptions,
-      handleSelectedId: s.handleSelectedId,
     })),
   );
 
@@ -31,32 +26,20 @@ function HistoryPage() {
     initAll();
   }, [initAll]);
 
-  const dropdownTones = useMemo(
-    () => [ALL_TONE, ...toneOptions],
-    [toneOptions],
+  const {
+    filters,
+    searchKeyword,
+    handleSearchKeyword,
+    toggleSort,
+    toggleTranslation,
+    changeTone,
+    resetAll,
+  } = useHistoryControls();
+
+  const { dropdownTones, effectiveTone } = useEffectiveTone(
+    filters.tone,
+    toneOptions,
   );
-
-  const effectiveTone = useMemo(
-    () => (dropdownTones.includes(filters.tone) ? filters.tone : ALL_TONE),
-    [dropdownTones, filters.tone],
-  );
-
-  const handleSearchKeyword = (v: string) => setSearchKeyword(v);
-
-  const toggleSort = () =>
-    setFilters((prev) => ({
-      ...prev,
-      sortOrder: prev.sortOrder === "desc" ? "asc" : "desc",
-    }));
-
-  const toggleTranslation = () =>
-    setFilters((prev) => ({ ...prev, isTranslation: !prev.isTranslation }));
-
-  const changeTone = (tone: typeof filters.tone) =>
-    setFilters((prev) => ({ ...prev, tone }));
-
-  const resetAll = () =>
-    setFilters({ sortOrder: "desc", isTranslation: false, tone: ALL_TONE });
 
   const filteredHistoryIds = useFilteredHistoryIds(searchKeyword, {
     ...filters,
@@ -64,14 +47,9 @@ function HistoryPage() {
   });
 
   const effectiveSelectedId = useMemo(() => {
-    if (filteredHistoryIds.length === 0) {
-      return null;
-    }
-
-    if (selectedId && filteredHistoryIds.includes(selectedId)) {
+    if (filteredHistoryIds.length === 0) return null;
+    if (selectedId && filteredHistoryIds.includes(selectedId))
       return selectedId;
-    }
-
     return filteredHistoryIds[0] ?? null;
   }, [filteredHistoryIds, selectedId]);
 
@@ -98,6 +76,7 @@ function HistoryPage() {
               onResetAll={resetAll}
               onSearchKeywordChange={handleSearchKeyword}
             />
+
             <div className="flex-1 overflow-y-auto">
               <HistoryList
                 searchKeyword={searchKeyword}
