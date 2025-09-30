@@ -1,33 +1,30 @@
 import { ArrowDown } from "lucide-react";
 
-export type Tone = "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한";
-export const TONES: Tone[] = [
-  "모든 말투",
-  "정중한",
-  "캐주얼",
-  "격식 있는",
-  "다정한",
-];
-
 type ToneDropdownProps = {
-  value: Tone;
-  onChange: (t: Tone) => void;
+  value: string;
+  options: string[];
+  onChange: (t: string) => void;
 };
 
-export default function ToneDropdown({ value, onChange }: ToneDropdownProps) {
+export default function ToneDropdown({
+  value,
+  options,
+  onChange,
+}: ToneDropdownProps) {
   const isAll = value === "모든 말투";
 
+  console.log(options);
   return (
     <div className="relative inline-block">
       <select
         aria-label="Tone"
         value={value}
-        onChange={(e) => onChange(e.target.value as Tone)}
+        onChange={(e) => onChange(e.target.value)}
         className={`appearance-none rounded-full px-3 py-1.5 pr-7 text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none ${isAll ? "bg-gray-100 text-gray-700 hover:bg-gray-200" : "bg-indigo-100 text-indigo-700"}`}
       >
-        {TONES.map((t) => (
-          <option key={t} value={t}>
-            {t}
+        {options.map((tone) => (
+          <option key={tone} value={tone}>
+            {tone}
           </option>
         ))}
       </select>

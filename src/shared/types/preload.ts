@@ -7,6 +7,7 @@ declare global {
         list: () => Promise<HistoryItemUI[]>;
         get: (id: string) => Promise<HistoryItemUI>;
         delete: (id: string) => Promise<boolean>;
+        dropdownList: () => Promise<string[]>;
       };
     };
   }

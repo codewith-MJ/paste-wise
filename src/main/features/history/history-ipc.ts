@@ -3,13 +3,15 @@ import {
   deleteHistory,
   getHistoryById,
   getHistoryList,
+  getToneDropdownList,
 } from "./history-service";
 import { IdSchema, validateWith } from "@/shared/validation/common";
 import { RecordNotFoundError } from "@/shared/errors";
 import formatErrorResponse from "@/shared/errors/format-error-response";
 import { IPC } from "@/shared/constants/ipc-channels";
 
-const { HISTORY_LIST, HISTORY_DETAIL, HISTORY_DELETE } = IPC;
+const { HISTORY_LIST, HISTORY_DETAIL, HISTORY_DELETE, HISTORY_DROPDOWN_LIST } =
+  IPC;
 
 const registerHistoryIpc = () => {
   ipcMain.handle(HISTORY_LIST, async () => {
@@ -54,6 +56,23 @@ const registerHistoryIpc = () => {
       return {
         ok: true,
         isDeleted,
+      };
+    } catch (error) {
+      return formatErrorResponse(error);
+    }
+  });
+
+  ipcMain.handle(HISTORY_DROPDOWN_LIST, async () => {
+    try {
+      const dropdownList = await getToneDropdownList();
+
+      if (dropdownList.length === 0) {
+        throw new RecordNotFoundError("");
+      }
+
+      return {
+        ok: true,
+        data: dropdownList,
       };
     } catch (error) {
       return formatErrorResponse(error);

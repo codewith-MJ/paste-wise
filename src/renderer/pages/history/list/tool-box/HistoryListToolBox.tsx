@@ -2,17 +2,18 @@ import { Filter, Languages } from "lucide-react";
 import SearchBar from "./SearchBar";
 import SortButton from "./SortButton";
 import FilterChip from "./FilterChip";
-import ToneDropdown, { Tone } from "./ToneDropdown";
+import ToneDropdown from "./ToneDropdown";
 
 type Props = {
   sortOrder: "desc" | "asc";
   onToggleSort: () => void;
   isTranslation: boolean;
   onToggleTranslation: () => void;
-  tone: Tone;
-  onToneChange: (tone: Tone) => void;
+  tone: string;
+  onToneChange: (tone: string) => void;
   onResetAll: () => void;
   onSearchKeywordChange: (searchKeyword: string) => void;
+  toneOptions: string[];
 };
 
 function HistoryListToolBox({
@@ -24,6 +25,7 @@ function HistoryListToolBox({
   onToneChange,
   onResetAll,
   onSearchKeywordChange,
+  toneOptions,
 }: Props) {
   const isAllActive = !isTranslation && tone === "모든 말투";
 
@@ -51,7 +53,11 @@ function HistoryListToolBox({
           <Languages size={14} />
         </FilterChip>
 
-        <ToneDropdown value={tone} onChange={onToneChange} />
+        <ToneDropdown
+          value={tone}
+          options={toneOptions}
+          onChange={onToneChange}
+        />
       </div>
     </div>
   );

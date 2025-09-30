@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import HistoryListToolBox from "./list/tool-box/HistoryListToolBox";
 import HistoryList from "./list/HistoryList";
@@ -10,12 +10,7 @@ function HistoryPage() {
   const [filters, setFilters] = useState({
     sortOrder: "desc" as "desc" | "asc",
     isTranslation: false,
-    tone: "모든 말투" as
-      | "모든 말투"
-      | "정중한"
-      | "캐주얼"
-      | "격식 있는"
-      | "다정한",
+    tone: "모든 말투" as string,
   });
 
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -24,9 +19,18 @@ function HistoryPage() {
   const historyList = useHistoryStore((state) => state.historyList);
   const selectedId = useHistoryStore((state) => state.selectedId);
 
+  const toneOptions = useHistoryStore((state) => state.toneOptions);
+  const loadToneOptions = useHistoryStore((state) => state.loadToneOptions);
+
   useEffect(() => {
     fetchList();
-  }, [fetchList]);
+    loadToneOptions();
+  }, [fetchList, loadToneOptions]);
+
+  const dropdownTones = useMemo(
+    () => ["모든 말투", ...toneOptions],
+    [toneOptions],
+  );
 
   const handleSearchKeyword = (searchKeyword: string) =>
     setSearchKeyword(searchKeyword);
@@ -62,6 +66,7 @@ function HistoryPage() {
               sortOrder={filters.sortOrder}
               isTranslation={filters.isTranslation}
               tone={filters.tone}
+              toneOptions={dropdownTones}
               onToggleSort={toggleSort}
               onToggleTranslation={toggleTranslation}
               onToneChange={changeTone}

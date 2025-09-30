@@ -107,10 +107,27 @@ const deleteExpiredHistories = (nowMs: number = Date.now()): number => {
   return result.changes;
 };
 
+const getToneDropdownList = (): { toneTitle: string }[] => {
+  const db = getDb();
+  return db
+    .prepare<[], { toneTitle: string }>(
+      `
+      SELECT DISTINCT tone_title AS toneTitle
+      FROM histories
+      WHERE is_active = 1
+        AND tone_title IS NOT NULL
+        AND tone_title <> ''
+      ORDER BY LOWER(tone_title) ASC
+    `,
+    )
+    .all();
+};
+
 export {
   getHistoryList,
   getHistoryById,
   createHistory,
   deleteHistory,
   deleteExpiredHistories,
+  getToneDropdownList,
 };

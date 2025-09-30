@@ -8,12 +8,16 @@ type HistoryState = {
   handleSelectedId: (id: string | null) => void;
   deleteHistory: (id: string) => Promise<void>;
   error: string | null;
+
+  toneOptions: string[];
+  loadToneOptions: () => Promise<void>;
 };
 
-const useHistoryStore = create<HistoryState>((set) => ({
+const useHistoryStore = create<HistoryState>((set, get) => ({
   historyList: [],
   selectedId: null,
   error: null,
+  toneOptions: [],
 
   fetchList: async () => {
     set({ error: null });
@@ -41,6 +45,20 @@ const useHistoryStore = create<HistoryState>((set) => ({
           : state.selectedId;
       return { historyList, selectedId };
     });
+  },
+
+  loadToneOptions: async (reload = false) => {
+    const { toneOptions } = get();
+    if (!reload && toneOptions.length > 0) {
+      return;
+    }
+
+    try {
+      const list: string[] = await window.api.history.dropdownList();
+      set({ toneOptions: list });
+    } catch (error) {
+      set({ error: (error as Error).message });
+    }
   },
 }));
 

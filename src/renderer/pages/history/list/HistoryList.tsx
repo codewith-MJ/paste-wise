@@ -7,7 +7,7 @@ import toMs from "@/shared/utils/to-ms";
 type Filters = {
   sortOrder: "desc" | "asc";
   isTranslation: boolean;
-  tone: "모든 말투" | "정중한" | "캐주얼" | "격식 있는" | "다정한";
+  tone: string;
 };
 
 type HistoryListProps = {
