@@ -1,4 +1,5 @@
 import { ArrowDown } from "lucide-react";
+import { ALL_TONE } from "@/shared/constants/tone";
 
 type ToneDropdownProps = {
   value: string;
@@ -11,9 +12,8 @@ export default function ToneDropdown({
   options,
   onChange,
 }: ToneDropdownProps) {
-  const isAll = value === "모든 말투";
+  const isAll = value === ALL_TONE;
 
-  console.log(options);
   return (
     <div className="relative inline-block">
       <select

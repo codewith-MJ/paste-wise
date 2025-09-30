@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import SortButton from "./SortButton";
 import FilterChip from "./FilterChip";
 import ToneDropdown from "./ToneDropdown";
+import { ALL_TONE } from "@/shared/constants/tone";
 
 type Props = {
   sortOrder: "desc" | "asc";
@@ -27,7 +28,7 @@ function HistoryListToolBox({
   onSearchKeywordChange,
   toneOptions,
 }: Props) {
-  const isAllActive = !isTranslation && tone === "모든 말투";
+  const isAllActive = !isTranslation && tone === ALL_TONE;
 
   return (
     <div className="sticky top-0 z-10 mt-2 space-y-2 border-b border-gray-200 bg-white p-3">
