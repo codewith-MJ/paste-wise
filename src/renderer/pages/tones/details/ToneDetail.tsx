@@ -1,27 +1,17 @@
 import { useEffect, useState } from "react";
-import { tonesMock as tones } from "@/renderer/mocks/tones";
 import NothingSelected from "./NothingSelected";
 import ToneForm from "./ToneForm";
+import { ToneItemUI } from "@/shared/types/tone";
 
 type ToneDetailProps = { selectedId: string };
 
 function ToneDetail({ selectedId }: ToneDetailProps) {
-  const tone = tones.find((t) => t.toneId === selectedId);
-
-  const [title, setTitle] = useState("");
-  const [prompt, setPrompt] = useState("");
-  const [strength, setStrength] = useState(60);
-  const [useEmoji, setUseEmoji] = useState(true);
-  const [isDefault, setIsDefault] = useState(false);
+  const [tone, setTone] = useState<ToneItemUI | null>(null);
 
   useEffect(() => {
-    if (!tone) return;
-    setTitle(tone.toneTitle ?? "");
-    setPrompt(tone.tonePrompt ?? "");
-    setStrength(typeof tone.toneStrength === "number" ? tone.toneStrength : 60);
-    setUseEmoji(!!tone.emojiAllowed);
-    setIsDefault(tone.isDefault);
-  }, [tone?.toneId]);
+    if (!selectedId) return;
+    window.api.tone.get(selectedId).then((data: ToneItemUI) => setTone(data));
+  }, [selectedId]);
 
   if (!tone) {
     return <NothingSelected />;
@@ -30,16 +20,11 @@ function ToneDetail({ selectedId }: ToneDetailProps) {
   return (
     <section className="relative flex-1 overflow-y-auto bg-white">
       <ToneForm
-        title={title}
-        prompt={prompt}
-        strength={strength}
-        useEmoji={useEmoji}
-        isDefault={isDefault}
-        onChangeTitle={setTitle}
-        onChangePrompt={setPrompt}
-        onChangeStrength={setStrength}
-        onToggleEmoji={() => setUseEmoji((value) => !value)}
-        onToggleDefault={() => setIsDefault((value) => !value)}
+        title={tone.toneTitle}
+        prompt={tone.tonePrompt!}
+        strength={tone.toneStrength!}
+        useEmoji={tone.emojiAllowed!}
+        isDefault={tone.isDefault}
       />
 
       <div className="border-t border-gray-100 py-3">
