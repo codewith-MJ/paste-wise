@@ -1,5 +1,5 @@
 import { Filter, Languages } from "lucide-react";
-import SearchBar from "./SearchBar";
+import SearchBar from "@/renderer/components/SearchBar";
 import SortButton from "./SortButton";
 import FilterChip from "./FilterChip";
 import ToneDropdown from "./ToneDropdown";
@@ -32,7 +32,10 @@ function HistoryListToolBox({
 
   return (
     <div className="sticky top-0 z-10 mt-2 space-y-2 border-b border-gray-200 bg-white p-3">
-      <SearchBar onSearchKeywordChange={onSearchKeywordChange} />
+      <SearchBar
+        onSearchKeywordChange={onSearchKeywordChange}
+        placeHolder="원문이나 내용으로 검색…"
+      />
 
       <div className="flex flex-wrap items-center gap-2">
         <SortButton order={sortOrder} onToggle={onToggleSort} />
