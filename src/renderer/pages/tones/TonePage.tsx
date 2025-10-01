@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import ToneDetail from "./details/ToneDetail";
 import ToneList from "./list/ToneList";
-import { tonesMock as tones } from "@/renderer/mocks/tones";
+import { ToneItemUI } from "@/shared/types/tone";
 
 function TonePage() {
   const [selectedId, setSelectedId] = useState<string>("");
+  const [tones, setTones] = useState<ToneItemUI[]>([]);
+
+  useEffect(() => {
+    window.api.tone.list().then((data: ToneItemUI[]) => {
+      setTones(data);
+      if (data.length > 0) {
+        setSelectedId(data[0].toneId);
+      }
+    });
+  }, []);
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">

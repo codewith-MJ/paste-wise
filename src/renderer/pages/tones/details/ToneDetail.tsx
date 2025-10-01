@@ -9,7 +9,11 @@ function ToneDetail({ selectedId }: ToneDetailProps) {
   const [tone, setTone] = useState<ToneItemUI | null>(null);
 
   useEffect(() => {
-    if (!selectedId) return;
+    if (!selectedId) {
+      setTone(null);
+      return;
+    }
+
     window.api.tone.get(selectedId).then((data: ToneItemUI) => setTone(data));
   }, [selectedId]);
 
