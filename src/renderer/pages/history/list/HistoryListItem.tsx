@@ -57,8 +57,8 @@ function HistoryListItem({ historyId, selectedId }: HistoryListItemProps) {
               languageOut={historyListItem.languageOut}
             />
           )}
-        {historyListItem.toneTitle && (
-          <ToneBadge toneTitle={historyListItem.toneTitle} />
+        {historyListItem.toneName && (
+          <ToneBadge toneName={historyListItem.toneName} />
         )}
         <TimeAgo createdAt={historyListItem.createdAt} />
       </div>

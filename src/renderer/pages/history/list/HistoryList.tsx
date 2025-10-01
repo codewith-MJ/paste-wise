@@ -1,5 +1,5 @@
 import HistoryListItem from "./HistoryListItem";
-import NoSearchResults from "../NoSearchResults";
+import NoSearchResults from "@/renderer/components/NoSearchResults";
 
 type HistoryListProps = {
   ids: string[];

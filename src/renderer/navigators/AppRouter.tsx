@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   HistoryPage,
-  TonesPage,
+  TonePage,
   ShortcutsPage,
   LoginPage,
   NotFoundPage,
@@ -18,7 +18,7 @@ export default function AppRouter() {
           element={<Navigate to={ROUTES.HISTORY} replace />}
         />
         <Route path={ROUTES.HISTORY} element={<HistoryPage />} />
-        <Route path={ROUTES.TONES} element={<TonesPage />} />
+        <Route path={ROUTES.TONES} element={<TonePage />} />
         <Route path={ROUTES.SHORTCUTS} element={<ShortcutsPage />} />
       </Route>
 

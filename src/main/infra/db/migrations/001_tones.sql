@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS tones (
   tone_id           INTEGER PRIMARY KEY,
-  tone_title        TEXT NOT NULL,
+  tone_name         TEXT NOT NULL,
   tone_prompt       TEXT NOT NULL,
   tone_strength     INTEGER NOT NULL DEFAULT 50 CHECK(tone_strength BETWEEN 1 AND 100),
   emoji_allowed     INTEGER NOT NULL DEFAULT 1 CHECK(emoji_allowed IN (0,1)),
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS tones (
   created_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
   updated_at        INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
 
-  UNIQUE(tone_title)
+  UNIQUE(tone_name)
 );
 
 CREATE TRIGGER IF NOT EXISTS trg_tones_updated_at
