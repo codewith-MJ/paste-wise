@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ToneItemUI } from "@/shared/types/tone";
 import SearchBar from "../../../components/SearchBar";
 import ToneListItem from "./ToneListItem";
+import NoSearchResults from "@/renderer/components/NoSearchResults";
 
 type ToneListProps = {
   tones: ToneItemUI[];
@@ -9,18 +10,8 @@ type ToneListProps = {
   onSelectItem: (selectedId: string) => void;
 };
 
-function ToneList({ selectedId, onSelectItem }: ToneListProps) {
-  const [tones, setTones] = useState<ToneItemUI[]>([]);
+function ToneList({ tones, selectedId, onSelectItem }: ToneListProps) {
   const [searchKeyword, setSearchKeyword] = useState("");
-
-  useEffect(() => {
-    window.api.tone.list().then((data: ToneItemUI[]) => {
-      setTones(data);
-      if (data.length > 0 && !selectedId) {
-        onSelectItem(data[0].toneId);
-      }
-    });
-  }, [selectedId, onSelectItem]);
 
   const filteredTones = useMemo(() => {
     const q = searchKeyword.toLowerCase().trim();
@@ -49,16 +40,20 @@ function ToneList({ selectedId, onSelectItem }: ToneListProps) {
         />
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-4 pt-1">
-        <div className="space-y-2">
-          {filteredTones.map((tone) => (
-            <ToneListItem
-              key={tone.toneId}
-              tone={tone}
-              selectedId={selectedId}
-              onSelectItem={onSelectItem}
-            />
-          ))}
-        </div>
+        {filteredTones.length === 0 ? (
+          <NoSearchResults searchKeyword={searchKeyword} />
+        ) : (
+          <div className="space-y-2">
+            {filteredTones.map((tone) => (
+              <ToneListItem
+                key={tone.toneId}
+                tone={tone}
+                selectedId={selectedId}
+                onSelectItem={onSelectItem}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </aside>
   );
