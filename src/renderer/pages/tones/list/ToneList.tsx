@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToneItemUI } from "@/shared/types/tone";
 import SearchBar from "../../../components/SearchBar";
 import ToneListItem from "./ToneListItem";
@@ -9,8 +9,15 @@ type ToneListProps = {
   onSelectItem: (selectedId: string) => void;
 };
 
-function ToneList({ tones, selectedId, onSelectItem }: ToneListProps) {
+function ToneList({ selectedId, onSelectItem }: ToneListProps) {
+  const [tones, setTones] = useState<ToneItemUI[]>([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+
+  useEffect(() => {
+    window.api.tone.list().then((data: ToneItemUI[]) => {
+      setTones(data);
+    });
+  }, []);
 
   const handleSearchKeyword = (value: string) => {
     setSearchKeyword(value);

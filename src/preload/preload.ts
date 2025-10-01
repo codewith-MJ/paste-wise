@@ -2,6 +2,7 @@ import { contextBridge } from "electron";
 import safeInvoke from "./safe-invoke";
 import { HistoryItemUI } from "@/shared/types/history";
 import { IPC } from "@/shared/constants/ipc-channels";
+import { ToneItemUI } from "@/shared/types/tone";
 
 const api = {
   history: {
@@ -16,6 +17,14 @@ const api = {
     },
     async dropdownList(): Promise<string[]> {
       return safeInvoke<string[]>(IPC.HISTORY_DROPDOWN_LIST);
+    },
+  },
+  tone: {
+    async list(): Promise<ToneItemUI[]> {
+      return safeInvoke<ToneItemUI[]>(IPC.TONE_LIST);
+    },
+    async get(id: string): Promise<ToneItemUI> {
+      return safeInvoke<ToneItemUI>(IPC.TONE_DETAIL, id);
     },
   },
 } as const;
