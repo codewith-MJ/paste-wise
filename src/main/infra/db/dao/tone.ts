@@ -11,8 +11,7 @@ const getToneList = (): ToneListItem[] => {
          is_default AS isDefault
        FROM tones
        WHERE is_active = 1
-       ORDER BY created_at DESC
-       LIMIT ? OFFSET ?`,
+       ORDER BY created_at DESC`,
     )
     .all();
 };
