@@ -16,7 +16,7 @@ type Shortcut = {
 type ShortcutUI = {
   shortcutId: string;
   command: string;
-  toneName: string | null;
+  toneName?: string | null;
   accelerator: string;
 };
 
