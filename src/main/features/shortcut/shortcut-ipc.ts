@@ -1,9 +1,10 @@
 import { ipcMain } from "electron";
 import { getShortcutList } from "./shortcut-service";
 import formatErrorResponse from "@/shared/errors/format-error-response";
+import { IPC } from "@/shared/constants/ipc-channels";
 
 const registerShortcutIpc = () => {
-  ipcMain.handle("shortcut:getList", async () => {
+  ipcMain.handle(IPC.SHORTCUT_LIST, async () => {
     try {
       const shortcutList = await getShortcutList();
       return {
