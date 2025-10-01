@@ -5,7 +5,7 @@ import ToneList from "./list/ToneList";
 import { tonesMock as tones } from "@/renderer/mocks/tones";
 
 function TonePage() {
-  const [selectedId, setSelectedId] = useState("polite");
+  const [selectedId, setSelectedId] = useState<string>("");
 
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">

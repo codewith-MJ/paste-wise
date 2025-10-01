@@ -16,8 +16,11 @@ function ToneList({ selectedId, onSelectItem }: ToneListProps) {
   useEffect(() => {
     window.api.tone.list().then((data: ToneItemUI[]) => {
       setTones(data);
+      if (data.length > 0 && !selectedId) {
+        onSelectItem(data[0].toneId);
+      }
     });
-  }, []);
+  }, [selectedId, onSelectItem]);
 
   const handleSearchKeyword = (value: string) => {
     setSearchKeyword(value);

@@ -13,7 +13,7 @@ function ToneDetail({ selectedId }: ToneDetailProps) {
     window.api.tone.get(selectedId).then((data: ToneItemUI) => setTone(data));
   }, [selectedId]);
 
-  if (!tone) {
+  if (!selectedId || !tone) {
     return <NothingSelected />;
   }
 
