@@ -3,20 +3,20 @@ import { SHORTCUT_COMMAND } from "../constants/shortcuts";
 type ShortcutListItem = {
   shortcutId: number;
   command: string;
-  toneTitle: string | null;
+  toneName: string | null;
   accelerator: string;
 };
 
 type Shortcut = {
   command: string;
-  toneTitle: string | null;
+  toneName: string | null;
   accelerator: string;
 };
 
 type ShortcutUI = {
   shortcutId: string;
   command: string;
-  toneTitle: string | null;
+  toneName: string | null;
   accelerator: string;
 };
 

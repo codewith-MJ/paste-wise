@@ -15,7 +15,7 @@ const getHistoryList = (): HistoryListItem[] => {
         is_translated AS isTranslated,
         language_in   AS languageIn,
         language_out   AS languageOut,
-        tone_title    AS toneTitle,
+        tone_name    AS toneName,
         created_at    AS createdAt
       FROM histories
       WHERE is_active = 1
@@ -34,7 +34,7 @@ const getHistoryById = (historyId: number): History | null => {
           history_id     AS historyId,
           original_text  AS originalText,
           transformed_text AS transformedText,
-          tone_title     AS toneTitle,
+          tone_name      AS toneName,
           tone_prompt    AS tonePrompt,
           is_translated  AS isTranslated,
           language_in    AS languageIn,
@@ -54,11 +54,11 @@ const createHistory = (history: NewHistoryInput): number => {
 
   const stmt = db.prepare(`
     INSERT INTO histories (
-      original_text, transformed_text, tone_id, tone_title, tone_prompt,
+      original_text, transformed_text, tone_id, tone_name, tone_prompt,
       is_translated, language_in, language_out, tone_strength, emoji_allowed
     )
     VALUES (
-      @/original_text, @/transformed_text, @/tone_id, @/tone_title, @/tone_prompt,
+      @/original_text, @/transformed_text, @/tone_id, @/tone_name, @/tone_prompt,
       @/is_translated, @/language_in, @/language_out, @/tone_strength, @/emoji_allowed
     )
   `);
@@ -67,7 +67,7 @@ const createHistory = (history: NewHistoryInput): number => {
     original_text: history.originalText,
     transformed_text: history.transformedText,
     tone_id: history.toneId ?? null,
-    tone_title: history.toneTitle ?? null,
+    tone_name: history.toneName ?? null,
     tone_prompt: history.tonePrompt ?? null,
     is_translated: history.isTranslated ?? 0,
     lang_in: history.languageIn ?? null,
@@ -107,17 +107,17 @@ const deleteExpiredHistories = (nowMs: number = Date.now()): number => {
   return result.changes;
 };
 
-const getToneDropdownList = (): { toneTitle: string }[] => {
+const getToneDropdownList = (): { toneName: string }[] => {
   const db = getDb();
   return db
-    .prepare<[], { toneTitle: string }>(
+    .prepare<[], { toneName: string }>(
       `
-      SELECT DISTINCT tone_title AS toneTitle
+      SELECT DISTINCT tone_name AS toneName
       FROM histories
       WHERE is_active = 1
-        AND tone_title IS NOT NULL
-        AND tone_title <> ''
-      ORDER BY LOWER(tone_title) ASC
+        AND tone_name IS NOT NULL
+        AND tone_name <> ''
+      ORDER BY LOWER(tone_name) ASC
     `,
     )
     .all();

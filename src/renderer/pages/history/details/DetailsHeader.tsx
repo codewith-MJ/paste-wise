@@ -5,7 +5,7 @@ import formatDateTimeKST from "@/shared/utils/format-date-time-kst";
 
 type DetailsHeaderProps = {
   createdAt: string;
-  toneTitle?: string;
+  toneName?: string;
   tonePrompt?: string;
   toneStrength?: number;
   emojiAllowed: boolean;
@@ -16,7 +16,7 @@ type DetailsHeaderProps = {
 
 function DetailsHeader({
   createdAt,
-  toneTitle,
+  toneName,
   tonePrompt,
   toneStrength,
   emojiAllowed,
@@ -35,12 +35,12 @@ function DetailsHeader({
 
       <div className="flex flex-col text-sm text-gray-700">
         <div className="flex items-center">
-          {toneTitle && (
+          {toneName && (
             <MetaItem
               label="말투"
               className="border-0 pr-3 pl-0 first:border-0 first:pl-0"
             >
-              <ToneBadge toneTitle={toneTitle} />
+              <ToneBadge toneName={toneName} />
             </MetaItem>
           )}
 
@@ -52,7 +52,7 @@ function DetailsHeader({
               <span className="text-gray-600">{toneStrength}%</span>
             </MetaItem>
           )}
-          {toneTitle && (
+          {toneName && (
             <MetaItem
               label="이모지"
               className="border-l border-gray-200 pr-3 pl-3 first:border-0 first:pl-0"

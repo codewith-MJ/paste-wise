@@ -1,12 +1,12 @@
 type ToneListItem = {
   toneId: number;
-  toneTitle: string;
+  toneName: string;
   isDefault: 0 | 1;
 };
 
 type Tone = {
   toneId: number;
-  toneTitle: string;
+  toneName: string;
   tonePrompt: string;
   toneStrength: number;
   emojiAllowed: 0 | 1;
@@ -15,7 +15,7 @@ type Tone = {
 
 type ToneItemUI = {
   toneId: string;
-  toneTitle: string;
+  toneName: string;
   isDefault: boolean;
   tonePrompt?: string;
   toneStrength?: number;

@@ -44,7 +44,7 @@ const deleteExpiredHistory = async (): Promise<number> => {
 
 const getToneDropdownList = async (): Promise<string[]> => {
   const result = await Promise.resolve(repoGetToneDropdownList());
-  return result.map((item) => item.toneTitle);
+  return result.map((item) => item.toneName);
 };
 
 export {
@@ -62,7 +62,7 @@ function formatHistoryItem(item: HistoryListItem): HistoryItemUI {
     isTranslated: item.isTranslated === 1,
     languageIn: item.languageIn ?? "",
     languageOut: item.languageOut ?? "",
-    toneTitle: item.toneTitle ?? "",
+    toneName: item.toneName ?? "",
     createdAt: new Date(item.createdAt).toISOString(),
   };
 }
@@ -72,7 +72,7 @@ function formatHistory(item: History): HistoryItemUI {
     historyId: String(item.historyId),
     originalText: item.originalText,
     transformedText: item.transformedText ?? undefined,
-    toneTitle: item.toneTitle ?? "",
+    toneName: item.toneName ?? "",
     tonePrompt: item.tonePrompt ?? undefined,
     isTranslated: item.isTranslated === 1,
     languageIn: item.languageIn ?? undefined,

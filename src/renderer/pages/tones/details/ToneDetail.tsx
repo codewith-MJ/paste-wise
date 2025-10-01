@@ -24,7 +24,7 @@ function ToneDetail({ selectedId }: ToneDetailProps) {
   return (
     <section className="relative flex-1 overflow-y-auto bg-white">
       <ToneForm
-        title={tone.toneTitle}
+        name={tone.toneName}
         prompt={tone.tonePrompt!}
         strength={tone.toneStrength!}
         useEmoji={tone.emojiAllowed!}

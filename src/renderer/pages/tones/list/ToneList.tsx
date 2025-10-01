@@ -15,14 +15,14 @@ function ToneList({ tones, selectedId, onSelectItem }: ToneListProps) {
 
   const filteredTones = useMemo(() => {
     const q = searchKeyword.toLowerCase().trim();
-    return tones.filter((tone) => tone.toneTitle.toLowerCase().includes(q));
+    return tones.filter((tone) => tone.toneName.toLowerCase().includes(q));
   }, [tones, searchKeyword]);
 
   const handleSearchKeyword = (searchKeyword: string) => {
     setSearchKeyword(searchKeyword);
     const q = searchKeyword.toLowerCase().trim();
     const searchedList = tones.filter((tone) =>
-      tone.toneTitle.toLowerCase().includes(q),
+      tone.toneName.toLowerCase().includes(q),
     );
     if (searchedList.length > 0) {
       onSelectItem(searchedList[0].toneId);

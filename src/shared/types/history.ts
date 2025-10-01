@@ -5,7 +5,7 @@ type HistoryListItem = {
   isTranslated: 0 | 1;
   languageIn?: string;
   languageOut?: string;
-  toneTitle: string | null;
+  toneName: string | null;
   createdAt: number;
   isActive?: number;
 };
@@ -14,7 +14,7 @@ type History = {
   historyId: number;
   originalText: string;
   transformedText: string;
-  toneTitle: string | null;
+  toneName: string | null;
   tonePrompt: string | null;
   isTranslated: 0 | 1;
   languageIn: string | null;
@@ -28,7 +28,7 @@ type NewHistoryInput = {
   originalText: string;
   transformedText: string;
   toneId?: number | null;
-  toneTitle?: string | null;
+  toneName?: string | null;
   tonePrompt?: string | null;
   isTranslated?: 0 | 1;
   languageIn?: string | null;
@@ -41,7 +41,7 @@ type HistoryItemUI = {
   historyId: string;
   originalText: string;
   transformedText?: string;
-  toneTitle?: string;
+  toneName?: string;
   tonePrompt?: string;
   isTranslated: boolean;
   languageIn?: string;

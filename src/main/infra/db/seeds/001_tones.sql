@@ -1,5 +1,5 @@
 INSERT OR IGNORE INTO tones (
-  tone_title,
+  tone_name,
   tone_prompt,
   tone_strength,
   emoji_allowed,

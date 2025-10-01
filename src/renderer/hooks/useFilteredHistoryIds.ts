@@ -18,7 +18,7 @@ function useFilteredHistoryIds(searchKeyword: string, filters: Filters) {
     const filtered = historyList.filter((item) => {
       if (q && !item.originalText.toLowerCase().includes(q)) return false;
       if (filters.isTranslation && !item.isTranslated) return false;
-      if (filters.tone !== ALL_TONE && item.toneTitle !== filters.tone)
+      if (filters.tone !== ALL_TONE && item.toneName !== filters.tone)
         return false;
       return true;
     });

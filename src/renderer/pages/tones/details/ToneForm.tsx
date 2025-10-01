@@ -1,7 +1,7 @@
 import DetailField from "./DetailField";
 
 type ToneFormProps = {
-  title: string;
+  name: string;
   prompt: string;
   strength: number;
   useEmoji: boolean;
@@ -9,7 +9,7 @@ type ToneFormProps = {
 };
 
 function ToneForm({
-  title,
+  name,
   prompt,
   strength,
   useEmoji,
@@ -21,7 +21,7 @@ function ToneForm({
         <DetailField labelName="말투 이름">
           <input
             type="text"
-            defaultValue={title}
+            defaultValue={name}
             placeholder="예: 💖 다정한 말투"
             className="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />

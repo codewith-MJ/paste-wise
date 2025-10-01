@@ -7,7 +7,7 @@ const getToneList = (): ToneListItem[] => {
     .prepare<[], ToneListItem>(
       `SELECT
          tone_id    AS toneId,
-         tone_title AS toneTitle,
+         tone_name AS toneName,
          is_default AS isDefault
        FROM tones
        WHERE is_active = 1
@@ -23,7 +23,7 @@ const getToneById = (toneId: number): Tone | null => {
       .prepare<[number], Tone>(
         `SELECT
            tone_id        AS toneId,
-           tone_title     AS toneTitle,
+           tone_name     AS toneName,
            tone_prompt    AS tonePrompt,
            tone_strength  AS toneStrength,
            emoji_allowed  AS emojiAllowed,
