@@ -21,7 +21,7 @@ function ToneForm({
         <DetailField labelName="말투 이름">
           <input
             type="text"
-            value={title}
+            defaultValue={title}
             placeholder="예: 💖 다정한 말투"
             className="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
@@ -44,7 +44,7 @@ function ToneForm({
 
         <DetailField labelName="말투 설명">
           <textarea
-            value={prompt}
+            defaultValue={prompt}
             rows={5}
             placeholder="예: 다정하고 따뜻한 말투로 답변합니다."
             className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -60,7 +60,7 @@ function ToneForm({
             type="range"
             min={0}
             max={100}
-            value={strength}
+            defaultValue={strength}
             className="h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 accent-blue-500"
           />
           <span className="text-sm font-medium text-gray-900">{strength}%</span>
