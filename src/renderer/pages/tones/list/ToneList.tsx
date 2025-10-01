@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ToneItemUI } from "@/shared/types/tone";
 import SearchBar from "../../../components/SearchBar";
 import ToneListItem from "./ToneListItem";
@@ -22,13 +22,23 @@ function ToneList({ selectedId, onSelectItem }: ToneListProps) {
     });
   }, [selectedId, onSelectItem]);
 
-  const handleSearchKeyword = (value: string) => {
-    setSearchKeyword(value);
-  };
+  const filteredTones = useMemo(() => {
+    const q = searchKeyword.toLowerCase().trim();
+    return tones.filter((tone) => tone.toneTitle.toLowerCase().includes(q));
+  }, [tones, searchKeyword]);
 
-  const filteredTones = tones.filter((tone) =>
-    tone.toneTitle.toLowerCase().includes(searchKeyword.toLowerCase()),
-  );
+  const handleSearchKeyword = (searchKeyword: string) => {
+    setSearchKeyword(searchKeyword);
+    const q = searchKeyword.toLowerCase().trim();
+    const searchedList = tones.filter((tone) =>
+      tone.toneTitle.toLowerCase().includes(q),
+    );
+    if (searchedList.length > 0) {
+      onSelectItem(searchedList[0].toneId);
+    } else {
+      onSelectItem("");
+    }
+  };
 
   return (
     <aside className="flex min-h-0 w-96 flex-shrink-0 flex-col border-r border-gray-200 bg-white">
