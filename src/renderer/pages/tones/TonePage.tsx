@@ -2,6 +2,7 @@ import { useState } from "react";
 import PageHeader from "@/renderer/layouts/PageHeader";
 import ToneDetail from "./details/ToneDetail";
 import ToneList from "./list/ToneList";
+import { tonesMock as tones } from "@/renderer/mocks/tones";
 
 function TonePage() {
   const [selectedId, setSelectedId] = useState("polite");
@@ -15,10 +16,11 @@ function TonePage() {
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
         <ToneList
+          tones={tones}
           selectedId={selectedId}
           onSelectItem={(selectedId: string) => setSelectedId(selectedId)}
         />
-        <ToneDetail />
+        <ToneDetail selectedId={selectedId} />
       </div>
     </main>
   );

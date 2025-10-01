@@ -4,19 +4,13 @@ import SearchBar from "../../../components/SearchBar";
 import ToneListItem from "./ToneListItem";
 
 type ToneListProps = {
+  tones: ToneItemUI[];
   selectedId: string;
   onSelectItem: (selectedId: string) => void;
 };
 
-function ToneList({ selectedId, onSelectItem }: ToneListProps) {
+function ToneList({ tones, selectedId, onSelectItem }: ToneListProps) {
   const [searchKeyword, setSearchKeyword] = useState("");
-
-  const tones: ToneItemUI[] = [
-    { toneId: "polite", toneTitle: "👨‍💼Polite Tone", isDefault: true },
-    { toneId: "casual", toneTitle: "🤙Casual Tone", isDefault: false },
-    { toneId: "formal", toneTitle: "👔Formal Tone", isDefault: false },
-    { toneId: "lovely", toneTitle: "💖Lovely Tone", isDefault: false },
-  ];
 
   const handleSearchKeyword = (value: string) => {
     setSearchKeyword(value);
