@@ -1,5 +1,6 @@
 import type { HistoryItemUI } from "@/shared/types/history";
 import { ToneItemUI } from "./tone";
+import { ShortcutUI } from "./shortcut";
 
 declare global {
   interface Window {
@@ -13,6 +14,9 @@ declare global {
       tone: {
         list: () => Promise<ToneItemUI[]>;
         get: (id: string) => Promise<ToneItemUI>;
+      };
+      shortcut: {
+        list: () => Promise<ShortcutUI[]>;
       };
     };
   }

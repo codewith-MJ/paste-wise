@@ -5,6 +5,7 @@ const IPC = {
   HISTORY_DROPDOWN_LIST: "history:getDropdownList",
   TONE_LIST: "tone:getList",
   TONE_DETAIL: "tone:getById",
+  SHORTCUT_LIST: "shortcut:getList",
 } as const;
 
 export { IPC };

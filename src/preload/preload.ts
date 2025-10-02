@@ -3,6 +3,7 @@ import safeInvoke from "./safe-invoke";
 import { HistoryItemUI } from "@/shared/types/history";
 import { IPC } from "@/shared/constants/ipc-channels";
 import { ToneItemUI } from "@/shared/types/tone";
+import { ShortcutUI } from "@/shared/types/shortcut";
 
 const api = {
   history: {
@@ -25,6 +26,11 @@ const api = {
     },
     async get(id: string): Promise<ToneItemUI> {
       return safeInvoke<ToneItemUI>(IPC.TONE_DETAIL, id);
+    },
+  },
+  shortcut: {
+    async list(): Promise<ShortcutUI[]> {
+      return safeInvoke<ShortcutUI[]>(IPC.SHORTCUT_LIST);
     },
   },
 } as const;
