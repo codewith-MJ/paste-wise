@@ -3,6 +3,8 @@ import { SHORTCUT_COMMAND } from "../constants/shortcuts";
 type ShortcutListItem = {
   shortcutId: number;
   command: string;
+  toneId: number | null;
+  isDefault: number | null;
   toneName: string | null;
   accelerator: string;
 };
@@ -16,7 +18,7 @@ type Shortcut = {
 type ShortcutUI = {
   shortcutId: string;
   command: string;
-  toneName?: string | null;
+  toneId?: string | null;
   accelerator: string;
 };
 

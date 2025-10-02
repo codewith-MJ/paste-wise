@@ -28,7 +28,7 @@ function ShortcutPage() {
             description="앱의 주요 기능을 빠르게 실행해요."
           >
             {shortcuts.map((shortcut) => {
-              if (!shortcut.toneName) {
+              if (!shortcut.toneId) {
                 return (
                   <li key={shortcut.shortcutId} className="px-5 py-3.5">
                     <ShortcutRow
@@ -49,7 +49,7 @@ function ShortcutPage() {
             description="말투/번역 모드를 빠르게 전환해요."
           >
             {shortcuts.map((shortcut) => {
-              if (shortcut.toneName) {
+              if (shortcut.toneId) {
                 return (
                   <li key={shortcut.shortcutId} className="px-5 py-3.5">
                     <ShortcutRow
