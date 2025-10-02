@@ -8,7 +8,9 @@ const getShortcutList = (): ShortcutListItem[] => {
       `SELECT
         s.shortcut_id   AS shortcutId,
         s.command,
-        t.tone_name    AS toneName,
+        t.tone_id       AS toneId,
+        t.is_default    AS isDefault,
+        t.tone_name     AS toneName,
         s.accelerator,
         s.is_active     AS isActive
       FROM shortcuts s

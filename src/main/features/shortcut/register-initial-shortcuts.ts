@@ -1,22 +1,9 @@
 import { globalShortcut } from "electron";
 import logger from "../../utils/logger";
-import {
-  handleCopyShortcut,
-  createPasteApplyHandler,
-} from "./shortcut-handlers";
-import { SHORTCUT_COMMAND } from "@/shared/constants/shortcuts";
-import { ShortcutCommandValue } from "@/shared/types/shortcut";
 import { getShortcutListToRegister } from "./shortcut-service";
 
-const commandToShortcutAction: Record<ShortcutCommandValue, () => void> = {
-  [SHORTCUT_COMMAND.COPY_CAPTURE]: handleCopyShortcut,
-  [SHORTCUT_COMMAND.PASTE_APPLY]: createPasteApplyHandler(),
-};
-
-const registerInitialShortcuts = (): void => {
-  const shortcutsToRegister = getShortcutListToRegister(
-    commandToShortcutAction,
-  );
+const registerInitialShortcuts = () => {
+  const shortcutsToRegister = getShortcutListToRegister();
 
   const registeredAccelerators = new Set<string>();
   let registeredCount = 0;
