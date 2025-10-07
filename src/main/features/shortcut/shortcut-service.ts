@@ -65,8 +65,15 @@ const getShortcutListToRegister = (): ShortcutToRegister[] => {
         continue;
       }
 
+      const toneInfo = {
+        toneId: tone.toneId,
+        tonePrompt: tone.tonePrompt,
+        toneStrength: tone.toneStrength,
+        emojiAllowed: tone.emojiAllowed === 1,
+      };
+
       shortcutAction = () => {
-        void handleCopyShortcut(tone);
+        void handleCopyShortcut(toneInfo);
       };
     } else if (shortcut.command === SHORTCUT_COMMAND.PASTE_APPLY) {
       shortcutAction = () => {

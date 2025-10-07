@@ -17,9 +17,10 @@ import {
   isDuplicateRead,
   updateReadBuffer,
 } from "@/main/features/clipboard/read-buffer";
-import { Tone } from "@/shared/types/tone";
+import { ToneInfo } from "@/shared/types/tone";
+import { getTranslateMode } from "@/main/global-translate-state";
 
-const handleCopyShortcut = async (tone: Tone) => {
+const handleCopyShortcut = async (tone: ToneInfo) => {
   try {
     await sleep(120);
 
@@ -43,7 +44,8 @@ const handleCopyShortcut = async (tone: Tone) => {
     }
 
     try {
-      const transformed = await transform(originalText, tone);
+      const isTranslated = getTranslateMode();
+      const transformed = await transform(originalText, tone, isTranslated);
       pushResult(transformed);
 
       updateReadBuffer(originalText, tone.toneId);
