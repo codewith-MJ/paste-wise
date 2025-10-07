@@ -38,17 +38,20 @@ const handleCopyShortcut = async (tone: ToneInfo) => {
       return;
     }
 
-    if (isDuplicateRead(originalText, tone.toneId)) {
-      logger.warn("[copy] clipboard unchanged and same mode → skipped");
+    const isTranslated = getTranslateMode();
+
+    if (isDuplicateRead(originalText, tone.toneId, isTranslated)) {
+      logger.warn(
+        "[copy] clipboard unchanged and same tone/translate mode → skipped",
+      );
       return;
     }
 
     try {
-      const isTranslated = getTranslateMode();
       const transformed = await transform(originalText, tone, isTranslated);
       pushResult(transformed);
 
-      updateReadBuffer(originalText, tone.toneId);
+      updateReadBuffer(originalText, tone.toneId, isTranslated);
 
       logger.info(
         `[copy] transformed → result-buffer: "${transformed.slice(0, 60)}"`,
