@@ -1,15 +1,22 @@
 let results: string[] = [];
+const MAX_RESULTS = 50;
 
 const pushResult = (text: string) => {
-  if (text?.trim()) {
-    results.push(text);
+  const value = text?.trim();
+  if (!value) return;
+
+  results.push(value);
+  if (results.length > MAX_RESULTS) {
+    results.shift();
   }
 };
 
 const peekLatestResult = (): string | null => {
-  const latestResult = results.length ? results[results.length - 1] : null;
+  return results.length ? results[results.length - 1] : null;
+};
 
-  return latestResult;
+const popLatestResult = (): string | null => {
+  return results.length ? (results.pop() ?? null) : null;
 };
 
 const clearResults = () => {
@@ -18,4 +25,10 @@ const clearResults = () => {
 
 const getBufferedResultCount = () => results.length;
 
-export { pushResult, peekLatestResult, clearResults, getBufferedResultCount };
+export {
+  pushResult,
+  peekLatestResult,
+  clearResults,
+  popLatestResult,
+  getBufferedResultCount,
+};

@@ -11,7 +11,7 @@ const formatDateTimeKST = (isoString: string) => {
     timeZone: "Asia/Seoul",
   })
     .format(date)
-    .replace(/\./g, ".") // "2025. 09. 29. 18:50" → "2025.09.29 18:50"
+    .replace(/\./g, ".")
     .replace(/\s+/g, " ");
 };
 

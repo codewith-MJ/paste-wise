@@ -1,9 +1,6 @@
 import { clipboard } from "electron";
 import sendSystemPasteCommand from "../../infra/os/system-paste";
-import {
-  pushResult,
-  peekLatestResult,
-} from "@/main/features/clipboard/result-buffer";
+import { peekLatestResult } from "@/main/features/clipboard/result-buffer";
 import {
   sendSystemCopyCommand,
   getUpdatedClipboardText,
@@ -17,10 +14,12 @@ import {
   isDuplicateRead,
   updateReadBuffer,
 } from "@/main/features/clipboard/read-buffer";
-import { ToneInfo } from "@/shared/types/tone";
 import { getTranslateMode } from "@/main/global-translate-state";
+import { createHistory } from "@/main/infra/db/dao/history";
+import { Tone, ToneInfo } from "@/shared/types/tone";
+import safeBufferPush from "@/main/features/clipboard/safe-buffer-push";
 
-const handleCopyShortcut = async (tone: ToneInfo) => {
+const handleCopyShortcut = async (tone: Tone) => {
   try {
     await sleep(120);
 
@@ -47,18 +46,32 @@ const handleCopyShortcut = async (tone: ToneInfo) => {
       return;
     }
 
-    try {
-      const transformed = await transform(originalText, tone, isTranslated);
-      pushResult(transformed);
+    const toneInfo: ToneInfo = {
+      toneId: tone.toneId,
+      tonePrompt: tone.tonePrompt,
+      toneStrength: tone.toneStrength,
+      emojiAllowed: tone.emojiAllowed === 1,
+    };
+    const transformedResult = await transform(
+      originalText,
+      toneInfo,
+      isTranslated,
+    );
+
+    await safeBufferPush(transformedResult.transformedText, async () => {
+      createHistory({
+        originalText,
+        ...transformedResult,
+        ...tone,
+        isTranslated: isTranslated ? 1 : 0,
+      });
 
       updateReadBuffer(originalText, tone.toneId, isTranslated);
+    });
 
-      logger.info(
-        `[copy] transformed → result-buffer: "${transformed.slice(0, 60)}"`,
-      );
-    } catch (err) {
-      logger.error("[copy] transform failed", err);
-    }
+    logger.info(
+      `[copy] transformed → result-buffer: "${transformedResult.transformedText.slice(0, 60)}"`,
+    );
   } catch (err) {
     logger.error("[copy] handler failed", err);
   }
@@ -87,7 +100,7 @@ const createPasteApplyHandler = () => {
         return;
       }
 
-      writeEscapedTransfromedResult(transformedResult);
+      await writeEscapedTransfromedResult(transformedResult);
 
       const { ok, errorMessage } = await sendSystemPasteCommand();
       if (!ok && errorMessage)

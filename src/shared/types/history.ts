@@ -30,11 +30,11 @@ type NewHistoryInput = {
   toneId?: number | null;
   toneName?: string | null;
   tonePrompt?: string | null;
-  isTranslated?: 0 | 1;
-  languageIn?: string | null;
-  languageOut?: string | null;
   toneStrength?: number | null;
   emojiAllowed?: 0 | 1;
+  isTranslated: 0 | 1;
+  languageIn?: string | null;
+  languageOut?: string | null;
 };
 
 type HistoryItemUI = {

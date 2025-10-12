@@ -54,12 +54,30 @@ const createHistory = (history: NewHistoryInput): number => {
 
   const stmt = db.prepare(`
     INSERT INTO histories (
-      original_text, transformed_text, tone_id, tone_name, tone_prompt,
-      is_translated, language_in, language_out, tone_strength, emoji_allowed
+      original_text,
+      transformed_text,
+      tone_id,
+      tone_name,
+      tone_prompt,
+      tone_strength,
+      emoji_allowed,
+      is_translated,
+      language_in,
+      language_out,
+      expires_at
     )
     VALUES (
-      @/original_text, @/transformed_text, @/tone_id, @/tone_name, @/tone_prompt,
-      @/is_translated, @/language_in, @/language_out, @/tone_strength, @/emoji_allowed
+      @original_text,
+      @transformed_text,
+      @tone_id,
+      @tone_name,
+      @tone_prompt,
+      @tone_strength,
+      @emoji_allowed,
+      @is_translated,
+      @language_in,
+      @language_out,
+      DATETIME('now', '+1 day')
     )
   `);
 
@@ -69,11 +87,11 @@ const createHistory = (history: NewHistoryInput): number => {
     tone_id: history.toneId ?? null,
     tone_name: history.toneName ?? null,
     tone_prompt: history.tonePrompt ?? null,
-    is_translated: history.isTranslated ?? 0,
-    lang_in: history.languageIn ?? null,
-    lang_out: history.languageOut ?? null,
     tone_strength: history.toneStrength ?? null,
-    emoji_allowed: history.emojiAllowed ?? 1,
+    emoji_allowed: history.emojiAllowed ? 1 : 0,
+    is_translated: history.isTranslated ? 1 : 0,
+    language_in: history.languageIn ?? null,
+    language_out: history.languageOut ?? null,
   });
 
   return Number(result.lastInsertRowid);

@@ -21,7 +21,7 @@ const registerToneIpc = () => {
 
   ipcMain.handle(TONE_DETAIL, async (_event, toneId: string) => {
     try {
-      const tone = await getToneById(Number(toneId));
+      const tone = await getToneById(parseInt(toneId));
 
       if (!tone) {
         throw new RecordNotFoundError({ id: toneId });
