@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS histories (
   history_id        INTEGER PRIMARY KEY,
   original_text     TEXT NOT NULL,
   transformed_text  TEXT NOT NULL,
-  tone_id           TEXT,
+  tone_id           INTEGER,
   tone_name         TEXT,
   tone_prompt       TEXT,
   is_translated     INTEGER NOT NULL,
