@@ -17,10 +17,11 @@ import {
   isDuplicateRead,
   updateReadBuffer,
 } from "@/main/features/clipboard/read-buffer";
-import { ToneInfo } from "@/shared/types/tone";
 import { getTranslateMode } from "@/main/global-translate-state";
+import { createHistory } from "@/main/infra/db/dao/history";
+import { Tone, ToneInfo } from "@/shared/types/tone";
 
-const handleCopyShortcut = async (tone: ToneInfo) => {
+const handleCopyShortcut = async (tone: Tone) => {
   try {
     await sleep(120);
 
@@ -48,13 +49,33 @@ const handleCopyShortcut = async (tone: ToneInfo) => {
     }
 
     try {
-      const transformed = await transform(originalText, tone, isTranslated);
-      pushResult(transformed);
+      const toneInfo: ToneInfo = {
+        toneId: tone.toneId,
+        tonePrompt: tone.tonePrompt,
+        toneStrength: tone.toneStrength,
+        emojiAllowed: tone.emojiAllowed === 1,
+      };
+      const transformedResult = await transform(
+        originalText,
+        toneInfo,
+        isTranslated,
+      );
+
+      logger.info(tone.toneId);
+
+      pushResult(transformedResult.transformedText);
+
+      createHistory({
+        originalText,
+        ...transformedResult,
+        ...tone,
+        isTranslated: isTranslated ? 1 : 0,
+      });
 
       updateReadBuffer(originalText, tone.toneId, isTranslated);
 
       logger.info(
-        `[copy] transformed → result-buffer: "${transformed.slice(0, 60)}"`,
+        `[copy] transformed → result-buffer: "${transformedResult.transformedText.slice(0, 60)}"`,
       );
     } catch (err) {
       logger.error("[copy] transform failed", err);
@@ -87,7 +108,7 @@ const createPasteApplyHandler = () => {
         return;
       }
 
-      writeEscapedTransfromedResult(transformedResult);
+      await writeEscapedTransfromedResult(transformedResult);
 
       const { ok, errorMessage } = await sendSystemPasteCommand();
       if (!ok && errorMessage)

@@ -34,7 +34,7 @@ const transform = async (
     const data = await response.json();
     logger.info(`[transform] success (translated=${isTranslated})`);
 
-    return data.transformedText ?? "";
+    return data;
   } catch (error) {
     logger.error("[transform] request failed", error);
     throw error;

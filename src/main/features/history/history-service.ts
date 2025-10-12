@@ -2,6 +2,7 @@ import {
   HistoryItemUI,
   History,
   HistoryListItem,
+  NewHistoryInput,
 } from "@/shared/types/history";
 import {
   getHistoryList as repoGetHistoryList,
@@ -9,6 +10,7 @@ import {
   deleteHistory as repoDeleteHistory,
   deleteExpiredHistories as repoDeleteExpiredHistories,
   getToneDropdownList as repoGetToneDropdownList,
+  createHistory as repoCreateHistory,
 } from "../../infra/db/dao/history";
 
 const getHistoryList = async (): Promise<HistoryItemUI[]> => {
@@ -47,12 +49,19 @@ const getToneDropdownList = async (): Promise<string[]> => {
   return result.map((item) => item.toneName);
 };
 
+const createHitory = async (history: NewHistoryInput): Promise<number> => {
+  const isCreated = await Promise.resolve(repoCreateHistory(history));
+
+  return isCreated;
+};
+
 export {
   getHistoryList,
   getHistoryById,
   deleteHistory,
   deleteExpiredHistory,
   getToneDropdownList,
+  createHitory,
 };
 
 function formatHistoryItem(item: HistoryListItem): HistoryItemUI {
