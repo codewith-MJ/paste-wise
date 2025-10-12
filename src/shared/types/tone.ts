@@ -22,4 +22,11 @@ type ToneItemUI = {
   emojiAllowed?: boolean;
 };
 
-export { ToneListItem, Tone, ToneItemUI };
+type ToneInfo = {
+  toneId: number;
+  tonePrompt: string;
+  toneStrength: number;
+  emojiAllowed: boolean;
+};
+
+export { ToneListItem, Tone, ToneItemUI, ToneInfo };

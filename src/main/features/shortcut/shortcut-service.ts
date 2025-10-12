@@ -9,6 +9,7 @@ import {
 import { getToneById } from "@/main/infra/db/dao/tone";
 import { SHORTCUT_COMMAND } from "@/shared/constants/shortcuts";
 import { Tone } from "@/shared/types/tone";
+import { toggleTranslateMode } from "@/main/global-translate-state";
 
 const getShortcutList = async (): Promise<ShortcutUI[]> => {
   const shortcutList = await Promise.resolve(repoGetShortcutList());
@@ -64,20 +65,29 @@ const getShortcutListToRegister = (): ShortcutToRegister[] => {
         continue;
       }
 
+      const toneInfo = {
+        toneId: tone.toneId,
+        tonePrompt: tone.tonePrompt,
+        toneStrength: tone.toneStrength,
+        emojiAllowed: tone.emojiAllowed === 1,
+      };
+
       shortcutAction = () => {
-        void handleCopyShortcut(tone);
+        void handleCopyShortcut(toneInfo);
+      };
+    } else if (shortcut.command === SHORTCUT_COMMAND.PASTE_APPLY) {
+      shortcutAction = () => {
+        void pasteApplyHandler();
+      };
+    } else if (shortcut.command === SHORTCUT_COMMAND.TRANSLATE_TOGGLE) {
+      shortcutAction = () => {
+        toggleTranslateMode();
       };
     } else {
-      if (shortcut.command === SHORTCUT_COMMAND.PASTE_APPLY) {
-        shortcutAction = () => {
-          void pasteApplyHandler();
-        };
-      } else {
-        logger.warn(
-          `[shortcuts] unsupported command: ${shortcut.command} (skipped)`,
-        );
-        continue;
-      }
+      logger.warn(
+        `[shortcuts] unsupported command: ${shortcut.command} (skipped)`,
+      );
+      continue;
     }
 
     list.push({
@@ -88,23 +98,5 @@ const getShortcutListToRegister = (): ShortcutToRegister[] => {
 
   return list;
 };
-
-// <어제 업무 결과>
-// 단축키 설정페이지 UI작업 진행 완료
-// 모드별 빠른 실행 단축키 추가 작업 진행중
-
-// <개인작업>
-// AI 변환기능
-
-// <특이사항>
-// X
-
-// <일정 변동 & 딜레이 유무>
-// ㅁ
-
-// <도움 요청 사항 유무>
-// X
-
-// 여기에 일정 변도 ㅇ딜레이 유무에 내가 지금 모드 단축키 등록하면서 겪고있는 문제와 필요한 수정사항을 아주 간단하게 정리해줘.
 
 export { getShortcutList, getShortcutListToRegister };
