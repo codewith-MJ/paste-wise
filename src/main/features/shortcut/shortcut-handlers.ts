@@ -18,14 +18,29 @@ import { getTranslateMode } from "@/main/global-translate-state";
 import { createHistory } from "@/main/infra/db/dao/history";
 import { Tone, ToneInfo } from "@/shared/types/tone";
 import safeBufferPush from "@/main/features/clipboard/safe-buffer-push";
+import { mainWindow } from "@/main/app/main";
+import { pushToast } from "@/main/toast/overlay";
+import { IPC } from "@/shared/constants/ipc-channels";
+import { TOAST_TYPE } from "@/shared/constants/toast";
+
+const sendConversionStart = (jobId: string) => {
+  mainWindow?.webContents.send(IPC.CONVERSION_START, { jobId });
+};
+const sendConversionDone = (jobId: string, ok: boolean) => {
+  mainWindow?.webContents.send(IPC.CONVERSION_DONE, { jobId, ok });
+};
 
 const handleCopyShortcut = async (tone: Tone) => {
+  const jobId = String(Date.now());
+  const done = (ok: boolean) => sendConversionDone(jobId, ok);
+
   try {
+    sendConversionStart(jobId);
     await sleep(120);
 
     const prevClipboardText = clipboard.readText();
     const dispatched = await sendSystemCopyCommand();
-    if (!dispatched) return;
+    if (!dispatched) return done(false);
 
     const updatedClipboardText =
       await getUpdatedClipboardText(prevClipboardText);
@@ -34,7 +49,7 @@ const handleCopyShortcut = async (tone: Tone) => {
 
     if (!originalText) {
       logger.warn("[copy] clipboard empty");
-      return;
+      return done(false);
     }
 
     const isTranslated = getTranslateMode();
@@ -43,7 +58,7 @@ const handleCopyShortcut = async (tone: Tone) => {
       logger.warn(
         "[copy] clipboard unchanged and same tone/translate mode → skipped",
       );
-      return;
+      return done(false);
     }
 
     const toneInfo: ToneInfo = {
@@ -72,8 +87,13 @@ const handleCopyShortcut = async (tone: Tone) => {
     logger.info(
       `[copy] transformed → result-buffer: "${transformedResult.transformedText.slice(0, 60)}"`,
     );
+
+    pushToast(TOAST_TYPE.SUCCESS, "변환이 완료되었습니다!", 3000);
+    return done(true);
   } catch (err) {
     logger.error("[copy] handler failed", err);
+    pushToast(TOAST_TYPE.ERROR, "오류가 발생했습니다.", 3000);
+    return done(false);
   }
 };
 

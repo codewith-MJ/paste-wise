@@ -1,9 +1,10 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import safeInvoke from "./safe-invoke";
 import { HistoryItemUI } from "@/shared/types/history";
 import { IPC } from "@/shared/constants/ipc-channels";
 import { ToneItemUI } from "@/shared/types/tone";
 import { ShortcutUI } from "@/shared/types/shortcut";
+import { TOAST_TYPE } from "@/shared/constants/toast";
 
 const api = {
   history: {
@@ -35,4 +36,58 @@ const api = {
   },
 } as const;
 
+const hud = {
+  show(): Promise<boolean> {
+    return safeInvoke<boolean>(IPC.HUD_SHOW);
+  },
+  hide(): Promise<boolean> {
+    return safeInvoke<boolean>(IPC.HUD_HIDE);
+  },
+};
+
+const loading = {
+  onChange(handler: (isLoading: boolean) => void) {
+    const onStart = (
+      _: Electron.IpcRendererEvent,
+      _payload: { jobId: string },
+    ) => {
+      handler(true);
+    };
+    const onDone = (
+      _: Electron.IpcRendererEvent,
+      _payload: { jobId: string; ok: boolean },
+    ) => {
+      handler(false);
+    };
+
+    ipcRenderer.on(IPC.CONVERSION_START, onStart);
+    ipcRenderer.on(IPC.CONVERSION_DONE, onDone);
+
+    return () => {
+      ipcRenderer.removeListener(IPC.CONVERSION_START, onStart);
+      ipcRenderer.removeListener(IPC.CONVERSION_DONE, onDone);
+    };
+  },
+};
+
+const toast = {
+  success(message: string, duration = 3000) {
+    return safeInvoke<boolean>(IPC.TOAST_PUSH, {
+      type: TOAST_TYPE.SUCCESS,
+      message,
+      duration,
+    });
+  },
+  error(message: string, duration = 3000) {
+    return safeInvoke<boolean>(IPC.TOAST_PUSH, {
+      type: TOAST_TYPE.ERROR,
+      message,
+      duration,
+    });
+  },
+};
+
 contextBridge.exposeInMainWorld("api", api);
+contextBridge.exposeInMainWorld("hud", hud);
+contextBridge.exposeInMainWorld("loading", loading);
+contextBridge.exposeInMainWorld("toast", toast);
