@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import logger from "@/main/utils/logger";
 
 function useConversionHud() {
   useEffect(() => {
@@ -13,7 +12,7 @@ function useConversionHud() {
           window.hud.hide();
         }
       } catch (error) {
-        logger.warn("[HUD] show/hide failed", error);
+        console.error("[HUD] show/hide failed", error);
       }
     });
 
