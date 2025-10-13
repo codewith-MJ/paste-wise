@@ -69,6 +69,24 @@ const loading = {
   },
 };
 
+const toast = {
+  success(message: string, duration = 3000) {
+    return safeInvoke<boolean>("toast:push", {
+      type: "success",
+      message,
+      duration,
+    });
+  },
+  error(message: string, duration = 3000) {
+    return safeInvoke<boolean>("toast:push", {
+      type: "error",
+      message,
+      duration,
+    });
+  },
+};
+
 contextBridge.exposeInMainWorld("api", api);
 contextBridge.exposeInMainWorld("hud", hud);
 contextBridge.exposeInMainWorld("loading", loading);
+contextBridge.exposeInMainWorld("toast", toast);

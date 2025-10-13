@@ -28,6 +28,11 @@ declare global {
     loading: {
       onChange: (handler: (isLoading: boolean) => void) => () => void;
     };
+
+    toast: {
+      success: (message: string, duration?: number) => Promise<boolean>;
+      error: (message: string, duration?: number) => Promise<boolean>;
+    };
   }
 }
 
