@@ -19,6 +19,15 @@ declare global {
         list: () => Promise<ShortcutUI[]>;
       };
     };
+
+    hud: {
+      show: () => Promise<boolean>;
+      hide: () => Promise<boolean>;
+    };
+
+    loading: {
+      onChange: (handler: (isLoading: boolean) => void) => () => void;
+    };
   }
 }
 

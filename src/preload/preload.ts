@@ -1,4 +1,4 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import safeInvoke from "./safe-invoke";
 import { HistoryItemUI } from "@/shared/types/history";
 import { IPC } from "@/shared/constants/ipc-channels";
@@ -35,4 +35,40 @@ const api = {
   },
 } as const;
 
+const hud = {
+  show(): Promise<boolean> {
+    return safeInvoke<boolean>("hud:show");
+  },
+  hide(): Promise<boolean> {
+    return safeInvoke<boolean>("hud:hide");
+  },
+};
+
+const loading = {
+  onChange(handler: (isLoading: boolean) => void) {
+    const onStart = (
+      _: Electron.IpcRendererEvent,
+      _payload: { jobId: string },
+    ) => {
+      handler(true);
+    };
+    const onDone = (
+      _: Electron.IpcRendererEvent,
+      _payload: { jobId: string; ok: boolean },
+    ) => {
+      handler(false);
+    };
+
+    ipcRenderer.on("conversion:start", onStart);
+    ipcRenderer.on("conversion:done", onDone);
+
+    return () => {
+      ipcRenderer.removeListener("conversion:start", onStart);
+      ipcRenderer.removeListener("conversion:done", onDone);
+    };
+  },
+};
+
 contextBridge.exposeInMainWorld("api", api);
+contextBridge.exposeInMainWorld("hud", hud);
+contextBridge.exposeInMainWorld("loading", loading);

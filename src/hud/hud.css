@@ -1,0 +1,29 @@
+html,
+body {
+  margin: 0;
+  background: transparent;
+}
+
+.wrap {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spin {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(59, 130, 246, 0.25);
+  border-top-color: rgba(59, 130, 246, 0.9);
+  border-radius: 50%;
+  animation: spin 1.1s linear infinite;
+  will-change: transform;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

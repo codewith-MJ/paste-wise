@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import path from "node:path";
 import bootstrap from "./bootstrap";
+import { initHudOverlayIpc } from "../hud/overlay";
 
 const squirrelStartup =
   process.platform === "win32" ? require("electron-squirrel-startup") : false;
@@ -9,8 +10,10 @@ if (squirrelStartup) {
   app.quit();
 }
 
+export let mainWindow: BrowserWindow | null = null;
+
 const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 976,
     height: 664,
     minWidth: 960,
@@ -34,8 +37,11 @@ const createWindow = () => {
     );
   }
 
-  // mainWindow.webContents.openDevTools();
-  mainWindow.once("ready-to-show", () => mainWindow.show());
+  mainWindow.once("ready-to-show", () => mainWindow!.show());
+
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
 };
 
 let cleanupAppResources: (() => void) | null = null;
@@ -46,6 +52,7 @@ app.whenReady().then(() => {
     cleanupAppResources = appContext.cleanupAppResources;
 
     createWindow();
+    initHudOverlayIpc();
 
     app.on("activate", () => {
       if (BrowserWindow.getAllWindows().length === 0) {

@@ -18,14 +18,26 @@ import { getTranslateMode } from "@/main/global-translate-state";
 import { createHistory } from "@/main/infra/db/dao/history";
 import { Tone, ToneInfo } from "@/shared/types/tone";
 import safeBufferPush from "@/main/features/clipboard/safe-buffer-push";
+import { mainWindow } from "@/main/app/main";
+
+const sendConversionStart = (jobId: string) => {
+  mainWindow?.webContents.send("conversion:start", { jobId });
+};
+const sendConversionDone = (jobId: string, ok: boolean) => {
+  mainWindow?.webContents.send("conversion:done", { jobId, ok });
+};
 
 const handleCopyShortcut = async (tone: Tone) => {
+  const jobId = String(Date.now());
+  const done = (ok: boolean) => sendConversionDone(jobId, ok);
+
   try {
+    sendConversionStart(jobId);
     await sleep(120);
 
     const prevClipboardText = clipboard.readText();
     const dispatched = await sendSystemCopyCommand();
-    if (!dispatched) return;
+    if (!dispatched) return done(false);
 
     const updatedClipboardText =
       await getUpdatedClipboardText(prevClipboardText);
@@ -34,7 +46,7 @@ const handleCopyShortcut = async (tone: Tone) => {
 
     if (!originalText) {
       logger.warn("[copy] clipboard empty");
-      return;
+      return done(false);
     }
 
     const isTranslated = getTranslateMode();
@@ -43,7 +55,7 @@ const handleCopyShortcut = async (tone: Tone) => {
       logger.warn(
         "[copy] clipboard unchanged and same tone/translate mode → skipped",
       );
-      return;
+      return done(false);
     }
 
     const toneInfo: ToneInfo = {
@@ -72,8 +84,10 @@ const handleCopyShortcut = async (tone: Tone) => {
     logger.info(
       `[copy] transformed → result-buffer: "${transformedResult.transformedText.slice(0, 60)}"`,
     );
+    return done(true);
   } catch (err) {
     logger.error("[copy] handler failed", err);
+    return done(false);
   }
 };
 
