@@ -1,12 +1,14 @@
 import { app, BrowserWindow, ipcMain, screen } from "electron";
 import path from "node:path";
+import { IPC } from "@/shared/constants/ipc-channels";
+import { ToastType } from "@/shared/constants/toast";
 
 let toastWindow: BrowserWindow | null = null;
 let isToastRendererReady = false;
 
 type ToastPayload = {
   id: string;
-  type: "success" | "error";
+  type: ToastType;
   message: string;
   duration: number;
 };
@@ -92,7 +94,7 @@ const createToastBrowserWindow = (
 };
 
 export const pushToast = (
-  type: "success" | "error",
+  type: ToastType,
   message: string,
   duration = 3000,
 ): void => {
@@ -124,10 +126,10 @@ export const pushToast = (
   win.showInactive();
   win.setAlwaysOnTop(true, "screen-saver", 1);
   win.moveTop?.();
-  win.webContents.send("toast:push", payload);
+  win.webContents.send(IPC.TOAST_PUSH, payload);
 };
 
-ipcMain.on("toast:ready", () => {
+ipcMain.on(IPC.TOAST_READY, () => {
   isToastRendererReady = true;
 
   toastWindow?.showInactive();
@@ -136,11 +138,11 @@ ipcMain.on("toast:ready", () => {
 
   while (pendingToastQueue.length) {
     const item = pendingToastQueue.shift()!;
-    toastWindow!.webContents.send("toast:push", item);
+    toastWindow!.webContents.send(IPC.TOAST_PUSH, item);
   }
 });
 
-ipcMain.on("toast:resize", (_event, payload: { height: number }) => {
+ipcMain.on(IPC.TOAST_RESIZE, (_event, payload: { height: number }) => {
   if (!toastWindow || toastWindow.isDestroyed()) return;
 
   const currentBounds = toastWindow.getBounds();
@@ -153,11 +155,11 @@ ipcMain.on("toast:resize", (_event, payload: { height: number }) => {
 
 export const initToastOverlayIpc = (): void => {
   ipcMain.handle(
-    "toast:push",
+    IPC.TOAST_PUSH,
     (
       _event,
       payload: {
-        type: "success" | "error";
+        type: ToastType;
         message: string;
         duration?: number;
       },

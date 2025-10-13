@@ -4,6 +4,7 @@ import { HistoryItemUI } from "@/shared/types/history";
 import { IPC } from "@/shared/constants/ipc-channels";
 import { ToneItemUI } from "@/shared/types/tone";
 import { ShortcutUI } from "@/shared/types/shortcut";
+import { TOAST_TYPE } from "@/shared/constants/toast";
 
 const api = {
   history: {
@@ -37,10 +38,10 @@ const api = {
 
 const hud = {
   show(): Promise<boolean> {
-    return safeInvoke<boolean>("hud:show");
+    return safeInvoke<boolean>(IPC.HUD_SHOW);
   },
   hide(): Promise<boolean> {
-    return safeInvoke<boolean>("hud:hide");
+    return safeInvoke<boolean>(IPC.HUD_HIDE);
   },
 };
 
@@ -59,27 +60,27 @@ const loading = {
       handler(false);
     };
 
-    ipcRenderer.on("conversion:start", onStart);
-    ipcRenderer.on("conversion:done", onDone);
+    ipcRenderer.on(IPC.CONVERSION_START, onStart);
+    ipcRenderer.on(IPC.CONVERSION_DONE, onDone);
 
     return () => {
-      ipcRenderer.removeListener("conversion:start", onStart);
-      ipcRenderer.removeListener("conversion:done", onDone);
+      ipcRenderer.removeListener(IPC.CONVERSION_START, onStart);
+      ipcRenderer.removeListener(IPC.CONVERSION_DONE, onDone);
     };
   },
 };
 
 const toast = {
   success(message: string, duration = 3000) {
-    return safeInvoke<boolean>("toast:push", {
-      type: "success",
+    return safeInvoke<boolean>(IPC.TOAST_PUSH, {
+      type: TOAST_TYPE.SUCCESS,
       message,
       duration,
     });
   },
   error(message: string, duration = 3000) {
-    return safeInvoke<boolean>("toast:push", {
-      type: "error",
+    return safeInvoke<boolean>(IPC.TOAST_PUSH, {
+      type: TOAST_TYPE.ERROR,
       message,
       duration,
     });

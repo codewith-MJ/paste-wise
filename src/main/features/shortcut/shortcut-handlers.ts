@@ -20,12 +20,14 @@ import { Tone, ToneInfo } from "@/shared/types/tone";
 import safeBufferPush from "@/main/features/clipboard/safe-buffer-push";
 import { mainWindow } from "@/main/app/main";
 import { pushToast } from "@/main/toast/overlay";
+import { IPC } from "@/shared/constants/ipc-channels";
+import { TOAST_TYPE } from "@/shared/constants/toast";
 
 const sendConversionStart = (jobId: string) => {
-  mainWindow?.webContents.send("conversion:start", { jobId });
+  mainWindow?.webContents.send(IPC.CONVERSION_START, { jobId });
 };
 const sendConversionDone = (jobId: string, ok: boolean) => {
-  mainWindow?.webContents.send("conversion:done", { jobId, ok });
+  mainWindow?.webContents.send(IPC.CONVERSION_DONE, { jobId, ok });
 };
 
 const handleCopyShortcut = async (tone: Tone) => {
@@ -86,11 +88,11 @@ const handleCopyShortcut = async (tone: Tone) => {
       `[copy] transformed → result-buffer: "${transformedResult.transformedText.slice(0, 60)}"`,
     );
 
-    pushToast("success", "변환이 완료되었습니다!", 3000);
+    pushToast(TOAST_TYPE.SUCCESS, "변환이 완료되었습니다!", 3000);
     return done(true);
   } catch (err) {
     logger.error("[copy] handler failed", err);
-    pushToast("error", "오류가 발생했습니다.", 3000);
+    pushToast(TOAST_TYPE.ERROR, "오류가 발생했습니다.", 3000);
     return done(false);
   }
 };

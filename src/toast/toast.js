@@ -1,10 +1,21 @@
 const { ipcRenderer } = require("electron");
 
+const IPC = {
+  TOAST_PUSH: "toast:push",
+  TOAST_READY: "toast:ready",
+  TOAST_RESIZE: "toast:resize",
+};
+
+const TOAST_TYPE = {
+  SUCCESS: "success",
+  ERROR: "error",
+};
+
 const notifyResize = (stackElement) => {
   if (!stackElement) return;
   const boundingBox = stackElement.getBoundingClientRect();
   const currentHeight = Math.ceil(boundingBox.height) + 32;
-  ipcRenderer.send("toast:resize", {
+  ipcRenderer.send(IPC.TOAST_RESIZE, {
     height: Math.max(currentHeight, 1),
   });
 };
@@ -23,14 +34,16 @@ const removeToast = (toastElement, stackElement) => {
 
 const pushToast = (
   stackElement,
-  { id, type = "success", message = "", duration = 3000 },
+  { id, type = TOAST_TYPE.SUCCESS, message = "", duration = 3000 },
 ) => {
   if (!stackElement) return;
 
   const finalMsg =
     message ||
-    (type === "success" ? "변환이 완료되었습니다!" : "오류가 발생했습니다.");
-  const icon = type === "success" ? "✅" : "❗️";
+    (type === TOAST_TYPE.SUCCESS
+      ? "변환이 완료되었습니다!"
+      : "오류가 발생했습니다.");
+  const icon = type === TOAST_TYPE.SUCCESS ? "✅" : "❗️";
 
   const element = document.createElement("div");
   element.className = `toast ${type}`;
@@ -62,11 +75,11 @@ const initToastOverlay = () => {
     return;
   }
 
-  ipcRenderer.on("toast:push", (_ev, payload) => {
+  ipcRenderer.on(IPC.TOAST_PUSH, (_ev, payload) => {
     pushToast(stack, payload);
   });
 
-  ipcRenderer.send("toast:ready");
+  ipcRenderer.send(IPC.TOAST_READY);
 
   requestAnimationFrame(() => notifyResize(stack));
 };

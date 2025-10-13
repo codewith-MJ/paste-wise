@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, screen } from "electron";
 import path from "node:path";
+import { IPC } from "@/shared/constants/ipc-channels";
 
 let hudWin: BrowserWindow | null = null;
 let followTimer: NodeJS.Timeout | null = null;
@@ -94,11 +95,11 @@ const hideHud = () => {
 };
 
 const initHudOverlayIpc = () => {
-  ipcMain.handle("hud:show", async () => {
+  ipcMain.handle(IPC.HUD_SHOW, async () => {
     showHud();
     return true;
   });
-  ipcMain.handle("hud:hide", async () => {
+  ipcMain.handle(IPC.HUD_HIDE, async () => {
     hideHud();
     return true;
   });
