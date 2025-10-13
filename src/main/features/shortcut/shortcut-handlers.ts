@@ -19,6 +19,7 @@ import { createHistory } from "@/main/infra/db/dao/history";
 import { Tone, ToneInfo } from "@/shared/types/tone";
 import safeBufferPush from "@/main/features/clipboard/safe-buffer-push";
 import { mainWindow } from "@/main/app/main";
+import { pushToast } from "@/main/toast/overlay";
 
 const sendConversionStart = (jobId: string) => {
   mainWindow?.webContents.send("conversion:start", { jobId });
@@ -84,9 +85,12 @@ const handleCopyShortcut = async (tone: Tone) => {
     logger.info(
       `[copy] transformed → result-buffer: "${transformedResult.transformedText.slice(0, 60)}"`,
     );
+
+    pushToast("success", "변환이 완료되었습니다!", 3000);
     return done(true);
   } catch (err) {
     logger.error("[copy] handler failed", err);
+    pushToast("error", "오류가 발생했습니다.", 3000);
     return done(false);
   }
 };
