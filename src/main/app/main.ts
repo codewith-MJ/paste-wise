@@ -11,6 +11,7 @@ if (squirrelStartup) {
 }
 
 export let mainWindow: BrowserWindow | null = null;
+let isQuitting = false;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -39,8 +40,11 @@ const createWindow = () => {
 
   mainWindow.once("ready-to-show", () => mainWindow!.show());
 
-  mainWindow.on("closed", () => {
-    mainWindow = null;
+  mainWindow.on("close", (e) => {
+    if (!isQuitting) {
+      e.preventDefault();
+      mainWindow?.hide();
+    }
   });
 };
 
@@ -55,6 +59,7 @@ app.whenReady().then(() => {
     initHudOverlayIpc();
 
     app.on("activate", () => {
+      if (mainWindow) mainWindow.show();
       if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
       }
