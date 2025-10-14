@@ -35,8 +35,10 @@ const api = {
     },
   },
   login: {
-    async startGoogleLogin(): Promise<void> {
-      await safeInvoke<void>(IPC.AUTH_GOOGLE_START);
+    async startGoogleLogin(): Promise<{ loginTransactionId: string }> {
+      return await safeInvoke<{ loginTransactionId: string }>(
+        IPC.AUTH_GOOGLE_START,
+      );
     },
   },
 } as const;
