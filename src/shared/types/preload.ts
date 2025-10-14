@@ -18,6 +18,9 @@ declare global {
       shortcut: {
         list: () => Promise<ShortcutUI[]>;
       };
+      login: {
+        startGoogleLogin: () => Promise<{ loginTransactionId: string }>;
+      };
     };
 
     hud: {

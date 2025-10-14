@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import ROUTES from "@/shared/constants/routes";
 import GoogleLoginButton from "./GoogleLoginButton";
 import TitleBlock from "./TitleBlock";
@@ -8,9 +9,20 @@ import loginImage from "@/renderer/assets/login-img.png";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [isStartingLogin, setIsStartingLogin] = useState(false);
 
-  const handleGoogleLogin = () => {
-    // TO-DO : Login 로직 추가
+  const handleGoogleLogin = async () => {
+    if (isStartingLogin) {
+      return;
+    }
+    setIsStartingLogin(true);
+
+    try {
+      await window.api.login.startGoogleLogin();
+    } catch (error) {
+    } finally {
+      setIsStartingLogin(false);
+    }
   };
 
   const handleSkipLogin = () => {
@@ -24,7 +36,10 @@ function LoginPage() {
           <TitleBlock />
 
           <div className="mt-5">
-            <GoogleLoginButton onClick={handleGoogleLogin} />
+            <GoogleLoginButton
+              onClick={handleGoogleLogin}
+              disabled={isStartingLogin}
+            />
           </div>
 
           <div className="mt-5">

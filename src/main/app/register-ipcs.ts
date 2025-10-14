@@ -1,3 +1,4 @@
+import registerAuthIpc from "../features/auth/auth-ipc";
 import registerHistoryIpc from "../features/history/history-ipc";
 import registerShortcutIpc from "../features/shortcut/shortcut-ipc";
 import registerToneIpc from "../features/tone/tone-ipc";
@@ -6,6 +7,7 @@ const registerAllIpc = () => {
   registerHistoryIpc();
   registerToneIpc();
   registerShortcutIpc();
+  registerAuthIpc();
 };
 
 export default registerAllIpc;

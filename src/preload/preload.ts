@@ -34,6 +34,11 @@ const api = {
       return safeInvoke<ShortcutUI[]>(IPC.SHORTCUT_LIST);
     },
   },
+  login: {
+    async startGoogleLogin(): Promise<void> {
+      await safeInvoke<void>(IPC.AUTH_GOOGLE_START);
+    },
+  },
 } as const;
 
 const hud = {

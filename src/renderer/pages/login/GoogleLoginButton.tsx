@@ -2,12 +2,14 @@ import { FcGoogle } from "react-icons/fc";
 
 type GoogleLoginButtonProps = {
   onClick: () => void;
+  disabled: boolean;
 };
 
-function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
+function GoogleLoginButton({ onClick, disabled }: GoogleLoginButtonProps) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-md transition-colors hover:bg-blue-700"
     >
       <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
