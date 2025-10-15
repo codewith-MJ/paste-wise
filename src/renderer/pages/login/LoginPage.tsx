@@ -18,15 +18,20 @@ function LoginPage() {
       return;
     }
     setIsLoginProcessing(true);
+    let succeeded = false;
 
     try {
       const { user } = await window.api.login.loginWithGoogle();
       setUser(user);
+      succeeded = true;
+
       navigate(ROUTES.HISTORY);
     } catch (error) {
       console.error("[login] start failed:", error);
     } finally {
-      setIsLoginProcessing(false);
+      if (!succeeded) {
+        setIsLoginProcessing(false);
+      }
     }
   };
 
