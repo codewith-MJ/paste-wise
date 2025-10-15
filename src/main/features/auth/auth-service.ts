@@ -48,7 +48,10 @@ const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
 
   const resp = await fetch(`${BACKEND_URL}/auth/google/native-callback`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "X-App-Secret": requireEnv("APP_SECRET"),
+    },
     body: JSON.stringify(payload),
   });
 

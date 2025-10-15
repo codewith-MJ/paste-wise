@@ -22,7 +22,10 @@ const transform = async (
 
     const response = await fetch(`${BACKEND_URL}/transformations`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-App-Secret": requireEnv("APP_SECRET"),
+      },
       body: JSON.stringify(payload),
     });
 
