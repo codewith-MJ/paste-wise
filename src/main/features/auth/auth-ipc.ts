@@ -1,10 +1,10 @@
 import { ipcMain } from "electron";
 import { IPC } from "@/shared/constants/ipc-channels";
-import { startGoogleLogin } from "./auth-service";
+import { loginWithGooglePKCE } from "./auth-service";
 
 const registerAuthIpc = () => {
-  ipcMain.handle(IPC.AUTH_GOOGLE_START, async () => {
-    return await startGoogleLogin();
+  ipcMain.handle(IPC.AUTH_GOOGLE_LOGIN, async () => {
+    return await loginWithGooglePKCE();
   });
 };
 

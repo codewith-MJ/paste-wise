@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ROUTES from "@/shared/constants/routes";
 import GoogleLoginButton from "./GoogleLoginButton";
 import TitleBlock from "./TitleBlock";
@@ -8,88 +8,27 @@ import FeatureList from "./FeatureList";
 import loginImage from "@/renderer/assets/login-img.png";
 import { useAuthStore } from "@/renderer/stores/auth";
 
-const BE_URL = "http://localhost:3000";
-
-type LoggedInUser = {
-  id: string;
-  name: string;
-  email: string;
-  picture?: string;
-};
-
 function LoginPage() {
   const navigate = useNavigate();
-  const [isStartingLogin, setIsStartingLogin] = useState(false);
-  const [loginTransactionId, setLoginTransactionId] = useState<string | null>(
-    null,
-  );
+  const [isLoginProcessing, setIsLoginProcessing] = useState(false);
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleGoogleLogin = async () => {
-    if (isStartingLogin) {
+    if (isLoginProcessing) {
       return;
     }
-    setIsStartingLogin(true);
+    setIsLoginProcessing(true);
 
     try {
-      const { loginTransactionId } = await window.api.login.startGoogleLogin();
-      setLoginTransactionId(loginTransactionId);
+      const { user } = await window.api.login.loginWithGoogle();
+      setUser(user);
+      navigate(ROUTES.HISTORY);
     } catch (error) {
       console.error("[login] start failed:", error);
     } finally {
-      setIsStartingLogin(false);
+      setIsLoginProcessing(false);
     }
   };
-
-  useEffect(() => {
-    if (!loginTransactionId) {
-      return;
-    }
-
-    let cancelled = false;
-    let timer: ReturnType<typeof setTimeout> | null = null;
-
-    const poll = async () => {
-      try {
-        const res = await fetch(
-          `${BE_URL}/auth/status?loginTransactionId=${encodeURIComponent(loginTransactionId)}`,
-        );
-        const data = await res.json();
-
-        if (cancelled) {
-          return;
-        }
-
-        console.log(data);
-
-        if (data.status === "done" && data.user) {
-          const user: LoggedInUser = data.user;
-          setUser(user);
-
-          setIsStartingLogin(false);
-          navigate(ROUTES.HISTORY);
-          return;
-        }
-
-        if (data.status === "error") {
-          console.error("[login] status error:", data.errorMessage);
-          setIsStartingLogin(false);
-          return;
-        }
-        timer = setTimeout(poll, 2000);
-      } catch (error) {
-        console.error("[login] status fetch failed:", error);
-        timer = setTimeout(poll, 2000);
-      }
-    };
-
-    timer = setTimeout(poll, 600);
-
-    return () => {
-      cancelled = true;
-      if (timer) clearTimeout(timer);
-    };
-  }, [loginTransactionId, navigate, setUser]);
 
   const handleSkipLogin = () => {
     navigate(ROUTES.HISTORY);
@@ -104,7 +43,7 @@ function LoginPage() {
           <div className="mt-5">
             <GoogleLoginButton
               onClick={handleGoogleLogin}
-              disabled={isStartingLogin}
+              disabled={isLoginProcessing}
             />
           </div>
 
