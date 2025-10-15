@@ -21,7 +21,7 @@ function LoginPage() {
     let succeeded = false;
 
     try {
-      const { user } = await window.api.login.loginWithGoogle();
+      const { user } = await window.api.auth.loginWithGoogle();
       setUser(user);
       succeeded = true;
 

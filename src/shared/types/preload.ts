@@ -19,8 +19,9 @@ declare global {
       shortcut: {
         list: () => Promise<ShortcutUI[]>;
       };
-      login: {
+      auth: {
         loginWithGoogle: () => Promise<{ user: AuthUser }>;
+        logout: (userId: string) => Promise<{ ok: true }>;
       };
     };
 

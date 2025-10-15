@@ -35,9 +35,12 @@ const api = {
       return safeInvoke<ShortcutUI[]>(IPC.SHORTCUT_LIST);
     },
   },
-  login: {
+  auth: {
     async loginWithGoogle(): Promise<{ user: AuthUser }> {
       return await safeInvoke<{ user: AuthUser }>(IPC.AUTH_GOOGLE_LOGIN);
+    },
+    async logout(id: string): Promise<{ ok: true }> {
+      return await safeInvoke<{ ok: true }>(IPC.AUTH_LOGOUT, id);
     },
   },
 } as const;

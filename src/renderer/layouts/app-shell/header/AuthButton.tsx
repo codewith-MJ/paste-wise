@@ -5,12 +5,19 @@ import { useAuthStore } from "@/renderer/stores/auth";
 
 function AuthButton() {
   const navigate = useNavigate();
-  const { isAuthenticated, clear } = useAuthStore();
+  const { isAuthenticated, clear, user } = useAuthStore();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (isAuthenticated) {
-      clear();
-      navigate(ROUTES.HISTORY);
+      try {
+        await window.api.auth.logout(user!.id);
+
+        clear();
+
+        navigate(ROUTES.HISTORY);
+      } catch (err) {
+        console.error("[auth] logout failed:", err);
+      }
     } else {
       navigate(ROUTES.LOGIN);
     }

@@ -3,8 +3,15 @@ import { URL } from "url";
 import { shell } from "electron";
 import toBase64Url from "./base64-url";
 import createLoopbackServer from "./create-loopback-server";
-import { AuthUser } from "@/shared/types/auth";
+import { AuthUser, LoginResponse } from "@/shared/types/auth";
 import requireEnv from "@/main/utils/require-env";
+import {
+  clearTokens,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "@/main/infra/auth/token-store";
+import logger from "@/main/utils/logger";
 
 const OAUTH_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 const SCOPES = "openid email profile";
@@ -46,7 +53,7 @@ const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
 
   const payload = { code, codeVerifier: verifier, redirectUri, state };
 
-  const resp = await fetch(`${BACKEND_URL}/auth/google/native-callback`, {
+  const response = await fetch(`${BACKEND_URL}/auth/google/native-callback`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,11 +62,50 @@ const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
     body: JSON.stringify(payload),
   });
 
-  if (!resp.ok) {
-    throw new Error(`native-callback failed: ${resp.status}`);
+  if (!response.ok) {
+    throw new Error(`native-callback failed: ${response.status}`);
   }
 
-  return (await resp.json()) as { user: AuthUser };
+  const data = (await response.json()) as LoginResponse;
+
+  setAccessToken(data.accessToken);
+  setRefreshToken(data.refreshToken);
+
+  return { user: data.user };
 };
 
-export { loginWithGooglePKCE };
+const logoutUser = async (userId: string): Promise<{ ok: true }> => {
+  const BACKEND_URL = requireEnv("BACKEND_URL");
+  const APP_SECRET = requireEnv("APP_SECRET");
+  const refreshToken = getRefreshToken();
+
+  if (refreshToken && userId) {
+    try {
+      const response = await fetch(`${BACKEND_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-App-Secret": APP_SECRET,
+        },
+        body: JSON.stringify({ userId, refreshToken }),
+      });
+
+      if (response.ok) {
+        logger.info("[auth] backend refresh token revoked");
+      } else {
+        logger.warn(`[auth] backend revoke failed (${response.status})`);
+      }
+    } catch (err) {
+      logger.error("[auth] logout request failed", err);
+    }
+  } else {
+    logger.info("[auth] skip backend revoke (no token or userId)");
+  }
+
+  clearTokens();
+  logger.info("[auth] logout completed — local tokens cleared");
+
+  return { ok: true };
+};
+
+export { loginWithGooglePKCE, logoutUser };

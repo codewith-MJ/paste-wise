@@ -4,8 +4,10 @@ type AuthUser = {
   email: string;
 };
 
-type GoogleLoginResult = {
+type LoginResponse = {
   user: AuthUser;
+  accessToken: string;
+  refreshToken: string;
 };
 
-export { AuthUser, GoogleLoginResult };
+export { AuthUser, LoginResponse };
