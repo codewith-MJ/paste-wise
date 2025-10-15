@@ -4,15 +4,10 @@ import { shell } from "electron";
 import toBase64Url from "./base64-url";
 import createLoopbackServer from "./create-loopback-server";
 import { AuthUser } from "@/shared/types/auth";
+import requireEnv from "@/main/utils/require-env";
 
 const OAUTH_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 const SCOPES = "openid email profile";
-
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`[env] Missing ${name}`);
-  return value;
-}
 
 function createPKCE() {
   const verifier = toBase64Url(randomBytes(32));
@@ -22,7 +17,7 @@ function createPKCE() {
 
 export const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
   const GOOGLE_CLIENT_ID = requireEnv("GOOGLE_CLIENT_ID");
-  const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:3000";
+  const BACKEND_URL = requireEnv("BACKEND_URL");
 
   const state = toBase64Url(randomBytes(16));
   const { verifier, challenge } = createPKCE();

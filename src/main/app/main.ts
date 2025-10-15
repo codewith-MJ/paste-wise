@@ -1,13 +1,30 @@
 import { app, BrowserWindow } from "electron";
 import path from "node:path";
+import fs from "node:fs";
+import { createRequire } from "node:module";
 import bootstrap from "./bootstrap";
 import { initHudOverlayIpc } from "../hud/overlay";
+
+const require = createRequire(import.meta.url);
 
 const squirrelStartup =
   process.platform === "win32" ? require("electron-squirrel-startup") : false;
 
 if (squirrelStartup) {
   app.quit();
+}
+
+function loadEnv() {
+  const devEnv = path.resolve(process.cwd(), ".env");
+  const packagedEnv = path.resolve(
+    process.resourcesPath ?? process.cwd(),
+    "../.env",
+  );
+
+  const envPath = fs.existsSync(devEnv) ? devEnv : packagedEnv;
+
+  const dotenv = require("dotenv");
+  dotenv.config({ path: envPath });
 }
 
 export let mainWindow: BrowserWindow | null = null;
@@ -52,6 +69,8 @@ let cleanupAppResources: (() => void) | null = null;
 
 app.whenReady().then(() => {
   try {
+    loadEnv();
+
     const appContext = bootstrap();
     cleanupAppResources = appContext.cleanupAppResources;
 
@@ -68,6 +87,11 @@ app.whenReady().then(() => {
     cleanupAppResources?.();
     app.quit();
   }
+});
+
+app.on("before-quit", () => {
+  isQuitting = true;
+  cleanupAppResources?.();
 });
 
 app.on("window-all-closed", () => {

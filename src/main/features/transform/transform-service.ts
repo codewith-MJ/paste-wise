@@ -1,13 +1,14 @@
 import logger from "@/main/utils/logger";
+import requireEnv from "@/main/utils/require-env";
 import { ToneInfo } from "@/shared/types/tone";
-
-const BACKEND_URL = "http://localhost:3000/transformations";
 
 const transform = async (
   source: string,
   tone: ToneInfo,
   isTranslated: boolean,
 ) => {
+  const BACKEND_URL = requireEnv("BACKEND_URL");
+
   try {
     const payload = {
       originalText: source,
@@ -19,7 +20,7 @@ const transform = async (
       },
     };
 
-    const response = await fetch(BACKEND_URL, {
+    const response = await fetch(`${BACKEND_URL}/transformations`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
