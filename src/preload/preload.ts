@@ -5,6 +5,7 @@ import { IPC } from "@/shared/constants/ipc-channels";
 import { ToneItemUI } from "@/shared/types/tone";
 import { ShortcutUI } from "@/shared/types/shortcut";
 import { TOAST_TYPE } from "@/shared/constants/toast";
+import { AuthUser } from "@/shared/types/auth";
 
 const api = {
   history: {
@@ -35,10 +36,8 @@ const api = {
     },
   },
   login: {
-    async startGoogleLogin(): Promise<{ loginTransactionId: string }> {
-      return await safeInvoke<{ loginTransactionId: string }>(
-        IPC.AUTH_GOOGLE_START,
-      );
+    async loginWithGoogle(): Promise<{ user: AuthUser }> {
+      return await safeInvoke<{ user: AuthUser }>(IPC.AUTH_GOOGLE_LOGIN);
     },
   },
 } as const;

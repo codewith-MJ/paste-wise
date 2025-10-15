@@ -1,16 +1,10 @@
 import { create } from "zustand";
-
-export type AppUser = {
-  id: string;
-  name: string;
-  email: string;
-  picture?: string;
-};
+import { AuthUser } from "@/shared/types/auth";
 
 type AuthState = {
-  user: AppUser | null;
+  user: AuthUser | null;
   isAuthenticated: boolean;
-  setUser: (u: AppUser | null) => void;
+  setUser: (u: AuthUser | null) => void;
   clear: () => void;
 };
 
