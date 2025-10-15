@@ -3,9 +3,11 @@ import PageHeader from "@/renderer/layouts/PageHeader";
 import { ShortcutUI } from "@/shared/types/shortcut";
 import ShortcutSection from "./ShortcutSection";
 import ShortcutRow from "./ShortcutRow";
+import { useAuthStore } from "@/renderer/stores/auth";
 
 function ShortcutPage() {
   const [shortcuts, setShortcuts] = useState<ShortcutUI[]>([]);
+  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     window.api.shortcut.list().then((data: ShortcutUI[]) => {
@@ -16,8 +18,12 @@ function ShortcutPage() {
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
       <PageHeader
-        title="단축키 설정"
-        description="원하는 단축키로 변환된 텍스트를 바로 붙여넣을 수 있도록 설정하세요."
+        title={isAuthenticated ? "단축키 설정" : "단축키"}
+        description={
+          isAuthenticated
+            ? "원하는 단축키로 변환된 텍스트를 바로 붙여넣을 수 있어요. 나만의 단축키를 설정하고 자유롭게 관리해보세요!"
+            : "원하는 단축키로 변환된 텍스트를 바로 붙여넣을 수 있어요. 로그인해서 단축키를 직접 설정하고 관리해보세요!"
+        }
       />
 
       <div className="flex-1 overflow-y-auto bg-white px-6 py-6 md:px-8">

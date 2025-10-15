@@ -56,8 +56,8 @@ function HistoryPage() {
   return (
     <main className="flex h-[calc(100vh-4rem)] flex-col">
       <PageHeader
-        title="변환 기록"
-        description="변환된 텍스트 기록을 확인하고 관리해보세요!"
+        title="텍스트 변환 기록"
+        description="선택한 말투와 번역 옵션으로 변환된 텍스트 기록을 확인하고 관리해보세요!"
       />
 
       {historyList.length === 0 ? (
