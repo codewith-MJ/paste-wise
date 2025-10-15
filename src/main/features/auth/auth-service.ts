@@ -9,13 +9,13 @@ import requireEnv from "@/main/utils/require-env";
 const OAUTH_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 const SCOPES = "openid email profile";
 
-function createPKCE() {
+const createPKCE = () => {
   const verifier = toBase64Url(randomBytes(32));
   const challenge = toBase64Url(createHash("sha256").update(verifier).digest());
   return { verifier, challenge };
-}
+};
 
-export const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
+const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
   const GOOGLE_CLIENT_ID = requireEnv("GOOGLE_CLIENT_ID");
   const BACKEND_URL = requireEnv("BACKEND_URL");
 
@@ -58,3 +58,5 @@ export const loginWithGooglePKCE = async (): Promise<{ user: AuthUser }> => {
 
   return (await resp.json()) as { user: AuthUser };
 };
+
+export { loginWithGooglePKCE };
