@@ -18,16 +18,21 @@ import { getTranslateMode } from "@/main/global-translate-state";
 import { createHistory } from "@/main/infra/db/dao/history";
 import { Tone, ToneInfo } from "@/shared/types/tone";
 import safeBufferPush from "@/main/features/clipboard/safe-buffer-push";
-import { mainWindow } from "@/main/app/main";
+import { getMainWindow } from "@/main/app/windows";
 import { pushToast } from "@/main/toast/overlay";
 import { IPC } from "@/shared/constants/ipc-channels";
 import { TOAST_TYPE } from "@/shared/constants/toast";
 
 const sendConversionStart = (jobId: string) => {
-  mainWindow?.webContents.send(IPC.CONVERSION_START, { jobId });
+  const win = getMainWindow();
+  if (!win) return;
+  win.webContents.send(IPC.CONVERSION_START, { jobId });
 };
+
 const sendConversionDone = (jobId: string, ok: boolean) => {
-  mainWindow?.webContents.send(IPC.CONVERSION_DONE, { jobId, ok });
+  const win = getMainWindow();
+  if (!win) return;
+  win.webContents.send(IPC.CONVERSION_DONE, { jobId, ok });
 };
 
 const handleCopyShortcut = async (tone: Tone) => {
