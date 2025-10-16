@@ -4,7 +4,7 @@ INSERT OR IGNORE INTO shortcuts (command, tone_id, accelerator, is_active) VALUE
   ('톤 선택 팝업',    NULL, 'Ctrl+Alt+P', 1),
   ('변환 결과 선택 팝업',  NULL, 'Ctrl+Alt+R', 1),
   ('번역 모드 토글',  NULL, '⌘+⌥+T', 1),
-  ('기본 변환', 1, 'Ctrl+Alt+1', 1),
-  ('격식체 변환', 2, 'Ctrl+Alt+2', 1),
-  ('친근체 변환', 3, 'Ctrl+Alt+3', 1),
-  ('유머러스 변환', 4, 'Ctrl+Alt+4', 1);
+  ('정중한 말투 변환', 1, 'Ctrl+Alt+1', 1),
+  ('격식있는 말투 변환', 2, 'Ctrl+Alt+2', 1),
+  ('캐주얼 말투 변환', 3, 'Ctrl+Alt+3', 1),
+  ('다정한 말투 변환', 4, 'Ctrl+Alt+4', 1);
