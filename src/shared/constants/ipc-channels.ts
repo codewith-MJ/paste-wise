@@ -13,6 +13,8 @@ const IPC = {
   TOAST_RESIZE: "toast:resize",
   CONVERSION_START: "conversion:start",
   CONVERSION_DONE: "conversion:done",
+  AUTH_GOOGLE_LOGIN: "auth:google-login",
+  AUTH_LOGOUT: "auth:logout",
 } as const;
 
 export { IPC };

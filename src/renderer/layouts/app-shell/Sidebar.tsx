@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 import ROUTES from "@/shared/constants/routes";
+import { useAuthStore } from "@/renderer/stores/auth";
 
 type SidebarItem = {
   id: "history" | "tones" | "shortcuts";
@@ -10,13 +11,25 @@ type SidebarItem = {
   end?: boolean;
 };
 
-const SIDEBAR_ITEMS: SidebarItem[] = [
-  { id: "history", icon: "🕑", label: "변환 기록", path: ROUTES.HISTORY },
-  { id: "tones", icon: "🙂", label: "말투 설정", path: ROUTES.TONES },
-  { id: "shortcuts", icon: "⌨️", label: "단축키 설정", path: ROUTES.SHORTCUTS },
-];
-
 function Sidebar() {
+  const { isAuthenticated } = useAuthStore();
+
+  const SIDEBAR_ITEMS: SidebarItem[] = [
+    { id: "history", icon: "🕑", label: "변환 기록", path: ROUTES.HISTORY },
+    {
+      id: "tones",
+      icon: "🙂",
+      label: isAuthenticated ? "말투 설정" : "말투",
+      path: ROUTES.TONES,
+    },
+    {
+      id: "shortcuts",
+      icon: "⌨️",
+      label: isAuthenticated ? "단축키 설정" : "단축키",
+      path: ROUTES.SHORTCUTS,
+    },
+  ];
+
   return (
     <aside className="fixed top-16 left-0 z-30 h-[calc(100vh-4rem)] w-20 border-r border-gray-200 bg-white py-5">
       <nav className="flex flex-col items-center gap-3" aria-label="Primary">

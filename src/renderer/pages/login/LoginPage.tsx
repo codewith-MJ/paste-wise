@@ -1,16 +1,38 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import ROUTES from "@/shared/constants/routes";
 import GoogleLoginButton from "./GoogleLoginButton";
 import TitleBlock from "./TitleBlock";
 import SkipLinkButton from "./SkipLinkButton";
 import FeatureList from "./FeatureList";
 import loginImage from "@/renderer/assets/login-img.png";
+import { useAuthStore } from "@/renderer/stores/auth";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [isLoginProcessing, setIsLoginProcessing] = useState(false);
+  const setUser = useAuthStore((state) => state.setUser);
 
-  const handleGoogleLogin = () => {
-    // TO-DO : Login 로직 추가
+  const handleGoogleLogin = async () => {
+    if (isLoginProcessing) {
+      return;
+    }
+    setIsLoginProcessing(true);
+    let succeeded = false;
+
+    try {
+      const { user } = await window.api.auth.loginWithGoogle();
+      setUser(user);
+      succeeded = true;
+
+      navigate(ROUTES.HISTORY);
+    } catch (error) {
+      console.error("[login] start failed:", error);
+    } finally {
+      if (!succeeded) {
+        setIsLoginProcessing(false);
+      }
+    }
   };
 
   const handleSkipLogin = () => {
@@ -24,7 +46,10 @@ function LoginPage() {
           <TitleBlock />
 
           <div className="mt-5">
-            <GoogleLoginButton onClick={handleGoogleLogin} />
+            <GoogleLoginButton
+              onClick={handleGoogleLogin}
+              disabled={isLoginProcessing}
+            />
           </div>
 
           <div className="mt-5">

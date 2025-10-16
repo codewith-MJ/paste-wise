@@ -1,6 +1,7 @@
 import type { HistoryItemUI } from "@/shared/types/history";
 import { ToneItemUI } from "./tone";
 import { ShortcutUI } from "./shortcut";
+import { AuthUser } from "./auth";
 
 declare global {
   interface Window {
@@ -17,6 +18,10 @@ declare global {
       };
       shortcut: {
         list: () => Promise<ShortcutUI[]>;
+      };
+      auth: {
+        loginWithGoogle: () => Promise<{ user: AuthUser }>;
+        logout: (userId: string) => Promise<{ ok: true }>;
       };
     };
 
