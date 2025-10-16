@@ -3,32 +3,24 @@ import {
   getToneList as repoGetToneList,
   getToneById as repoGetToneById,
 } from "@/main/infra/db/dao/tone";
-const getToneList = async (): Promise<ToneItemUI[]> => {
-  const toneList = await Promise.resolve(repoGetToneList());
-  const formattedToneList = toneList.map((item) => ({
-    ...item,
-    toneId: String(item.toneId),
-    isDefault: item.isDefault === 1,
-  }));
+import { isAuthenticated } from "@/main/infra/auth/token-store";
+import fetchMergedToneList from "./tone-remote";
+import { mapDetailRowToToneUI, mapListRowToToneUI } from "./tone-mapper";
 
-  return formattedToneList;
+const getToneList = async (): Promise<ToneItemUI[]> => {
+  if (isAuthenticated()) {
+    const serverList = await fetchMergedToneList();
+    return serverList;
+  }
+
+  const toneList = await Promise.resolve(repoGetToneList());
+  return toneList.map(mapListRowToToneUI);
 };
 
 const getToneById = async (toneId: number): Promise<ToneItemUI | null> => {
   const tone = await Promise.resolve(repoGetToneById(toneId));
 
-  if (tone) {
-    const formattedTone = {
-      ...tone,
-      toneId: String(tone.toneId),
-      isDefault: tone.isDefault === 1,
-      emojiAllowed: tone.emojiAllowed === 1,
-    };
-
-    return formattedTone;
-  }
-
-  return tone;
+  return tone ? mapDetailRowToToneUI(tone) : null;
 };
 
 export { getToneList, getToneById };

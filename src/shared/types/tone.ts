@@ -20,6 +20,8 @@ type ToneItemUI = {
   tonePrompt?: string;
   toneStrength?: number;
   emojiAllowed?: boolean;
+  source: "global" | "user";
+  deleted: boolean;
 };
 
 type ToneInfo = {

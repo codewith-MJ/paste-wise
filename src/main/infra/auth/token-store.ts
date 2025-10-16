@@ -18,10 +18,13 @@ const clearTokens = () => {
   refreshToken = null;
 };
 
+const isAuthenticated = () => !!accessToken;
+
 export {
   setAccessToken,
   getAccessToken,
   setRefreshToken,
   getRefreshToken,
   clearTokens,
+  isAuthenticated,
 };
