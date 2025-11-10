@@ -17,7 +17,7 @@
 
 ## 🔗 링크
 
-[🖥️ 데스크톱 앱 레포지토리](https://github.com/codewith-MJ/paste-wise) | [⚙️ 백엔드(서버) 레포지토리](https://github.com/codewith-MJ/paste-wise-backend)
+[🖥️ 데스크톱 앱 레포지토리](https://github.com/codewith-MJ/paste-wise) | [⚙️ 서버 레포지토리](https://github.com/codewith-MJ/paste-wise-backend)
 
 <br />
 
@@ -27,8 +27,8 @@
   - [🪴 서비스 개요](#서비스-개요)
 
 - [🗂️ 레포지토리 개요](#레포지토리-개요)
-  - [🧠 레포지토리의 역할](#레포지토리의-역할)
-  - [🧩 레포지토리의 구조](#레포지토리의-구조)
+  - [🧠 레포지토리 역할](#레포지토리-역할)
+  - [🧩 레포지토리 구조](#레포지토리-구조)
 
 - [🚀 핵심 기능 소개](#핵심-기능-소개)
   - [1️⃣ 텍스트 변환](#텍스트-변환)
@@ -111,7 +111,7 @@ PasteWise는 두 개의 레포지토리로 나뉩니다.
 
 <br />
 
-#### 🧩 레포지토리의 구조 <a id="레포지토리의-구조"></a>
+#### 🧩 레포지토리 구조 <a id="레포지토리-구조"></a>
 
 <details>
   <summary><strong>💻 데스크톱 앱 (Electron 기반 — 실제 PasteWise 앱)</strong></summary>
@@ -222,7 +222,7 @@ PasteWise는 두 개의 레포지토리로 나뉩니다.
 로그인 시 변환 기록, 프리셋 말투, 단축키 설정이 서버와 자동으로 동기화됩니다.
 여러 기기에서도 동일한 환경으로 이어서 사용할 수 있습니다.
 
-<img src="./docs/images/login.gif" width="500" alt="Repository Input" />
+<img src="./docs/images/login.png" width="500" alt="Repository Input" />
 
 <br />
 
