@@ -46,10 +46,10 @@ PasteWise는 사용자가 쓴 문장을 복사·붙여넣기만으로
   - [4️⃣ 로그인 기능](#로그인-기능)
 
 - [🛠️ 기술 스택](#기술-스택)
-  - [🖥️ 프론트엔드](#프론트엔드)
+  - [🖥️ 프론트엔드](#데스크톱-앱-클라이언트)
   - [⚙️ 서버](#서버)
   - [📀 데이터](#데이터)
-  - [🤖 AI & 오케스트레이션](#ai--오케스트레이션)
+  - [🤖 AI ](#AI)
   - [🚀 배포](#배포)
 
 - [🏋️‍♀️ 기능 구현 방식 / 기술 챌린지](#기능-구현-방식--기술-챌린지)
@@ -216,7 +216,7 @@ PasteWise는 두 개의 레포지토리로 나뉩니다.
 
 ## 🛠️ 기술 스택 <a id="기술-스택"></a>
 
-### 💻 데스크톱 앱 <a id="데스크톱-앱"></a>
+### 💻 데스크톱 앱 <a id="데스크톱-앱-클라이언트"></a>
 
 <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 <img src="https://img.shields.io/badge/electron-47848F?style=for-the-badge&logo=electron&logoColor=white">
@@ -249,7 +249,7 @@ PasteWise는 두 개의 레포지토리로 나뉩니다.
 <br />
 
 > 🔗 세부 기술 선정 이유 및 대안 비교는 Wiki에서 확인할 수 있습니다.  
-> [데스크톱 앱](https://github.com/codewith-MJ/paste-wise/wiki/%F0%9F%9B%A0%EF%B8%8F%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#1-%EF%B8%8F-desktop-app-electron-%EA%B8%B0%EB%B0%98) · [서버(Back-End)](https://github.com/codewith-MJ/ssakssak-commit/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-Wiki#2-%EF%B8%8F-back-end) · [데이터](https://github.com/codewith-MJ/paste-wise/wiki/%F0%9F%9B%A0%EF%B8%8F-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#3--%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B3%84%EC%B8%B5) ·[AI](https://github.com/codewith-MJ/paste-wise/wiki/%F0%9F%9B%A0%EF%B8%8F-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#4--ai) · [배포](https://github.com/codewith-MJ/paste-wise/wiki/%F0%9F%9B%A0%EF%B8%8F-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#5--%EB%B0%B0%ED%8F%AC)
+> [데스크톱 앱](https://github.com/codewith-MJ/paste-wise/wiki/%F0%9F%9B%A0%EF%B8%8F%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#1-%EF%B8%8F-desktop-app-electron-%EA%B8%B0%EB%B0%98) · [서버(Back-End)](https://github.com/codewith-MJ/paste-wise-client/wiki/%F0%9F%9B%A0%EF%B8%8F-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#2-%EF%B8%8F-%EC%84%9C%EB%B2%84back-end) · [데이터](https://github.com/codewith-MJ/paste-wise-client/wiki/%F0%9F%9B%A0%EF%B8%8F-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#3--%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B3%84%EC%B8%B5) ·[AI](https://github.com/codewith-MJ/paste-wise-client/wiki/%F0%9F%9B%A0%EF%B8%8F-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D#4--ai)
 
 <br />
 
